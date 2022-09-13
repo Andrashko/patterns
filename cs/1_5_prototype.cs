@@ -48,12 +48,12 @@ namespace Creational
                 clone.obj = this.obj.Clone() as SomeType;
                 clone.CreatedAt = DateTime.Now;
                 return clone;
-                // return this.MemberwiseClone() as CustomProduct; // Deep copy problem
+                //return this.MemberwiseClone() as CustomProduct; // Deep copy problem
             }
 
             public override string ToString()
             {
-                return $"{{\n\tId:{this.Id},\n\tCreatedAt:{this.CreatedAt},\n\tobj:{{ {(this.obj as SomeType).Name} }}\n}}";
+                return $"{{\n\tId:{this.Id},\n\tCreatedAt:{this.CreatedAt},\n\tobj:{{Name: \"{  (this.obj as SomeType).Name}\" }}\n}}";
             }
         }
     }

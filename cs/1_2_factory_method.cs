@@ -24,12 +24,13 @@ namespace Creational
                 return productList;
             }
 
-            public IProduct CreateProductByName(string Type){
-                if (Type == "A")
+            
+            public static IProduct CreateProductByName(string Name){
+                if (Name == "A")
                     return new ProductA();
-                if (Type == "B")
+                if (Name == "B")
                     return new ProductВ();
-                if (Type == "C")
+                if (Name == "C")
                     return new ProductC();
                 throw new Exception("Wrong type");
             }

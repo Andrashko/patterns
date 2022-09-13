@@ -21,7 +21,7 @@ class WidgetAbstraction {
 
 class SmallWidgetAbstraction extends WidgetAbstraction {
     get temlate() {
-        return `<h5 class="small-widge>${this.cutString(this.title, 10)}</h5>`
+        return `<h5 class="small-widge>${this.cutString(this.title, 10)}</h5>`;
     }
 }
 

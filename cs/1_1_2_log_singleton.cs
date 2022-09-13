@@ -16,20 +16,21 @@ namespace Creational
         {
 
             private static LogSystem instance = null;
-            public static LogSystem getInstance()
+            public static LogSystem getInstance(string fileName = "log.txt")
             {
                 if (instance == null)
                 {
-                    instance = new LogSystem();
+                    instance = new LogSystem(fileName);
                 }
                 return instance;
             }
-            private string fileName = "log.txt";
+            private string fileName;
             private StreamWriter stream;
 
-            private LogSystem()
+            private LogSystem(string fileName)
             {
-                this.stream = new StreamWriter(this.fileName, true);
+                this.fileName = fileName;
+                this.stream = new StreamWriter(fileName, true);
             }
 
             ~LogSystem()
@@ -46,6 +47,7 @@ namespace Creational
             public void ShowLog()
             {
                 //тут потрібно реалізувати вивід логу з файлу в консоль
+                Console.WriteLine("Not relised");
             }
         }
     }

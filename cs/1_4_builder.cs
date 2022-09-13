@@ -31,11 +31,12 @@ namespace Creational
             IBuilder SetDateStemp();
             IBuilder SetName(string name);
             Product GetProduct();
+            void Reset();
         }
 
         class Builder : IBuilder
         {
-            private Product product  = new Product();
+            protected Product product  = new Product();
 
             public void Reset()
             {
@@ -53,7 +54,7 @@ namespace Creational
                 return this;
             }
 
-            public IBuilder SetDateStemp ()
+            public virtual IBuilder SetDateStemp ()
             {
                 this.product.Add($"Date stemp: {DateTime.Now.ToString()}");
                 return this;
@@ -67,9 +68,17 @@ namespace Creational
             }
         }
 
+        class OtherBuilder : Builder {
+            public override IBuilder SetDateStemp ()
+            {
+                this.product.Add($"{DateTime.Now.ToString()}");
+                return this;
+            }
+        }
+
         class Director
         {
-            private IBuilder builder;
+            public IBuilder builder;
             public Director(IBuilder builder)
             {
                 this.builder = builder;
@@ -77,11 +86,13 @@ namespace Creational
 
             public Product Empty()
             {
+                this.builder.Reset();
                 return this.builder.GetProduct();
             }
 
             public Product BuildFromParts (string[] parts)
             {
+                this.builder.Reset();
                 foreach (string part in parts)
                 {
                     this.builder.AddPart(part);
@@ -91,6 +102,7 @@ namespace Creational
 
             public Product Example()
             {
+                this.builder.Reset();
                 return this.builder
                         .SetName("Example")
                         .AddPart("Part One")

@@ -7,7 +7,7 @@ namespace Patterns
     {
         static void Main(string[] args)
         {
-            CreationalPaterns.TestSingleton();
+            CreationalPaterns.TestAbstractFabric();
             Console.ReadLine();
         }
     }

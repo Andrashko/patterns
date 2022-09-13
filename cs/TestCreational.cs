@@ -12,12 +12,15 @@ namespace Test
         public static void TestSingleton()
         {
             Singleton s1 = Singleton.getInstance();
+            s1.IncCounter();
             Singleton s2 = Singleton.getInstance();
             s1.Print();
             s2.Print();
             s1.IncCounter();
             s2.IncCounter();
             s1.IncCounter();
+            s1.Print();
+            s2.Print();
         }
 
         public static void TestLogSystem()
@@ -29,29 +32,32 @@ namespace Test
             log1.ShowLog();
             log2.ShowLog();
         }
-
+        
+        private static ICreator SelectCreator(string choise){
+            if (choise == "A")
+                return new ProductACreator();
+            if (choise == "B")
+                return new ProductBCreator();
+            else if (choise == "C")
+                return new ProductCCreator();
+            throw new Exception("Wrong product type");
+        }
         public static void TestFabricMethod()
         {
             Console.Write("Enter products number:");
             int count = int.Parse(Console.ReadLine());
             Console.Write("Select the product type A, B or C:");
             string choise = Console.ReadLine();
-            ICreator productCreator;
-            if (choise == "A")
-                productCreator = new ProductACreator();
-            else if (choise == "B")
-                productCreator = new ProductBCreator();
-            else if (choise == "C")
-                productCreator = new ProductCCreator();
-            else
-                throw new Exception("Wrong product type");
+            ICreator productCreator = SelectCreator(choise);
+            
             List<IProduct> productList = productCreator.CreateProductList(count);
             for (int i = 0; i < count; i++)
             {
                 Console.WriteLine(productList[i].Operation());
             }
-
-            IProduct p = productCreator.CreateProductByName(choise );
+            Console.WriteLine("And one more by method CreateProductByName()");
+            IProduct p = ICreator.CreateProductByName(choise);
+            Console.WriteLine(p.Operation());
         }
 
         public static void TestAbstractFabric()
@@ -88,16 +94,20 @@ namespace Test
             Console.WriteLine(director.Example().ToString());
             string[] parts = new string[3] { "One", "Two", "Tree" };
             Console.WriteLine(director.BuildFromParts(parts).ToString());
+
+            director.builder = new OtherBuilder();
+            Console.WriteLine(director.Example().ToString());
         }
 
         public static void TestPrototype()
         {
-            var p = new SomeType();
-            CustomProduct product = new CustomProduct(p);
+            var obj = new SomeType();
+            CustomProduct product = new CustomProduct(obj);
+            System.Threading.Thread.Sleep(2000);
             CustomProduct productClone = product.Clone();
             (productClone.obj as SomeType).Name = "New name";
             Console.WriteLine(product.ToString());
             Console.WriteLine(productClone.ToString());
         }
-     }
+    }
 }

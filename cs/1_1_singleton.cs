@@ -27,12 +27,12 @@ namespace Creational
 
             public void Print()
             {
-                Console.WriteLine($"My random number =  {this.randomNumber}");
+                Console.WriteLine($"My random number =  {this.randomNumber} \n Counter = {this.counter}");
             }
 
             public void IncCounter()
             {
-                Console.WriteLine($"Counter = {++this.counter}");
+                this.counter++;
             }
         }
     }
