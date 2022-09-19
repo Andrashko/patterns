@@ -24,7 +24,6 @@ namespace Structural.Decorator
         {
             return this._component.Operation();
         }
-
        
         public IComponent Undecorate(){
             return this._component;

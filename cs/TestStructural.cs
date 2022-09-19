@@ -8,6 +8,8 @@ using Structural.Bridge;
 using Structural.Composite;
 using Structural.Flyweight;
 
+using System.Runtime.InteropServices;
+
 namespace Test
 {
     class StructuralPaterns
@@ -89,6 +91,7 @@ namespace Test
             Console.WriteLine(subject.Request());
             subject = new Proxy("127.0.0.1");
             Console.WriteLine(subject.Request());
+            Console.WriteLine(subject.Request());
         }
 
         public static void TestDecorator()
@@ -97,6 +100,7 @@ namespace Test
             Console.WriteLine(component.Operation());
             Decorator decorator = new ConcreteDecoratorA(component);
             Console.WriteLine(decorator.Operation());
+            Console.WriteLine((decorator as ConcreteDecoratorA).OtherOperation().ToString());
             decorator = new ConcreteDecoratorB(decorator);
             Console.WriteLine(decorator.Operation());
         }
@@ -105,7 +109,7 @@ namespace Test
         {
             IDamageActor humen = new Character("Humen", 300, 50);
             IDamageActor orc = new Character("Orc", 350, 75);
-            humen = new DefenceBuff(new DefenceBuff(humen, 10), 30);
+            humen = new DefenceBuff(new DefenceBuff(humen, 10), 50);
 
             while (!humen.IsDead() && !orc.IsDead())
             {
@@ -125,6 +129,10 @@ namespace Test
         public static void TestAdapterWinApi()
         {
             Process process = new Process();
+            ProcessInformation pi = new ProcessInformation();
+            Startupinfo si = new Startupinfo();
+            si.cb = Marshal.SizeOf(si);
+            process.Create(null, "notepad.exe", IntPtr.Zero, IntPtr.Zero, false, 0, IntPtr.Zero, null, ref si, out pi);
             AdaptedPocess adaptedPocess = new AdaptedPocess(process);
             adaptedPocess.Create("notepad.exe");
         }

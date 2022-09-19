@@ -32,8 +32,11 @@ namespace Test
             log1.ShowLog();
             log2.ShowLog();
         }
-        
-        private static ICreator SelectCreator(string choise){
+
+        private static ICreator SelectCreator()
+        {
+            Console.Write("Select the product type A, B or C:");
+            string choise = Console.ReadLine();
             if (choise == "A")
                 return new ProductACreator();
             if (choise == "B")
@@ -44,31 +47,33 @@ namespace Test
         }
         public static void TestFabricMethod()
         {
+            ICreator productCreator = SelectCreator();
+            Console.WriteLine("One product of selected type");
+            Console.WriteLine(productCreator.CreateProduct().Operation());
             Console.Write("Enter products number:");
             int count = int.Parse(Console.ReadLine());
-            Console.Write("Select the product type A, B or C:");
-            string choise = Console.ReadLine();
-            ICreator productCreator = SelectCreator(choise);
-            
+            Console.WriteLine("List of products of selected type");
             List<IProduct> productList = productCreator.CreateProductList(count);
             for (int i = 0; i < count; i++)
             {
                 Console.WriteLine(productList[i].Operation());
             }
-            Console.WriteLine("And one more by method CreateProductByName()");
-            IProduct p = ICreator.CreateProductByName(choise);
+            Console.WriteLine("And one more  by method CreateProductByName()");
+            IProduct p = ICreator.CreateProductByName("A");
             Console.WriteLine(p.Operation());
         }
 
-        public static void TestAbstractFabric()
-        {
+        private static IAbstractFactory SelectFactory(){
             Console.Write("Select category first or second:");
             int category = int.Parse(Console.ReadLine());
-            IAbstractFactory factory;
             if (category == 1)
-                factory = new FactoryFirstClass();
+                return  new FactoryFirstClass();
             else
-                factory = new FactorySecondClass();
+                return new FactorySecondClass();
+        }
+        public static void TestAbstractFabric()
+        {
+            IAbstractFactory factory = SelectFactory();        
             IProductA productA = factory.CreateProductA();
             IProductB productB = factory.CreateProductB();
             Console.WriteLine(productA.OperationA());

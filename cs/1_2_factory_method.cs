@@ -24,7 +24,7 @@ namespace Creational
                 return productList;
             }
 
-            
+            //не GoF
             public static IProduct CreateProductByName(string Name){
                 if (Name == "A")
                     return new ProductA();

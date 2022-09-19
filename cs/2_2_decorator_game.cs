@@ -14,7 +14,7 @@ namespace Structural.Game
     interface IDamageActor
     {
         void TakeDamage(int Damage);
-        void Hit(IDamageActor oter);
+        void Hit(IDamageActor other);
 
         bool IsDead();
     }

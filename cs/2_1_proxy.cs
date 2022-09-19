@@ -16,7 +16,7 @@ namespace Structural.Proxy
         }
         public string Request()
         {
-            return "Real subject response";
+            return $"Real subject response from {this.Ip}";
         }
     }
 
