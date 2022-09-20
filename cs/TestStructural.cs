@@ -142,7 +142,7 @@ namespace Test
         {
             Console.WriteLine(ArtFacade.Get("Music", 1));
             Console.WriteLine(ArtFacade.Get("Movie", 1));
-            Console.WriteLine(ArtFacade.Get("TV", 1));
+            Console.WriteLine(ArtFacade.Get("TVShow", 1));
             Console.WriteLine(ArtFacade.Get("Book", 2));
         }
 

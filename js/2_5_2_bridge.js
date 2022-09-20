@@ -1,10 +1,10 @@
-import { Book, Song } from "./2_5_1_no_bridge";
+const { Book, Song } = require("./2_5_1_no_bridge");
 
 class WidgetAbstraction {
 
     render(widgetData) {
         this.title = widgetData.title;
-        this.description = widgetData.description
+        this.description = widgetData.description;
         return this.temlate;
     }
 
@@ -15,25 +15,25 @@ class WidgetAbstraction {
     cutString(str, len) {
         if (str.length <= len)
             return str;
-        return `${str.substring(0,len-3)}...`;
+        return `${str.substring(0, len - 3)}...`;
     }
 }
 
 class SmallWidgetAbstraction extends WidgetAbstraction {
     get temlate() {
-        return `<h5 class="small-widge>${this.cutString(this.title, 10)}</h5>`;
+        return `<h5 class="small-widget">${this.cutString(this.title, 10)}</h5>`;
     }
 }
 
 class MiddleWidgetAbstraction extends WidgetAbstraction {
     get temlate() {
-        return `<div class="middle-widget"> <h3> ${this.title}</h3><p> ${this.cutString(this.description, 20)}</p></div>`;
+        return `<div class="middle-widget"><h3>${this.title}</h3><p>${this.cutString(this.description, 20)}</p></div>`;
     }
 }
 
 class BigWidgetAbstraction extends WidgetAbstraction {
     get temlate() {
-        return `<div class="big-widget"> <h3> ${this.title}</h3><p> ${this.description}</p></div>`;
+        return `<div class="big-widget"><h3>${this.title}</h3><p>${this.description}</p></div>`;
     }
 }
 
@@ -73,4 +73,4 @@ class BookWidgetData extends WidgetDataRealisation {
     }
 }
 
-export { SmallWidgetAbstraction, MiddleWidgetAbstraction, BigWidgetAbstraction, SongWidgetData, BookWidgetData };
+module.exports = { SmallWidgetAbstraction, MiddleWidgetAbstraction, BigWidgetAbstraction, SongWidgetData, BookWidgetData };

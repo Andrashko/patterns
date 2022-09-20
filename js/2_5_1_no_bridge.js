@@ -19,8 +19,9 @@ class Widget {
     }
 
     render() {
-        return this.template
+        return this.template;
     }
+
     get template() {
         return `widget`;
     }
@@ -28,7 +29,7 @@ class Widget {
     cutString(str, len) {
         if (str.length <= len)
             return str;
-        return `${str.substring(0,len-3)}...`;
+        return `${str.substring(0, len - 3)}...`;
     }
 }
 
@@ -46,13 +47,13 @@ class BookSmallWidget extends BookWidget {
 
 class BookMiddleWidget extends BookWidget {
     get template() {
-        return `<div class="middle-widget"> <h3> ${this.title}</h3><p> ${this.cutString(this.description, 20)}</p></div>`;
+        return `<div class="middle-widget"><h3>${this.title}</h3><p>${this.cutString(this.description, 20)}</p></div>`;
     }
 }
 
 class BookBigWidget extends BookWidget {
     get template() {
-        return `<div class="big-widget"> <h3> ${this.title}</h3><p> ${this.description}</p></div>`;
+        return `<div class="big-widget"><h3>${this.title}</h3><p>${this.description}</p></div>`;
     }
 }
 
@@ -64,21 +65,21 @@ class SongWidget extends Widget {
 
 class SongSmallWidget extends SongWidget {
     get template() {
-        return `<h5 class="small-widge>${this.cutString(this.title, 10)}</h5>`;
+        return `<h5 class="small-widget">${this.cutString(this.title, 10)}</h5>`;
     }
 }
 
 class SongMiddleWidget extends SongWidget {
     get template() {
-        return `<div class="middle-widget"> <h3> ${this.title}</h3><p> ${this.cutString(this.description, 20)}</p></div>`;
+        return `<div class="middle-widget"><h3>${this.title}</h3><p>${this.cutString(this.description, 20)}</p></div>`;
     }
 }
 
 class SongBigWidget extends SongWidget {
     get template() {
-        return `<div class="big-widget"> <h3> ${this.title}</h3><p> ${this.description}</p></div>`;
+        return `<div class="big-widget"><h3>${this.title}</h3><p>${this.description}</p></div>`;
     }
 }
 
 
-export { SongSmallWidget, SongMiddleWidget, SongBigWidget, BookSmallWidget, BookMiddleWidget, BookBigWidget, Book, Song, BookWidget, SongWidget };
+module.exports = { SongSmallWidget, SongMiddleWidget, SongBigWidget, BookSmallWidget, BookMiddleWidget, BookBigWidget, Book, Song, BookWidget, SongWidget };

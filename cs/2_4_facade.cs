@@ -26,7 +26,7 @@ namespace Structural.Facade
         {
             new ArtItem(1, "The Fragile"),
             new ArtItem(2, "Alladin Sane"),
-            new ArtItem(3,"OK Computer")
+            new ArtItem(3, "OK Computer")
         };
 
         public static ArtItem Fetch (int Id)
@@ -47,7 +47,7 @@ namespace Structural.Facade
         {
             new ArtItem(1, "Apocalypse Now"),
             new ArtItem(2, "Die Hard"),
-            new ArtItem(3,"Big Lebowski")
+            new ArtItem(3, "Big Lebowski")
         };
 
         public ArtItem Value {
@@ -103,7 +103,7 @@ namespace Structural.Facade
                     return FetchMusic.Fetch(Id);
                 case "Movie":
                     return new GetMovie(Id).Value;
-                case "TV":
+                case "TVShow":
                     return TvShowResource.Get().Find(item => item.Id == Id);
                 case "Book":
                     return Books.Find(item => item.Id == Id);

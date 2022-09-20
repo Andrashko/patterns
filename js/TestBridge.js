@@ -1,5 +1,5 @@
-import { SongSmallWidget, SongMiddleWidget, SongBigWidget, BookSmallWidget, BookMiddleWidget, BookBigWidget, Book, Song } from "./2_5_1_no_bridge";
-import { SmallWidgetAbstraction, MiddleWidgetAbstraction, BigWidgetAbstraction, SongWidgetData, BookWidgetData } from "./2_5_2_bridge";
+const { SongSmallWidget, SongMiddleWidget, SongBigWidget, BookSmallWidget, BookMiddleWidget, BookBigWidget, Book, Song } = require("./2_5_1_no_bridge");
+const { SmallWidgetAbstraction, MiddleWidgetAbstraction, BigWidgetAbstraction, SongWidgetData, BookWidgetData } = require("./2_5_2_bridge");
 
 const song = new Song("Вставай!", "Вставай! Пий чай з молоком, Молися на теплий душ!");
 const book = new Book("Шаблони проєктування: Елементи повторно використовуваного об'єктно-орієнтованого програмного забезпечення",
