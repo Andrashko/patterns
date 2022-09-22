@@ -108,6 +108,60 @@ namespace Structural.Flyweight
                 Color = this._uniqueState.Color
             };
         }
+
+        /*
+        Також пристосуванець може мати  властивості з гетерами та сетерами для зовнішнього стану 
+        і властивості з гетерами для внутрішнього стану. Сетери властивостей внутрішнього стану КАТЕГОРИЧНО ЗАБОРОНЕНІ
+        */
+        public string Owner
+        {
+            get
+            {
+                return this._uniqueState.Owner;
+            }
+            set
+            {
+                this._uniqueState.Owner = value;
+            }
+        }
+        public string Number
+        {
+            get
+            {
+                return this._uniqueState.Number;
+            }
+            set
+            {
+                this._uniqueState.Number = value;
+            }
+        }
+        public string Color
+        {
+            get
+            {
+                return this._uniqueState.Color;
+            }
+            set
+            {
+                this._uniqueState.Color = value;
+            }
+        }
+
+        public string Model
+        {
+            get
+            {
+                return this._sharedState.Model;
+            }
+        }
+
+        public string Company
+        {
+            get
+            {
+                return this._sharedState.Company;
+            }
+        }
     }
 
 
@@ -151,8 +205,10 @@ namespace Structural.Flyweight
             {
                 Console.WriteLine("FlyweightFactory: Reusing existing flyweight.");
             }
+            // встановлюємо спільний сатн пристосуванця із закешованого списку
             CarSharedState sharedState = this.flyweights.Where(t => t.Item2 == key).FirstOrDefault().Item1;
             Flyweight flyweight = new Flyweight(sharedState);
+            // встановлюємо унікальний стан пристосуваннця 
             flyweight.SetUniqueState(car);
             return flyweight;
         }
