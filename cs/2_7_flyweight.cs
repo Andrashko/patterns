@@ -1,9 +1,11 @@
-// https://refactoring.guru/ru/design-patterns/flyweight/csharp/example
+/*
+* при розробці прикладів використано матеріали
+* https://refactoring.guru/ru/design-patterns/flyweight/csharp/example
+*/
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Structural.Flyweight
 {
@@ -16,10 +18,10 @@ namespace Structural.Flyweight
         public string Color { get; set; }
     }
 
-    // Легковес хранит общую часть состояния (также называемую внутренним
-    // состоянием), которая принадлежит нескольким реальным бизнес-объектам.
-    // Легковес принимает оставшуюся часть состояния (внешнее состояние,
-    // уникальное для каждого объекта) через его параметры метода.
+    /*
+    * Пристосуванець зберігає спільну частину стану (також відому як внутрішній стан), яка належеть декільком реальним обєктам. 
+    * Пристосуванець приймє решту стану (зовнішній стан, унікальний для кожного обєкту) через параемтри методу
+    */
     public class Flyweight
     {
         private Car _sharedState;
@@ -37,10 +39,12 @@ namespace Structural.Flyweight
         }
     }
 
-    // Фабрика Легковесов создает объекты-Легковесы и управляет ими. Она
-    // обеспечивает правильное разделение легковесов. Когда клиент запрашивает
-    // легковес, фабрика либо возвращает существующий экземпляр, либо создает
-    // новый, если он ещё не существует.
+
+    /*
+    * Фабрика пристосуванців створює обєкти та керує ними.
+    * Вона забезпечує правильний розподіл внутрішнього стану.
+    * При створенні пристосуванця фабрика повертає існуючий спільний стан чи створює новий.
+    */
     public class FlyweightFactory
     {
         private List<Tuple<Flyweight, string>> flyweights = new List<Tuple<Flyweight, string>>();
@@ -55,28 +59,13 @@ namespace Structural.Flyweight
             }
         }
 
-        // Возвращает хеш строки Легковеса для данного состояния.
+        // Повертає текстовий геш стану .
         public string getKey(Car key)
         {
-            List<string> elements = new List<string>();
-
-            elements.Add(key.Model);
-            elements.Add(key.Company);
-
-            if (key.Owner != null && key.Number != null && key.Color != null)
-            {
-                elements.Add(key.Color);
-                elements.Add(key.Number);
-                elements.Add(key.Owner);
-            }
-
-            elements.Sort();
-
-            return string.Join("_", elements);
+            return $"{key?.Company}_{key?.Model}";
         }
 
-        // Возвращает существующий Легковес с заданным состоянием или создает
-        // новый.
+        // Повертає існуючий чи створює новий внутрішній стан пристосуванця
         public Flyweight GetFlyweight(Car sharedState)
         {
             string key = this.getKey(sharedState);

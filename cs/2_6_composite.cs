@@ -75,7 +75,11 @@ namespace Structural.Composite
 
         public override ICompositeComponent Remove(ICompositeComponent Component)
         {
-            Elements.ForEach(Element => this.Remove(Element));
+            Elements.ForEach(Element =>
+            {
+                if (Element.IsComposite)
+                    Element.Remove(Component);
+            });
             Elements.Remove(Component as CompositeComponent);
             return this;
         }
@@ -92,7 +96,7 @@ namespace Structural.Composite
             return Result;
         }
 
-         public override string ToString()
+        public override string ToString()
         {
             return Name;
         }

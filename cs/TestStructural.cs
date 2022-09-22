@@ -148,17 +148,21 @@ namespace Test
 
         public static void TestComposite()
         {
+            MyFile file = new MyFile("new", "cs");
             CompositeComponent folder = new Folder("Project")
             .Add(new MyFile("Project", "csproj"))
-            .Add(new MyFile("Program", "cs"))            
+            .Add(new MyFile("Program", "cs"))
             .Add(new Folder("bin")
                 .Add(new MyFile("Program", "exe"))
                 .Add(new MyFile("config", "json"))
+                .Add(file)
             )
             .Add(new MyFile("", "gitignore"))
             .Add(new MyFile("README", "md"))
             .Add(new Folder("git"))
             as CompositeComponent;
+            Console.WriteLine(folder.ToString(0));
+            folder.Remove(file);
             Console.WriteLine(folder.ToString(0));
             folder.Sort();
             Console.WriteLine(folder.ToString(0));
