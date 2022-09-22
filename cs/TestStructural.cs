@@ -37,25 +37,25 @@ namespace Test
                 Owner = "Jhone Snow",
                 Company = "BMW",
                 Model = "M5",
-                Color = "red"
+                Color = "Red"
             });
 
             addCarToPoliceDatabase(factory, new Car
             {
                 Number = "CL234IR",
                 Owner = "James Doe",
-                Company = "BMW",
-                Model = "X1",
-                Color = "red"
+                Company = "Skoda",
+                Model = "Octavia",
+                Color = "Red"
             });
 
             addCarToPoliceDatabase(factory, new Car
             {
                 Number = "CR123IR",
                 Owner = "Jhone Doe",
-                Company = "BMW",
-                Model = "X1",
-                Color = "black"
+                Company = "Skoda",
+                Model = "Octavia",
+                Color = "Black"
             });
 
             factory.listFlyweights();
@@ -63,7 +63,7 @@ namespace Test
             Console.WriteLine("List of cars:");
             foreach (var car in Cars)
             {
-                Console.WriteLine(car.GetStandartObject().ToString());
+                Console.WriteLine(car.GetStandartObject());
             }
         }
 

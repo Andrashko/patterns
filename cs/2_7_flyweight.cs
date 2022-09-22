@@ -10,6 +10,7 @@ using System.Text.Json;
 namespace Structural.Flyweight
 {
     //вихідний стан
+
     public class Car
     {
         public string Owner { get; set; }
@@ -31,7 +32,7 @@ namespace Structural.Flyweight
 
 
     //внутрішній стан
-    class CarSharedState
+    public class CarSharedState
     {
         public string Company { get; set; }
         public string Model { get; set; }
@@ -41,10 +42,15 @@ namespace Structural.Flyweight
             this.Company = car.Company;
             this.Model = car.Model;
         }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 
     //зовнішній стан
-    class CarUniqueState
+    public class CarUniqueState
     {
         public string Owner { get; set; }
         public string Number { get; set; }
@@ -55,6 +61,11 @@ namespace Structural.Flyweight
             this.Owner = car.Owner;
             this.Number = car.Number;
             this.Color = car.Color;
+        }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
         }
     }
 
@@ -67,6 +78,11 @@ namespace Structural.Flyweight
         {
             this._sharedState = new CarSharedState(car);
             this._uniqueState = new CarUniqueState(car);
+        }
+
+        public Flyweight(CarSharedState sharedState)
+        {
+            this._sharedState = sharedState;
         }
 
         public void SetUniqueState(Car uniqueState)
@@ -102,14 +118,14 @@ namespace Structural.Flyweight
     */
     public class FlyweightFactory
     {
-        private List<Tuple<Flyweight, string>> flyweights = new List<Tuple<Flyweight, string>>();
+        private List<Tuple<CarSharedState, string>> flyweights = new List<Tuple<CarSharedState, string>>();
 
         public FlyweightFactory(params Car[] args)
         {
             foreach (var elem in args)
             {
-                flyweights.Add(new Tuple<Flyweight, string>
-                (new Flyweight(elem), this.getKey(elem)));
+                flyweights.Add(new Tuple<CarSharedState, string>
+                (new CarSharedState(elem), this.getKey(elem)));
             }
         }
 
@@ -120,22 +136,25 @@ namespace Structural.Flyweight
         }
 
         // Повертає існуючий чи створює новий внутрішній стан пристосуванця
-        public Flyweight GetFlyweight(Car sharedState)
+        public Flyweight GetFlyweight(Car car)
         {
-            string key = this.getKey(sharedState);
+            string key = this.getKey(car);
             // якщо нема жодного спільного стану з вказаним ключем, то його потрібно створити 
             if (!flyweights.Any(t => t.Item2 == key))
             {
                 Console.WriteLine("FlyweightFactory: Can't find a flyweight, creating new one.");
-                this.flyweights.Add(new Tuple<Flyweight, string>(
-                    new Flyweight(sharedState), key)
+                this.flyweights.Add(new Tuple<CarSharedState, string>(
+                    new CarSharedState(car), key)
                 );
             }
             else
             {
                 Console.WriteLine("FlyweightFactory: Reusing existing flyweight.");
             }
-            return this.flyweights.Where(t => t.Item2 == key).FirstOrDefault().Item1;
+            CarSharedState sharedState = this.flyweights.Where(t => t.Item2 == key).FirstOrDefault().Item1;
+            Flyweight flyweight = new Flyweight(sharedState);
+            flyweight.SetUniqueState(car);
+            return flyweight;
         }
 
         public void listFlyweights()
