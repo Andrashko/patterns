@@ -9,21 +9,26 @@ using Structural.Composite;
 using Structural.Flyweight;
 
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace Test
 {
     class StructuralPaterns
     {
+
+
         public static void TestFlyweight()
         {
-            // Клиентский код обычно создает кучу предварительно заполненных
-            // легковесов на этапе инициализации приложения.
+            /* При ініціалізації додатку можливе заповннення деяких спільних станів.
+            */
+
             var factory = new FlyweightFactory(
                 new Car { Company = "Chevrolet", Model = "Camaro" },
                 new Car { Company = "Mercedes Benz", Model = "C300" },
                 new Car { Company = "BMW", Model = "M5" },
                 new Car { Company = "BMW", Model = "X6" }
             );
+
             factory.listFlyweights();
 
             addCarToPoliceDatabase(factory, new Car
@@ -54,21 +59,22 @@ namespace Test
             });
 
             factory.listFlyweights();
+
+            Console.WriteLine("List of cars:");
+            foreach (var car in Cars)
+            {
+                Console.WriteLine(car.GetStandartObject().ToString());
+            }
         }
+
+        private static List<Flyweight> Cars = new List<Flyweight>();
 
         public static void addCarToPoliceDatabase(FlyweightFactory factory, Car car)
         {
             Console.WriteLine("\nClient: Adding a car to database.");
-
-            var flyweight = factory.GetFlyweight(new Car
-            {
-                Model = car.Model,
-                Company = car.Company
-            });
-
-            // Клиентский код либо сохраняет, либо вычисляет внешнее состояние и
-            // передает его методам легковеса.
-            flyweight.Operation(car);
+            Flyweight flyweightCar = factory.GetFlyweight(car);
+            Cars.Add(flyweightCar);
+            flyweightCar.Print();
         }
 
         public static void TestBridge()
