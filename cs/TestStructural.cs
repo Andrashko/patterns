@@ -22,14 +22,14 @@ namespace Test
             /* При ініціалізації додатку можливе заповннення деяких спільних станів.
             */
 
-            var factory = new FlyweightFactory(
+            FlyweightFactory factory = new FlyweightFactory(
                 new Car { Company = "Chevrolet", Model = "Camaro" },
                 new Car { Company = "Mercedes Benz", Model = "C300" },
                 new Car { Company = "BMW", Model = "M5" },
                 new Car { Company = "BMW", Model = "X6" }
             );
 
-            factory.listFlyweights();
+            factory.listSharedStates();
 
             addCarToPoliceDatabase(factory, new Car
             {
@@ -58,7 +58,7 @@ namespace Test
                 Color = "Black"
             });
 
-            factory.listFlyweights();
+            factory.listSharedStates();
 
             Console.WriteLine("List of cars:");
             foreach (var car in Cars)
@@ -69,12 +69,53 @@ namespace Test
 
         private static List<Flyweight> Cars = new List<Flyweight>();
 
-        public static void addCarToPoliceDatabase(FlyweightFactory factory, Car car)
+        private static void addCarToPoliceDatabase(FlyweightFactory factory, Car car)
         {
             Console.WriteLine("\nClient: Adding a car to database.");
             Flyweight flyweightCar = factory.GetFlyweight(car);
             Cars.Add(flyweightCar);
             flyweightCar.Print();
+        }
+
+        public static void TestMemory()
+        {
+            int count = 1000000;
+
+            FlyweightFactory factory = new FlyweightFactory();
+            List<Flyweight> CarFlyweights = new List<Flyweight>();
+            for (int i = 0; i < count; i++)
+            {
+                Flyweight car = factory.GetFlyweight(new Car
+                {
+                    Number = $"AB{i % 10000}C",
+                    Owner = "Jhone Doe",
+                    Company = "Skoda",
+                    Model =  new String('m', 255),
+                    Color = "Black"
+                });
+                CarFlyweights.Add(car);
+            }
+           
+            long memoryUsed = GC.GetTotalMemory(true);
+            Console.WriteLine($"Memory used {memoryUsed / 1024 / 1024} Mb");
+
+            CarFlyweights = null;
+            List<Car> Cars = new List<Car>();
+            for (int i = 0; i < count; i++)
+            {
+                Car car = new Car()
+                {
+                    Number = $"AB{i % 10000}C",
+                    Owner = "Jhone Doe",
+                    Company = "Skoda",
+                    Model = new String('m', 255),
+                    Color = "Black"
+                };
+                Cars.Add(car);
+            }
+            memoryUsed = GC.GetTotalMemory(true);
+            Console.WriteLine($"Memory used {memoryUsed / 1024 / 1024} Mb");
+
         }
 
         public static void TestBridge()

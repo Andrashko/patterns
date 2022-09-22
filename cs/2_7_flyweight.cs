@@ -172,19 +172,19 @@ namespace Structural.Flyweight
     */
     public class FlyweightFactory
     {
-        private List<Tuple<CarSharedState, string>> flyweights = new List<Tuple<CarSharedState, string>>();
+        private List<Tuple<CarSharedState, string>> sharedStates = new List<Tuple<CarSharedState, string>>();
 
         public FlyweightFactory(params Car[] args)
         {
             foreach (var elem in args)
             {
-                flyweights.Add(new Tuple<CarSharedState, string>
+                this.sharedStates.Add(new Tuple<CarSharedState, string>
                 (new CarSharedState(elem), this.getKey(elem)));
             }
         }
 
         // Повертає текстовий геш для спільного стану 
-        public string getKey(Car key)
+        private string getKey(Car key)
         {
             return $"{key?.Company}_{key?.Model}";
         }
@@ -194,32 +194,31 @@ namespace Structural.Flyweight
         {
             string key = this.getKey(car);
             // якщо нема жодного спільного стану з вказаним ключем, то його потрібно створити 
-            if (!flyweights.Any(t => t.Item2 == key))
+            if (!this.sharedStates.Any(t => t.Item2 == key))
             {
-                Console.WriteLine("FlyweightFactory: Can't find a flyweight, creating new one.");
-                this.flyweights.Add(new Tuple<CarSharedState, string>(
+                // Console.WriteLine("FlyweightFactory: Can't find a flyweight, creating new one.");
+                this.sharedStates.Add(new Tuple<CarSharedState, string>(
                     new CarSharedState(car), key)
                 );
             }
             else
             {
-                Console.WriteLine("FlyweightFactory: Reusing existing flyweight.");
+                // Console.WriteLine("FlyweightFactory: Reusing existing flyweight.");
             }
             // встановлюємо спільний сатн пристосуванця із закешованого списку
-            CarSharedState sharedState = this.flyweights.Where(t => t.Item2 == key).FirstOrDefault().Item1;
+            CarSharedState sharedState = this.sharedStates.Where(t => t.Item2 == key).FirstOrDefault().Item1;
             Flyweight flyweight = new Flyweight(sharedState);
             // встановлюємо унікальний стан пристосуваннця 
             flyweight.SetUniqueState(car);
             return flyweight;
         }
 
-        public void listFlyweights()
+        public void listSharedStates()
         {
-            var count = flyweights.Count;
-            Console.WriteLine($"\nFlyweightFactory: I have {count} flyweights:");
-            foreach (var flyweight in flyweights)
+            Console.WriteLine($"\nFlyweightFactory: I have {sharedStates.Count} shared states:");
+            foreach (var sharedState in this.sharedStates)
             {
-                Console.WriteLine(flyweight.Item2);
+                Console.WriteLine(sharedState.Item2);
             }
         }
     }

@@ -7,7 +7,7 @@ namespace Patterns
     {
         static void Main(string[] args)
         {
-            StructuralPaterns.TestFlyweight();
+            StructuralPaterns.TestMemory();
             Console.ReadLine();
         }
     }
