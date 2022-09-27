@@ -90,11 +90,11 @@ namespace Structural.Flyweight
             this._uniqueState = new CarUniqueState(uniqueState);
         }
 
-        public void Print()
+        public override string ToString()
         {
             string s = JsonSerializer.Serialize(this._sharedState);
             string u = JsonSerializer.Serialize(this._uniqueState);
-            Console.WriteLine($"Flyweight: Displaying shared {s} and unique {u} state.");
+            return $"Flyweight: shared {s} and unique {u} state";
         }
 
         public Car GetStandartObject()

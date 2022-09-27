@@ -3,26 +3,28 @@ using System.IO;
 
 namespace Creational
 {
+    /*
+        Приклад використання шаблону Одинак  - система логування 
+        Вимоги:
+        0. файл логування має бути один для всієї системи
+        1. Метод допису в кінець текстовго файлу повідомленя 
+        2. метод виведення всього з файлу в консоль
+      */
     namespace Singleton
     {
-        /* 
-        Система має
-            0. файл має бути один для всієї системи
-            1. Метод дописати в кінець текстовго файлу повідомленя 
-            2. метод вивести все  з файлу в консоль
-        */
+
 
         class LogSystem
         {
 
-            private static LogSystem instance = null;
+            private static LogSystem _instance = null;
             public static LogSystem getInstance(string fileName = "log.txt")
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new LogSystem(fileName);
+                    _instance = new LogSystem(fileName);
                 }
-                return instance;
+                return _instance;
             }
             private string fileName;
             private StreamWriter stream;

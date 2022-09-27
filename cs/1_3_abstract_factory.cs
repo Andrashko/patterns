@@ -1,5 +1,8 @@
 namespace Creational
 {
+    /*
+    приклад шаблону Фабрика
+    */
     namespace AbstractFactory
     {
         interface IProductA

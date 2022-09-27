@@ -30,7 +30,7 @@ namespace Structural.Composite
 
         public virtual ICompositeComponent Remove(ICompositeComponent Component)
         {
-            throw new Exception($"Can't remove {Component} to {this}");
+            throw new Exception($"Can't remove {Component} from {this}");
         }
 
         public virtual bool IsComposite { get { return false; } }
@@ -75,11 +75,8 @@ namespace Structural.Composite
 
         public override ICompositeComponent Remove(ICompositeComponent Component)
         {
-            Elements.ForEach(Element =>
-            {
-                if (Element.IsComposite)
-                    Element.Remove(Component);
-            });
+            Elements.Where(Element => Element.IsComposite).ToList()
+            .ForEach(Element => Element.Remove(Component));
             Elements.Remove(Component as CompositeComponent);
             return this;
         }
@@ -103,7 +100,8 @@ namespace Structural.Composite
 
         public override ICompositeComponent Sort()
         {
-            Elements.Where(Element => Element.IsComposite).ToList().ForEach(Element => Element.Sort());
+            Elements.Where(Element => Element.IsComposite).
+            ToList().ForEach(Element => Element.Sort());
             Elements.Sort(
                 (Element1, Element2) => String.Compare(Element1.Name, Element2.Name)
             );

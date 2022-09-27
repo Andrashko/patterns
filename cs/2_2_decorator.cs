@@ -1,5 +1,8 @@
 namespace Structural.Decorator
 {
+    /* 
+    приклад шаблону Декоратор 
+    */
     interface IComponent
     {
         public abstract string Operation();

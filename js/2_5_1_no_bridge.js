@@ -53,7 +53,7 @@ class BookMiddleWidget extends BookWidget {
 
 class BookBigWidget extends BookWidget {
     get template() {
-        return `<div class="big-widget"><h3>${this.title}</h3><p>${this.description}</p></div>`;
+        return `<div class="big-widget"><h2>${this.title}</h2><p>${this.description}</p></div>`;
     }
 }
 
@@ -77,7 +77,7 @@ class SongMiddleWidget extends SongWidget {
 
 class SongBigWidget extends SongWidget {
     get template() {
-        return `<div class="big-widget"><h3>${this.title}</h3><p>${this.description}</p></div>`;
+        return `<div class="big-widget"><h2>${this.title}</h2><p>${this.description}</p></div>`;
     }
 }
 

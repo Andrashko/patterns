@@ -33,7 +33,7 @@ class MiddleWidgetAbstraction extends WidgetAbstraction {
 
 class BigWidgetAbstraction extends WidgetAbstraction {
     get temlate() {
-        return `<div class="big-widget"><h3>${this.title}</h3><p>${this.description}</p></div>`;
+        return `<div class="big-widget"><h2>${this.title}</h2><p>${this.description}</p></div>`;
     }
 }
 

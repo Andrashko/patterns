@@ -2,6 +2,10 @@ using System;
 
 namespace Creational
 {
+    /* 
+        приклад шаблону Протоип.
+        Ілюструє проблему Deep Copy
+    */
     namespace Prototype
     {
         interface IPrototype {
@@ -48,6 +52,8 @@ namespace Creational
                 clone.obj = this.obj.Clone() as SomeType;
                 clone.CreatedAt = DateTime.Now;
                 return clone;
+                // якщо використати код, закоментований нижче
+                // то виникнуть проблеми  з спільним obj для всіх клонів
                 //return this.MemberwiseClone() as CustomProduct; // Deep copy problem
             }
 

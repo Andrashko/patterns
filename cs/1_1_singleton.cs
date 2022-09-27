@@ -3,9 +3,12 @@ namespace Creational
 {
     namespace Singleton
     {
+        /* приклад шалону Одинак.
+        Зберігає випадкове число та лічильник викликів. 
+        */
         class Singleton
         {
-            private static Singleton instance = null;
+            private static Singleton _instance = null;
 
             private Singleton()
             {
@@ -15,11 +18,11 @@ namespace Creational
 
             public static Singleton getInstance()
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new Singleton();
+                    _instance = new Singleton();
                 }
-                return instance;
+                return _instance;
             }
 
             public double randomNumber;

@@ -3,6 +3,13 @@ using System;
 
 namespace Creational
 {
+    /* 
+        Приклад шаблону Будывельник.
+        Визначено такі етапи побудови:
+        1. Додавання частини
+        2. Додавання часової мітки
+        3. Зміна імені
+    */ 
     namespace Builder
     {
         class Product
@@ -45,7 +52,8 @@ namespace Creational
             public IBuilder SetName(string name)
             {
                 this.product.Name = name;
-                return this;
+                return this; //для можливості побудови ланцюга виклику методів
+                
             }
 
             public IBuilder AddPart (object part)
@@ -75,7 +83,9 @@ namespace Creational
                 return this;
             }
         }
-
+        /* клас Директор реалізує шаблон Фабричний метод 
+        та генерує деякі пресети з використанням Будівельника
+        */ 
         class Director
         {
             public IBuilder builder;

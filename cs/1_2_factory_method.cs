@@ -3,6 +3,9 @@ using System;
 
 namespace Creational
 {
+    /*
+    приклад фабричного методу
+    */
     namespace FactoryMethod
     {
         interface IProduct
@@ -24,7 +27,10 @@ namespace Creational
                 return productList;
             }
 
-            //не GoF
+            //даний метод не є частиною GoF шаблону
+            // але в сучасному програмуванні часто фабричний метод використовується 
+            // як статичний метод класу для створення.
+            // код цього методу може бути покращеновикористанням шаблону Стратегія замість if 
             public static IProduct CreateProductByName(string Name){
                 if (Name == "A")
                     return new ProductA();

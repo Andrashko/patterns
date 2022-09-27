@@ -74,48 +74,96 @@ namespace Test
             Console.WriteLine("\nClient: Adding a car to database.");
             Flyweight flyweightCar = factory.GetFlyweight(car);
             Cars.Add(flyweightCar);
-            flyweightCar.Print();
+            Console.WriteLine(flyweightCar);
         }
 
         public static void TestMemory()
         {
             int count = 1000000;
-
+            long memoryUsed;
+            List<Car> Cars = new List<Car>();
             FlyweightFactory factory = new FlyweightFactory();
             List<Flyweight> CarFlyweights = new List<Flyweight>();
-            for (int i = 0; i < count; i++)
-            {
-                Flyweight car = factory.GetFlyweight(new Car
-                {
-                    Number = $"AB{i % 10000}C",
-                    Owner = "Jhone Doe",
-                    Company = "Skoda",
-                    Model =  new String('m', 255),
-                    Color = "Black"
-                });
-                CarFlyweights.Add(car);
-            }
-           
-            long memoryUsed = GC.GetTotalMemory(true);
-            Console.WriteLine($"Memory used {memoryUsed / 1024 / 1024} Mb");
-
-            CarFlyweights = null;
-            List<Car> Cars = new List<Car>();
+            
             for (int i = 0; i < count; i++)
             {
                 Car car = new Car()
                 {
-                    Number = $"AB{i % 10000}C",
+                    Number = $"AB{i % 10000}CD",
                     Owner = "Jhone Doe",
                     Company = "Skoda",
-                    Model = new String('m', 255),
+                    Model = "Fabia",
                     Color = "Black"
                 };
                 Cars.Add(car);
             }
+
+            Console.WriteLine($"Created {count} objects {Cars[count - 1]}");
             memoryUsed = GC.GetTotalMemory(true);
             Console.WriteLine($"Memory used {memoryUsed / 1024 / 1024} Mb");
+            Cars.Clear();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
 
+            
+            for (int i = 0; i < count; i++)
+            {
+                Flyweight car = factory.GetFlyweight(new Car
+                {
+                    Number = $"AB{i % 10000}CD",
+                    Owner = "Jhone Doe",
+                    Company = "Skoda",
+                    Model = "Fabia",
+                    Color = "Black"
+                });
+                CarFlyweights.Add(car);
+            }
+            Console.WriteLine($"Created {count} flyweights {CarFlyweights[count - 1]}");
+            memoryUsed = GC.GetTotalMemory(true);
+            Console.WriteLine($"Memory used {memoryUsed / 1024 / 1024} Mb");
+            CarFlyweights.Clear();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            for (int i = 0; i < count; i++)
+            {
+                Car car = new Car()
+                {
+                    Number = $"AB{i % 10000}CD",
+                    Owner = "Jhone Doe",
+                    Company = new String('c', 255), 
+                    Model = new String('m', 255),  
+                    Color = "Black"
+                };
+                Cars.Add(car);
+            }
+
+            Console.WriteLine($"Created {count} objects {Cars[count - 1]}");
+            memoryUsed = GC.GetTotalMemory(true);
+            Console.WriteLine($"Memory used {memoryUsed / 1024 / 1024} Mb");
+            Cars.Clear();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            
+            for (int i = 0; i < count; i++)
+            {
+                Flyweight car = factory.GetFlyweight(new Car
+                {
+                    Number = $"AB{i % 10000}CD",
+                    Owner = "Jhone Doe",
+                    Company = new String('c', 255),
+                    Model = new String('m', 255), 
+                    Color = "Black"
+                });
+                CarFlyweights.Add(car);
+            }
+            Console.WriteLine($"Created {count} flyweights {CarFlyweights[count - 1]}");
+            memoryUsed = GC.GetTotalMemory(true);
+            Console.WriteLine($"Memory used {memoryUsed / 1024 / 1024} Mb");
+            CarFlyweights.Clear();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         public static void TestBridge()
@@ -207,9 +255,11 @@ namespace Test
             .Add(new MyFile("", "gitignore"))
             .Add(new MyFile("README", "md"))
             .Add(new Folder("git"))
+            .Add(file)
             as CompositeComponent;
             Console.WriteLine(folder.ToString(0));
             folder.Remove(file);
+            Console.WriteLine($"File {file} was removed");
             Console.WriteLine(folder.ToString(0));
             folder.Sort();
             Console.WriteLine(folder.ToString(0));
