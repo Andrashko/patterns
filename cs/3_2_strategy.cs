@@ -5,12 +5,12 @@ namespace Behavioral.Strategy
 {
     class Context
     {
-        private IStrategy <string> _strategy;
+        private IStrategy<string> _strategy;
 
         public Context()
         { }
 
-        public Context(IStrategy <string> strategy)
+        public Context(IStrategy<string> strategy)
         {
             this._strategy = strategy;
         }
@@ -21,7 +21,7 @@ namespace Behavioral.Strategy
 
         public void DoSomeBusinessLogic()
         {
-            Console.WriteLine("Context: Sorting data using the strategy");
+            Console.WriteLine("Context: Change data using the strategy");
             List<string> data = new List<string> { "a", "b", "e", "c", "d", };
             List<string> result = this._strategy.DoAlgorithm(data);
 
@@ -36,7 +36,7 @@ namespace Behavioral.Strategy
         List<T> DoAlgorithm(List<T> data);
     }
 
-    class ConcreteStrategyA : IStrategy <string>
+    class ConcreteStrategyA : IStrategy<string>
     {
         public List<string> DoAlgorithm(List<string> data)
         {
@@ -45,12 +45,22 @@ namespace Behavioral.Strategy
         }
     }
 
-    class ConcreteStrategyB : IStrategy <string>
+    class ConcreteStrategyB : IStrategy<string>
     {
         public List<string> DoAlgorithm(List<string> data)
         {
             data.Sort();
             data.Reverse();
+            return data;
+        }
+    }
+
+    class CapitalizeStrategy : IStrategy<string>
+    {
+        public List<string> DoAlgorithm(List<string> data)
+        {
+            for (int i = 0; i < data.Count; i++)
+                data[i] = data[i].ToUpper();
             return data;
         }
     }

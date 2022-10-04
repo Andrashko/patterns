@@ -8,7 +8,6 @@ namespace Behavioral.PaymentStrategy
         public string Number;
         public string System;
         public DateTime Expires;
-
         public double Balance;
         public Card(String System, string Number, DateTime Expires, double Balance)
         {
@@ -18,11 +17,10 @@ namespace Behavioral.PaymentStrategy
             this.Balance = Balance;
         }
     }
-
     class MasterCard : Card
     {
         public MasterCard(string Number, DateTime Expires, double Balance) :
-         base("MASTER", Number, Expires, Balance)
+        base("MASTER", Number, Expires, Balance)
         { }
     }
 
@@ -32,7 +30,6 @@ namespace Behavioral.PaymentStrategy
         base("VISA", Number, Expires, Balance)
         { }
     }
-
 
     class Bill
     {
@@ -57,7 +54,8 @@ namespace Behavioral.PaymentStrategy
         {
             if (!strategies.ContainsKey(card.System))
                 return false;
-            return this.strategies.GetValueOrDefault(card.System).Pay(bill.Sum, card);
+            IPayment paymentStrategy = this.strategies.GetValueOrDefault(card.System);
+            return paymentStrategy.Pay(bill.Sum, card);
         }
     }
 
@@ -66,7 +64,10 @@ namespace Behavioral.PaymentStrategy
         public bool Pay(double PaySum, Card CreditCard)
         {
             if (CreditCard.System != "VISA")
-                throw new Exception("Wrong System");
+            {
+                Console.WriteLine("Wrong System");
+                return false;
+            }
             if (DateTime.Now > CreditCard.Expires)
             {
                 Console.WriteLine("Expired");
@@ -88,13 +89,16 @@ namespace Behavioral.PaymentStrategy
         public bool Pay(double PaySum, Card CreditCard)
         {
             if (CreditCard.System != "MASTER")
-                throw new Exception("Wrong System");
+            {
+                Console.WriteLine("Wrong System");
+                return false;
+            }
             if (PaySum > CreditCard.Balance)
             {
                 Console.WriteLine("Not enough money");
                 return false;
             }
-            if (DateTime.Now > CreditCard.Expires)
+            if (DateTime.Now >= CreditCard.Expires)
             {
                 Console.WriteLine("Expired");
                 return false;

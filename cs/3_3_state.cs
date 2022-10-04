@@ -73,8 +73,6 @@ namespace Behavioral.State
             }
         }
 
-
-
         public SubjectMark(string Name, int Rating)
         {
             this.Name = Name;

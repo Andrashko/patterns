@@ -31,14 +31,23 @@ namespace Creational
             // але в сучасному програмуванні часто фабричний метод використовується 
             // як статичний метод класу для створення.
             // код цього методу може бути покращеновикористанням шаблону Стратегія замість if 
-            public static IProduct CreateProductByName(string Name){
-                if (Name == "A")
-                    return new ProductA();
-                if (Name == "B")
-                    return new ProductВ();
-                if (Name == "C")
-                    return new ProductC();
-                throw new Exception("Wrong type");
+            public static Dictionary<string, ICreator> creationStrategies = new Dictionary<string, ICreator>{
+                     {"A", new ProductACreator()},
+                     {"B", new ProductBCreator()},
+                     {"C", new ProductCCreator()}
+                };
+            public static IProduct CreateProductByName(string Name)
+            {
+                // if (Name == "A")
+                //     return new ProductA();
+                // if (Name == "B")
+                //     return new ProductВ();
+                // if (Name == "C")
+                //     return new ProductC();
+               
+                if (!creationStrategies.ContainsKey(Name))
+                    throw new Exception("Wrong type");
+                return creationStrategies.GetValueOrDefault(Name).CreateProduct();
             }
         }
 

@@ -145,20 +145,34 @@ namespace Test
         }
         public static void TestChainOfResponsibility()
         {
-            var Chain = new LogHendler();
-            Chain
+            var сhain = new LogHendler();
+            сhain
                 .SetNext(new AuthorizeHendler())
+                // .SetNext(new IncHendler())
                 .SetNext(new LogHendler())
                 .SetNext(new ResponceHendler());
-            Console.WriteLine(Chain.Handle(new Request("Noname", "No")));
-            Console.WriteLine(Chain.Handle(new Request("admin", "admin")));
+            Console.WriteLine(сhain.Handle(new Request("Noname", "")));
+            Console.WriteLine(сhain.Handle(new Request("admin", "admin")));
+        }
+
+        public static void TestPipline()
+        {
+            PiplineManager pipline = new PiplineManager(8);
+            pipline.SetHandler(0, new PiplineLogHendler());
+            pipline.SetHandler(2, new PiplineAuthorizeHendler());
+            pipline.SetHandler(4, new PiplineLogHendler());
+            pipline.SetHandler(6, new PiplineResponceHendler());
+
+            pipline.SetHandler(3, new PiplineIncHendler());
+            Console.WriteLine(pipline.Handle(new Request("Noname", "")));
+            Console.WriteLine(pipline.Handle(new Request("admin", "admin")));
         }
 
         public static void TestState()
         {
             List<SubjectMark> Subjects = new List<SubjectMark>(){
                 new SubjectMark("Unity", 95),
-                new SubjectMark("APZ", 42),
+                new SubjectMark("Algebra", 42),
                 new SubjectMark("History", 0)
             };
             Subjects.ForEach(subject => subject.Pass());
@@ -168,15 +182,15 @@ namespace Test
         public static void TestPaymentStrategy()
         {
             List<Card> Cards = new List<Card> {
-                new Visa("1234 5678 9012 3456", new DateTime(2022,10,1), -1000),
+                new Visa("1234 5678 9012 3456", new DateTime(2023,10,1), -1000),
                 new MasterCard("2234 5678 9012 3477", new DateTime(2021,1,1), 5000),
                 new MasterCard("3234 5678 9012 3000", new DateTime(2024,12,31), 500),
-                new Visa("4234 5678 9012 3456", new DateTime(2022,10,1), 10000),
+                new Visa("4234 5678 9012 3456", new DateTime(2023,10,1), 10000),
             };
             PaymentProcessor processor = new PaymentProcessor();
             processor.strategies = new Dictionary<string, IPayment>(){
                 {"MASTER", new MasterCardPayment()},
-                {"VISA", new VisaPayment()},
+                {"VISA", new VisaPayment()}
             };
 
             Bill bill = new Bill(600);
@@ -184,7 +198,10 @@ namespace Test
             foreach (var card in Cards)
             {
                 if (processor.Checkout(bill, card))
+                {
                     Console.WriteLine($"Payd by {card.Number}");
+                    break;
+                }
                 else
                     Console.WriteLine($"Not payd by {card.Number}");
             }
@@ -202,6 +219,10 @@ namespace Test
 
             Console.WriteLine("Client: Strategy is set to reverse sorting.");
             context.SetStrategy(new ConcreteStrategyB());
+            context.DoSomeBusinessLogic();
+
+            Console.WriteLine("Client: Strategy is set to Capitalize");
+            context.SetStrategy(new CapitalizeStrategy());
             context.DoSomeBusinessLogic();
         }
 
@@ -288,8 +309,8 @@ namespace Test
 
         public static void TestInterpreator()
         {
-           // Evaluator ex = new Evaluator ("x y z 666 + - +");
-            Evaluator ex = new Evaluator ("x = 0 ; x + y - z + 42");
+            // Evaluator ex = new Evaluator ("x y z 666 + - +");
+            Evaluator ex = new Evaluator("x = 0 ; x + y - z + 42");
             List<IExpression> v = new List<IExpression>(){
                 new Variable("x", new Number(5)),
                 new Variable("z", new Number(10)),
