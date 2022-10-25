@@ -95,7 +95,7 @@ namespace Behavioral.Observer
         }
     }
 
-    class EvenDefoultObserver : BaseObserver
+    class EvenDefaultObserver : BaseObserver
     {
         public override void OnNext(int value)
         {

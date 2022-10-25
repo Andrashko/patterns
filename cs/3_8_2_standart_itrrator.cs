@@ -82,9 +82,10 @@ namespace Behavioral.Iterator
             return _collection;
         }
         
-        public void AddItem(string item)
+        public WordsCollection AddItem(string item)
         {
             this._collection.Add(item);
+            return this;
         }
         
         public override IEnumerator GetEnumerator()

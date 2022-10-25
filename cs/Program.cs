@@ -7,7 +7,7 @@ namespace Patterns
     {
         static void Main(string[] args)
         {
-            BehavioralPatterns.TestPipline();
+            BehavioralPatterns.TestTemplate();
             Console.ReadLine();
         }
     }

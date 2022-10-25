@@ -24,7 +24,7 @@ namespace Behavioral.Iterator
 
         public override string ToString()
         {
-            return $"{Name}";
+            return $"{Age} : {Name}";
         }
     }
 
@@ -54,7 +54,7 @@ namespace Behavioral.Iterator
         public ReverseIterator(Human[] Collection)
         {
             this.Collection = Collection.Clone() as Human[];
-            Array.Sort(this.Collection, (p1, p2) => p1.Age > p2.Age ? 1 : -1);
+            Array.Sort(this.Collection, (p1, p2) => p1.Age - p2.Age);
             this.Pos = Collection.Length;
         }
     }

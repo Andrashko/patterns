@@ -93,7 +93,7 @@ namespace Behavioral.CompositeVisitor
 
         public override ICompositeComponent Remove(ICompositeComponent Component)
         {
-            Elements.ForEach(Element => this.Remove(Element));
+            Elements.ForEach(Element => this.Remove(Component));
             Elements.Remove(Component as CompositeComponent);
             return this;
         }
@@ -162,8 +162,4 @@ namespace Behavioral.CompositeVisitor
             Count = 0;
         }
     }
-
-    
-
-
 }

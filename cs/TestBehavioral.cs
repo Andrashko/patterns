@@ -27,10 +27,14 @@ namespace Test
 
             Console.WriteLine("Client triggets operation A.");
             component1.DoA();
+            Console.WriteLine("Client triggets operation B.");
+            component1.DoB();
 
             Console.WriteLine();
 
-            Console.WriteLine("Client triggers operation D.");
+            Console.WriteLine("Client triggers operation C.");
+            component2.DoC();
+            Console.WriteLine("Client triggets operation D.");
             component2.DoD();
         }
         public static void TestObserverEvent()
@@ -52,7 +56,7 @@ namespace Test
             DefaultSubject subject = new DefaultSubject();
             var Logger = new ConsoleLogDefaultObserver();
             subject.Subscribe(Logger);
-            var Even = new EvenDefoultObserver();
+            var Even = new EvenDefaultObserver();
             Even.Subscribe(subject);
             var Counter = new CounterDefaultObserver(x => x < 5);
             Counter.Subscribe(subject);
@@ -82,7 +86,7 @@ namespace Test
         }
         public static void TestPersonVisitor()
         {
-            Student student = new Student("Iван", "Iванов", 2);
+            Student student = new Student("Iван", "Iваненко", 2);
             Printer printer = new Printer();
             Hi hi = new Hi();
             student.Accept(printer);
@@ -267,9 +271,9 @@ namespace Test
         public static void TestStandartIterator()
         {
             var collection = new WordsCollection();
-            collection.AddItem("First");
-            collection.AddItem("Second");
-            collection.AddItem("Third");
+            collection.AddItem("First")
+                .AddItem("Second")
+                .AddItem("Third");
 
             Console.WriteLine("Straight traversal:");
 
@@ -290,8 +294,12 @@ namespace Test
 
         public static void TestTemplate()
         {
-            var f = new Equation(x => x * x - 2);
-            foreach (double root in f.Solve())
+            var f = new Equation(x => (x * x - 2) * (x + 3));
+            f.bracketingMethod = new Tabulate();
+            f.iterativeMethod = new BinaryDiv();
+            var solves = f.Solve();
+            Console.WriteLine($"Found {solves.Count} solutions");
+            foreach (double root in solves)
             {
                 Console.WriteLine(root);
             }
@@ -309,8 +317,10 @@ namespace Test
 
         public static void TestInterpreator()
         {
+            //2 + 3   2 3 +
+            //a * b   a b *
             // Evaluator ex = new Evaluator ("x y z 666 + - +");
-            Evaluator ex = new Evaluator("x = 0 ; x + y - z + 42");
+            Evaluator ex = new Evaluator("x = 20 ; x + y + 3");
             List<IExpression> v = new List<IExpression>(){
                 new Variable("x", new Number(5)),
                 new Variable("z", new Number(10)),
