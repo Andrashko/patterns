@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<BookList>
+    <Book>
+        <Id>1</Id>
+        <Title>Bible</Title>
+    </Book>
+    <Book>
+        <Id>2</Id>
+        <Title>It</Title>
+    </Book>
+</BookList>
