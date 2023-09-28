@@ -1,6 +1,7 @@
-using System.Text.Json;
 using System.Text.RegularExpressions;
-
+/*
+система зчитування з JSON
+*/
 class EventJsonReaderSystem : EventReaderSystem
 {
     public override List<Event> ReadFromFile(string FileName)
@@ -11,12 +12,11 @@ class EventJsonReaderSystem : EventReaderSystem
             var json = r.ReadToEnd();
             json = json.Substring(1, json.Length - 2);
             var parts = json.Split("},");
+            //ділимо масив на окремі об'єкти 
             foreach (var part in parts)
-            {
                 events.Add(
                     EventJsonFabric.Create(part + "}")
                 );
-            }
         }
         return events;
     }
@@ -27,6 +27,7 @@ class EventJsonFabric
 {
     public static Event? Create(string data)
     {
+        //дліио об'єкт на атрибути
         var attributes = data
             .Split(",")
             .Select(
@@ -44,12 +45,7 @@ class EventJsonFabric
         if (attributes["type"] == "meeting-event")
             reader = new MeetingEventJsonReader();
 
-        return reader.Read(attributes);
-        // if (type == "birthday-event")
-        //     return new BirthdayEventXmlReader();
-        // if (type == "meeting-event")
-        //     return new MeetingEventXmlReader();
-        return null;
+        return reader?.Read(attributes);
     }
 }
 

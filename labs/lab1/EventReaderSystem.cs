@@ -1,5 +1,3 @@
-
-
 abstract class EventReaderSystem
 {
     public abstract List<Event> ReadFromFile(string FileName);
@@ -14,6 +12,7 @@ abstract class EventReaderSystem
             return new EventJsonReaderSystem();
         return null;
     }
+
 }
 
 

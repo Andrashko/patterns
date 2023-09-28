@@ -1,6 +1,8 @@
 using System.Text;
 using System.Xml;
-
+/*
+* парсимо XML
+*/
 class EventXmlReaderSystem : EventReaderSystem
 {
     public override List<Event> ReadFromFile(string FileName)

@@ -2,8 +2,6 @@
 даних про події (дата події, опис) 
 */
 
-using System.Runtime.InteropServices;
-using System.Xml;
 class Event
 {
     public DateOnly date;
