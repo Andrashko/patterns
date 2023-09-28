@@ -1,0 +1,26 @@
+[
+    {
+        "type": "event",
+        "date": "28-09-2023",
+        "description": "Лабораторна робота 1"
+    },
+    {
+        "type": "event",
+        "date": "2023-9-29",
+        "description": "Лабораторна робота 2"
+    },
+    {
+        "type": "birthday-event",
+        "date": "1988-6-3",
+        "description": "День народження",
+        "name": "Юрій",
+        "phone": "0501234567"
+    },
+    {
+        "type": "meeting-event",
+        "date": "2023-9-28",
+        "description": "Лабораторна робота 2",
+        "begin": "9.40",
+        "end": "11.00"
+    }
+]

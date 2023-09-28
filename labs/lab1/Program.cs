@@ -30,7 +30,7 @@ using System.Xml;
 //     }
 // };
 
-string fileName = "events.xml";
+string fileName = "events.json";
 
 
 EventReaderSystem reader = EventReaderSystem.Create(fileName);
