@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <events>
-    <event date="2023-9-28" description="Лабораторна робота" />
+    <event date="2023-9-28" description="Лабораторна робота 1" />
     <event date="2023-9-29" description="Лабораторна робота 2" />
-    <birthday-event date="1988-6-3" description="День народження" name ="Юрій" phone="0501234567"/> 
+    <birthday-event date="1988-6-3" description="День народження" name="Юрій" phone="0501234567" />
+    <meeting-event date="2023-9-28" description="Лабораторна робота 2" begin="9:40" end="11:00" />
 </events>
