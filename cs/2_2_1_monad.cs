@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Structural.Monads
 {
-    public class Optional<Type> where Type : class
+    public class Optional<Type>
     {
         private readonly Type value;
 
@@ -18,16 +18,16 @@ namespace Structural.Monads
         private Optional() { }
         public Optional<ResultType> Bind<ResultType>(
             Func<Type, ResultType> func
-        ) where ResultType : class
+        )
         {
             if (value == null)
                 return Optional<ResultType>.None;
-            return OptionalExtension.CreateFrom(func(value));
+            return OptionalFabric.CreateFrom(func(value));
         }
 
         public Optional<ResultType> Bind<ResultType>(
             Func<Type, Optional<ResultType>> func
-        ) where ResultType : class
+        )
         {
             if (value == null)
                 return Optional<ResultType>.None;
@@ -40,9 +40,9 @@ namespace Structural.Monads
         }
     }
 
-    public static class OptionalExtension
+    public static class OptionalFabric
     {
-        public static Optional<Type> CreateFrom<Type>(this Type value) where Type : class
+        public static Optional<Type> CreateFrom<Type>(this Type value)
         {
             if (value == null)
                 return Optional<Type>.None;
@@ -142,11 +142,11 @@ namespace Structural.Monads
     {
         private TraditionalRepository repo = new TraditionalRepository();
         public Optional<Customer> GetCustomer(int id)
-            => OptionalExtension.CreateFrom(repo.GetCustomer(id));
+            => OptionalFabric.CreateFrom(repo.GetCustomer(id));
         public Optional<Address> GetAddress(int id)
-          => OptionalExtension.CreateFrom(repo.GetAddress(id));
+          => OptionalFabric.CreateFrom(repo.GetAddress(id));
         public Optional<Order> GetOrder(int id)
-           => OptionalExtension.CreateFrom(repo.GetOrder(id));
+           => OptionalFabric.CreateFrom(repo.GetOrder(id));
     }
 
 }
