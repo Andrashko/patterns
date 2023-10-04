@@ -54,7 +54,7 @@ namespace Creational
                 return clone;
                 // якщо використати код, закоментований нижче
                 // то виникнуть проблеми  з спільним obj для всіх клонів
-                //return this.MemberwiseClone() as CustomProduct; // Deep copy problem
+                // return this.MemberwiseClone() as CustomProduct; // Deep copy problem
             }
 
             public override string ToString()

@@ -136,6 +136,7 @@ namespace Test
         {
             var obj = new SomeType();
             CustomProduct product = new CustomProduct(obj);
+            Console.WriteLine(product.ToString());
             System.Threading.Thread.Sleep(2000);
             CustomProduct productClone = product.Clone();
             (productClone.obj as SomeType).Name = "New name";

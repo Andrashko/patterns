@@ -7,15 +7,15 @@ namespace Structural.Adapter
     {
         [DllImport("kernel32.dll", SetLastError = true)]
         private static extern bool CreateProcess(
-            string lpApplicationName, 
-            string lpCommandLine, 
-            IntPtr lpProcessAttributes, 
-            IntPtr lpThreadAttributes, 
-            bool bInheritHandles, 
-            uint dwCreationFlags, 
-            IntPtr lpEnvironment, 
+            string lpApplicationName,
+            string lpCommandLine,
+            IntPtr lpProcessAttributes,
+            IntPtr lpThreadAttributes,
+            bool bInheritHandles,
+            uint dwCreationFlags,
+            IntPtr lpEnvironment,
             string lpCurrentDirectory,
-            [In] ref Startupinfo lpStartupInfo, 
+            [In] ref StartupInfo lpStartupInfo,
             out ProcessInformation lpProcessInformation
         );
 
@@ -28,7 +28,7 @@ namespace Structural.Adapter
             uint dwCreationFlags,
             IntPtr lpEnvironment,
             string lpCurrentDirectory,
-            [In] ref Startupinfo lpStartupInfo,
+            [In] ref StartupInfo lpStartupInfo,
             out ProcessInformation lpProcessInformation
         )
         {
@@ -47,10 +47,10 @@ namespace Structural.Adapter
         }
     }
 
-    public class AdaptedPocess
+    public class AdaptedProcess
     {
         private Process _process;
-        public AdaptedPocess(Process process)
+        public AdaptedProcess(Process process)
         {
             this._process = process;
         }
@@ -59,18 +59,18 @@ namespace Structural.Adapter
         public IntPtr Create(string commandLine)
         {
             ProcessInformation pi = new ProcessInformation();
-            Startupinfo si = new Startupinfo();
+            StartupInfo si = new StartupInfo();
             si.cb = Marshal.SizeOf(si);
-            if (this._process.Create(null, commandLine, IntPtr.Zero, IntPtr.Zero, false, 0, IntPtr.Zero, null, ref si, out pi))
-                return pi.hProcess;
-            else
+            bool IsCreated = this._process.Create(null, commandLine, IntPtr.Zero, IntPtr.Zero, false, 0, IntPtr.Zero, null, ref si, out pi);
+            if (!IsCreated)
                 return INVALID_HANDLE_VALUE;
+            return pi.hProcess;
         }
     }
 
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    public struct Startupinfo
+    public struct StartupInfo
     {
         public Int32 cb;
         public string lpReserved;
@@ -99,6 +99,6 @@ namespace Structural.Adapter
         public int dwProcessId;
         public int dwThreadId;
     }
-    
+
 
 }

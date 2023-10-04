@@ -4,7 +4,7 @@ using System;
 namespace Creational
 {
     /* 
-        Приклад шаблону Будывельник.
+        Приклад шаблону Будівельник.
         Визначено такі етапи побудови:
         1. Додавання частини
         2. Додавання часової мітки
@@ -52,8 +52,7 @@ namespace Creational
             public IBuilder SetName(string name)
             {
                 this.product.Name = name;
-                return this; //для можливості побудови ланцюга виклику методів
-                
+                return this; //для можливості побудови ланцюга виклику методів 
             }
 
             public IBuilder AddPart (string part)
@@ -64,7 +63,7 @@ namespace Creational
 
             public virtual IBuilder SetDateStamp ()
             {
-                this.product.Add($"Date stemp: {DateTime.Now.ToString()}");
+                this.product.Add($"Date stamp: {DateTime.Now.ToString()}");
                 return this;
             }
 

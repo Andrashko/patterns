@@ -26,8 +26,11 @@
 //     }
 // };
 
-string fileName = "events.json";
+using System.Text;
 
+string fileName = "events.xml";
+Console.OutputEncoding = Encoding.UTF8;
+Console.WriteLine("♔");
 
 EventReaderSystem reader = EventReaderSystem.Create(fileName);
 var events = reader.ReadFromFile(fileName);

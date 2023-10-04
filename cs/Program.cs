@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Test;
 
 namespace Patterns
@@ -8,7 +9,8 @@ namespace Patterns
     {
         static void Main(string[] args)
         {
-            CreationalPatterns.TestMachineFabric();
+            Console.OutputEncoding = Encoding.UTF8;
+            StructuralPatterns.TestMonad();
             Console.ReadLine();
         }
     }

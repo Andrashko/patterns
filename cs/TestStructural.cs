@@ -7,6 +7,7 @@ using Structural.Facade;
 using Structural.Bridge;
 using Structural.Composite;
 using Structural.Flyweight;
+using Structural.Monads;
 
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
@@ -84,7 +85,7 @@ namespace Test
             List<Car> Cars = new List<Car>();
             FlyweightFactory factory = new FlyweightFactory();
             List<Flyweight> CarFlyweights = new List<Flyweight>();
-            
+
             for (int i = 0; i < count; i++)
             {
                 Car car = new Car()
@@ -105,7 +106,7 @@ namespace Test
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            
+
             for (int i = 0; i < count; i++)
             {
                 Flyweight car = factory.GetFlyweight(new Car
@@ -131,8 +132,8 @@ namespace Test
                 {
                     Number = $"AB{i % 10000}CD",
                     Owner = "Jhone Doe",
-                    Company = new String('c', 255), 
-                    Model = new String('m', 255),  
+                    Company = new String('c', 255),
+                    Model = new String('m', 255),
                     Color = "Black"
                 };
                 Cars.Add(car);
@@ -145,7 +146,7 @@ namespace Test
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            
+
             for (int i = 0; i < count; i++)
             {
                 Flyweight car = factory.GetFlyweight(new Car
@@ -153,7 +154,7 @@ namespace Test
                     Number = $"AB{i % 10000}CD",
                     Owner = "Jhone Doe",
                     Company = new String('c', 255),
-                    Model = new String('m', 255), 
+                    Model = new String('m', 255),
                     Color = "Black"
                 });
                 CarFlyweights.Add(car);
@@ -202,14 +203,19 @@ namespace Test
 
         public static void TestGame()
         {
-            IDamageActor humen = new Character("Humen", 300, 50);
+            IDamageActor human = new Character("Human", 300, 50);
             IDamageActor orc = new Character("Orc", 350, 75);
-            humen = new DefenceBuff(new DefenceBuff(humen, 10), 50);
-
-            while (!humen.IsDead() && !orc.IsDead())
+            human = new DefenceBuff(new DefenceBuff(human, 10), 50);
+            int count = 3;
+            while (!human.IsDead() && !orc.IsDead())
             {
-                humen.Hit(orc);
-                orc.Hit(humen);
+                human.Hit(orc);
+                orc.Hit(human);
+                if (count-- == 0)
+                {
+                    Console.WriteLine("50% Buff ends");
+                    human = (human as CharacterBuff).Undecorate();
+                }
             }
         }
 
@@ -225,10 +231,10 @@ namespace Test
         {
             Process process = new Process();
             ProcessInformation pi = new ProcessInformation();
-            Startupinfo si = new Startupinfo();
+            StartupInfo si = new StartupInfo();
             si.cb = Marshal.SizeOf(si);
             process.Create(null, "notepad.exe", IntPtr.Zero, IntPtr.Zero, false, 0, IntPtr.Zero, null, ref si, out pi);
-            AdaptedPocess adaptedPocess = new AdaptedPocess(process);
+            AdaptedProcess adaptedPocess = new AdaptedProcess(process);
             adaptedPocess.Create("notepad.exe");
         }
 
@@ -263,5 +269,56 @@ namespace Test
             folder.Sort();
             Console.WriteLine(folder.ToString(0));
         }
+
+        public static void TestMonad()
+        {
+
+            
+            var repo = new TraditionalRepository();
+            var monadicRepo = new MonadicRepository();
+            Console.WriteLine("Find existing shipper");
+            int id = 1;
+            var shipper = GetShipperOfLastOrderOnCurrentAddress(repo, id);
+            Console.WriteLine(shipper);
+            shipper = GetShipperOfLastOrderOnCurrentAddress(monadicRepo, id);
+            Console.WriteLine(shipper);
+            Console.WriteLine("Find not existing shipper");
+            id = -1;
+            shipper = GetShipperOfLastOrderOnCurrentAddress(repo, id);
+            Console.WriteLine(shipper);
+            shipper = GetShipperOfLastOrderOnCurrentAddress(monadicRepo, id);
+            Console.WriteLine(shipper);
+        }
+
+        private static Shipper GetShipperOfLastOrderOnCurrentAddress(ITraditionalRepository repo, int customerId)
+        {
+            Shipper shipperOfLastOrderOnCurrentAddress = null;
+            var customer = repo.GetCustomer(customerId);
+            if (customer?.address != null)
+            {
+                var address = repo.GetAddress(customer.address.id);
+                if (address?.lastOrder != null)
+                {
+                    var order = repo.GetOrder(address.lastOrder.id);
+                    shipperOfLastOrderOnCurrentAddress = order?.shipper;
+                }
+            }
+            return shipperOfLastOrderOnCurrentAddress;
+        }
+
+        private static Shipper GetShipperOfLastOrderOnCurrentAddress(IMonadicRepository repo, int customerId)
+        {
+            Shipper shipperOfLastOrderOnCurrentAddress =
+                repo.GetCustomer(customerId)
+                .Bind(customer => customer.address)
+                .Bind(address => repo.GetAddress(address.id))
+                .Bind(address => address.lastOrder)
+                .Bind(lastOrder => repo.GetOrder(lastOrder.id))
+                .Bind(order => order.shipper)
+                .GetValue();
+            return shipperOfLastOrderOnCurrentAddress;
+        }
+
     }
+
 }
