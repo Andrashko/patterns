@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using Test;
+using System.Collections.Generic;
 
 namespace Patterns
 {

@@ -234,8 +234,8 @@ namespace Test
             StartupInfo si = new StartupInfo();
             si.cb = Marshal.SizeOf(si);
             process.Create(null, "notepad.exe", IntPtr.Zero, IntPtr.Zero, false, 0, IntPtr.Zero, null, ref si, out pi);
-            AdaptedProcess adaptedPocess = new AdaptedProcess(process);
-            adaptedPocess.Create("notepad.exe");
+            AdaptedProcess adaptedProcess = new AdaptedProcess(process);
+            adaptedProcess.Create("notepad.exe");
         }
 
 

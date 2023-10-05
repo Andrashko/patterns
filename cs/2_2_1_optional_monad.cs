@@ -22,7 +22,7 @@ namespace Structural.Monads
         {
             if (value == null)
                 return Optional<ResultType>.None;
-            return OptionalFabric.CreateFrom(func(value));
+            return func(value).CreateFrom();
         }
 
         public Optional<ResultType> Bind<ResultType>(
@@ -40,7 +40,7 @@ namespace Structural.Monads
         }
     }
 
-    public static class OptionalFabric
+    public static class OptionalExtension
     {
         public static Optional<Type> CreateFrom<Type>(this Type value)
         {
@@ -55,7 +55,7 @@ namespace Structural.Monads
         public int id;
         public string name;
 
-        public Address address;
+        public Address? address;
     }
 
     public class Address
@@ -63,14 +63,14 @@ namespace Structural.Monads
         public int id;
         public string street;
 
-        public Order lastOrder;
+        public Order? lastOrder;
     }
 
     public class Order
     {
         public int id;
         public string description;
-        public Shipper shipper;
+        public Shipper? shipper;
     }
 
     public class Shipper
@@ -100,17 +100,30 @@ namespace Structural.Monads
                 address =
                     new Address()
                     {
-                        id = 1,
-                        street = "Franka",
-                        lastOrder = new Order(){
-                            id = 1,
-                            description = "Samsung S21",
-                            shipper =  new Shipper() {
-                                name = "Nova Poshta"
-                            }
-                        }
+                        id = 22
                     }
 
+            }
+        };
+
+        private List<Address> addresses = new List<Address>() {
+            new Address()
+            {
+                id = 22,
+                street = "Franka",
+                lastOrder = new Order(){
+                    id = 333,
+                }
+            }
+        };
+
+        private List<Order> orders = new List<Order>(){
+            new Order(){
+                id = 333,
+                description = "Samsung S21",
+                shipper =  new Shipper() {
+                    name = "Nova Poshta"
+                }
             }
         };
 
@@ -119,14 +132,11 @@ namespace Structural.Monads
             .Where(customer => customer.id == id)
             .FirstOrDefault();
         public Address GetAddress(int id)
-            => customers
-            .Select(customer => customer.address)
+            => addresses
             .Where(address => address.id == id)
             .First();
         public Order GetOrder(int id)
-            => customers
-            .Select(customer => customer.address)
-            .Select(address => address.lastOrder)
+            => orders
             .Where(order => order.id == id)
             .First();
     }
@@ -142,11 +152,11 @@ namespace Structural.Monads
     {
         private TraditionalRepository repo = new TraditionalRepository();
         public Optional<Customer> GetCustomer(int id)
-            => OptionalFabric.CreateFrom(repo.GetCustomer(id));
+            => repo.GetCustomer(id).CreateFrom();
         public Optional<Address> GetAddress(int id)
-          => OptionalFabric.CreateFrom(repo.GetAddress(id));
+          => repo.GetAddress(id).CreateFrom();
         public Optional<Order> GetOrder(int id)
-           => OptionalFabric.CreateFrom(repo.GetOrder(id));
+           => repo.GetOrder(id).CreateFrom();
     }
 
 }
