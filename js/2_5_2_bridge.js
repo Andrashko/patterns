@@ -5,10 +5,10 @@ class WidgetAbstraction {
     render(widgetData) {
         this.title = widgetData.title;
         this.description = widgetData.description;
-        return this.temlate;
+        return this.template;
     }
 
-    get temlate() {
+    get template() {
         return `widget`;
     }
 
@@ -20,19 +20,19 @@ class WidgetAbstraction {
 }
 
 class SmallWidgetAbstraction extends WidgetAbstraction {
-    get temlate() {
+    get template() {
         return `<h5 class="small-widget">${this.cutString(this.title, 10)}</h5>`;
     }
 }
 
 class MiddleWidgetAbstraction extends WidgetAbstraction {
-    get temlate() {
+    get template() {
         return `<div class="middle-widget"><h3>${this.title}</h3><p>${this.cutString(this.description, 20)}</p></div>`;
     }
 }
 
 class BigWidgetAbstraction extends WidgetAbstraction {
-    get temlate() {
+    get template() {
         return `<div class="big-widget"><h2>${this.title}</h2><p>${this.description}</p></div>`;
     }
 }

@@ -61,7 +61,7 @@ namespace Structural.Facade
 
     class TvShowResource
     {
-        public static  List<ArtItem> Get() {
+        public static List<ArtItem> Get() {
             return new List<ArtItem>()
             {
                 new ArtItem(1, "Twin Peaks"),

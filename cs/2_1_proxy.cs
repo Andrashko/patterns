@@ -45,8 +45,8 @@ namespace Structural.Proxy
                 this.LogAccess(response);
                 return response;
             }
-            else
-                return "Proxy response";
+            
+            return "Proxy response";
         }
 
         private Random rnd = new Random(2);

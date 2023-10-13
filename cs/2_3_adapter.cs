@@ -15,7 +15,7 @@ namespace Structural.Adapter
                 throw new Exception("MustBeTrue is not true");
             if (Request.Length != RequestLength)
                 throw new Exception("RequestLength is wrong");
-            return $"Responce for {Request}";
+            return $"Response for {Request}";
         }
     }
 

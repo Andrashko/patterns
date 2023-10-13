@@ -172,14 +172,13 @@ namespace Structural.Flyweight
     */
     public class FlyweightFactory
     {
-        private List<Tuple<CarSharedState, string>> sharedStates = new List<Tuple<CarSharedState, string>>();
+        private Dictionary<string, CarSharedState> sharedStates = new Dictionary<string, CarSharedState>();
 
         public FlyweightFactory(params Car[] args)
         {
             foreach (var elem in args)
             {
-                this.sharedStates.Add(new Tuple<CarSharedState, string>
-                (new CarSharedState(elem), this.getKey(elem)));
+                sharedStates.Add(getKey(elem), new CarSharedState(elem));
             }
         }
 
@@ -194,19 +193,18 @@ namespace Structural.Flyweight
         {
             string key = this.getKey(car);
             // якщо нема жодного спільного стану з вказаним ключем, то його потрібно створити 
-            if (!this.sharedStates.Any(t => t.Item2 == key))
+            if (!sharedStates.ContainsKey(key))
             {
                 // Console.WriteLine("FlyweightFactory: Can't find a flyweight, creating new one.");
-                this.sharedStates.Add(new Tuple<CarSharedState, string>(
-                    new CarSharedState(car), key)
-                );
+                sharedStates.Add(key, new CarSharedState(car));
             }
             else
             {
                 // Console.WriteLine("FlyweightFactory: Reusing existing flyweight.");
             }
             // встановлюємо спільний сатн пристосуванця із закешованого списку
-            CarSharedState sharedState = this.sharedStates.Where(t => t.Item2 == key).FirstOrDefault().Item1;
+            CarSharedState sharedState;
+            sharedStates.TryGetValue(key, out sharedState);
             Flyweight flyweight = new Flyweight(sharedState);
             // встановлюємо унікальний стан пристосуваннця 
             flyweight.SetUniqueState(car);
@@ -216,9 +214,9 @@ namespace Structural.Flyweight
         public void listSharedStates()
         {
             Console.WriteLine($"\nFlyweightFactory: I have {sharedStates.Count} shared states:");
-            foreach (var sharedState in this.sharedStates)
+            foreach (var sharedState in sharedStates)
             {
-                Console.WriteLine(sharedState.Item2);
+                Console.WriteLine(sharedState);
             }
         }
     }

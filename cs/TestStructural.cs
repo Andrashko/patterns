@@ -267,6 +267,7 @@ namespace Test
             Console.WriteLine($"File {file} was removed");
             Console.WriteLine(folder.ToString(0));
             folder.Sort();
+            Console.WriteLine("order by name");
             Console.WriteLine(folder.ToString(0));
         }
 
