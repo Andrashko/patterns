@@ -35,7 +35,7 @@ namespace Test
             addCarToPoliceDatabase(factory, new Car
             {
                 Number = "CL234IR",
-                Owner = "Jhone Snow",
+                Owner = "Jon Snow",
                 Company = "BMW",
                 Model = "M5",
                 Color = "Red"
@@ -53,7 +53,7 @@ namespace Test
             addCarToPoliceDatabase(factory, new Car
             {
                 Number = "CR123IR",
-                Owner = "Jhone Doe",
+                Owner = "Jon Doe",
                 Company = "Skoda",
                 Model = "Octavia",
                 Color = "Black"
@@ -91,7 +91,7 @@ namespace Test
                 Car car = new Car()
                 {
                     Number = $"AB{i % 10000}CD",
-                    Owner = "Jhone Doe",
+                    Owner = "Jon Doe",
                     Company = "Skoda",
                     Model = "Fabia",
                     Color = "Black"
@@ -106,13 +106,12 @@ namespace Test
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-
             for (int i = 0; i < count; i++)
             {
                 Flyweight car = factory.GetFlyweight(new Car
                 {
                     Number = $"AB{i % 10000}CD",
-                    Owner = "Jhone Doe",
+                    Owner = "Jon Doe",
                     Company = "Skoda",
                     Model = "Fabia",
                     Color = "Black"
@@ -131,7 +130,7 @@ namespace Test
                 Car car = new Car()
                 {
                     Number = $"AB{i % 10000}CD",
-                    Owner = "Jhone Doe",
+                    Owner = "Jon Doe",
                     Company = new String('c', 255),
                     Model = new String('m', 255),
                     Color = "Black"
@@ -152,7 +151,7 @@ namespace Test
                 Flyweight car = factory.GetFlyweight(new Car
                 {
                     Number = $"AB{i % 10000}CD",
-                    Owner = "Jhone Doe",
+                    Owner = "Jon Doe",
                     Company = new String('c', 255),
                     Model = new String('m', 255),
                     Color = "Black"
