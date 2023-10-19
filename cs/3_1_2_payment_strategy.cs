@@ -9,7 +9,7 @@ namespace Behavioral.PaymentStrategy
         public string System;
         public DateTime Expires;
         public double Balance;
-        public Card(String System, string Number, DateTime Expires, double Balance)
+        public Card(string System, string Number, DateTime Expires, double Balance)
         {
             this.Number = Number;
             this.System = System;
@@ -54,7 +54,7 @@ namespace Behavioral.PaymentStrategy
         {
             if (!strategies.ContainsKey(card.System))
                 return false;
-            IPayment paymentStrategy = this.strategies.GetValueOrDefault(card.System);
+            IPayment paymentStrategy = strategies.GetValueOrDefault(card.System);
             return paymentStrategy.Pay(bill.Sum, card);
         }
     }

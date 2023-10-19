@@ -50,7 +50,7 @@ namespace Behavioral.ChainOfResponsibility
         }
     }
 
-    class PipelineLogHendler : AbstractHandler
+    class PipelineLogHandler : AbstractHandler
     {
         public override Response Handle(Request request)
         {
@@ -60,7 +60,7 @@ namespace Behavioral.ChainOfResponsibility
         }
     }
 
-    class PipelineAuthorizeHendler : AbstractHandler
+    class PipelineAuthorizeHandler : AbstractHandler
     {
         private bool Check(string Login, string Password)
         {
@@ -79,7 +79,7 @@ namespace Behavioral.ChainOfResponsibility
 
         }
     }
-    class PipelineResponseHendler : AbstractHandler
+    class PipelineResponseHandler : AbstractHandler
     {
         public override Response Handle(Request request)
         {

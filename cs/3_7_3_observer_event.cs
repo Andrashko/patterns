@@ -5,7 +5,7 @@ namespace Behavioral.Observer
 {
     interface IChangeStateEventable
     {
-        event EventHandler<IntEventArgs> CahngeStateEvent;
+        event EventHandler<IntEventArgs> ChangeStateEvent;
     }
     class IntEventArgs : EventArgs
     {
@@ -27,7 +27,7 @@ namespace Behavioral.Observer
             set
             {
                 _state = value;
-                CahngeStateEvent.Invoke(this, new IntEventArgs(value));
+                ChangeStateEvent.Invoke(this, new IntEventArgs(value));
             }
         }
         /// <summary>Змінює стан обєкту на випадкове ціле число від 0 до 9</summary>
@@ -36,13 +36,13 @@ namespace Behavioral.Observer
             State = new Random().Next(0, 10);
         }
 
-        public event EventHandler<IntEventArgs> CahngeStateEvent = delegate { };
+        public event EventHandler<IntEventArgs> ChangeStateEvent = delegate { };
 
         public EventHandler<IntEventArgs> OnCahngeState
         {
             set
             {
-                CahngeStateEvent = value;
+                ChangeStateEvent = value;
             }
         }
     }
@@ -83,9 +83,9 @@ namespace Behavioral.Observer
                 Console.WriteLine($"Стан задовільнив умову {Count} разів");
             }
         }
-        public void Subscibe(IChangeStateEventable subject)
+        public void Subscribe(IChangeStateEventable subject)
         {
-            subject.CahngeStateEvent += Handler;
+            subject.ChangeStateEvent += Handler;
         }
     }
 

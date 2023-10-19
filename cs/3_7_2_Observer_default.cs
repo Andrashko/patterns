@@ -46,7 +46,7 @@ namespace Behavioral.Observer
             }
         }
 
-        public void Unsuscribe(IObserver<int> observer)
+        public void Unsubscribe(IObserver<int> observer)
         {
             observer.OnCompleted();
         }

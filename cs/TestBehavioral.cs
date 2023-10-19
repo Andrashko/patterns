@@ -17,7 +17,7 @@ using Behavioral.Interpreter;
 
 namespace Test
 {
-    class BehavioralPatterns
+    class Interpreter
     {
         public static void TestMediator()
         {
@@ -25,29 +25,29 @@ namespace Test
             Component2 component2 = new Component2();
             new ConcreteMediator(component1, component2);
 
-            Console.WriteLine("Client triggets operation A.");
+            Console.WriteLine("Client triggers operation A.");
             component1.DoA();
-            Console.WriteLine("Client triggets operation B.");
+            Console.WriteLine("Client triggers operation B.");
             component1.DoB();
 
             Console.WriteLine();
 
             Console.WriteLine("Client triggers operation C.");
             component2.DoC();
-            Console.WriteLine("Client triggets operation D.");
+            Console.WriteLine("Client triggers operation D.");
             component2.DoD();
         }
         public static void TestObserverEvent()
         {
             EventSubject subject = new EventSubject();
-            subject.CahngeStateEvent += EventHandlers.Log;
-            subject.CahngeStateEvent += EventHandlers.LogEven;
+            subject.ChangeStateEvent += EventHandlers.Log;
+            subject.ChangeStateEvent += EventHandlers.LogEven;
             var Counter = new CounterEventObserver(state => state < 5);
-            Counter.Subscibe(subject);
+            Counter.Subscribe(subject);
             for (int i = 0; i < 5; i++)
                 subject.GenerateRandomState();
             Console.WriteLine("Detach even observer");
-            subject.CahngeStateEvent -= EventHandlers.LogEven;
+            subject.ChangeStateEvent -= EventHandlers.LogEven;
             for (int i = 0; i < 5; i++)
                 subject.GenerateRandomState();
         }
@@ -63,7 +63,7 @@ namespace Test
             for (int i = 0; i < 5; i++)
                 subject.GenerateRandomState();
             Console.WriteLine("Detach even observer");
-            subject.Unsuscribe(Even);
+            subject.Unsubscribe(Even);
             for (int i = 0; i < 5; i++)
                 subject.GenerateRandomState();
         }
@@ -162,10 +162,10 @@ namespace Test
         public static void TestPipeline()
         {
             PipelineManager Pipeline = new PipelineManager(8);
-            Pipeline.SetHandler(0, new PipelineLogHendler());
-            Pipeline.SetHandler(2, new PipelineAuthorizeHendler());
-            Pipeline.SetHandler(4, new PipelineLogHendler());
-            Pipeline.SetHandler(6, new PipelineResponseHendler());
+            Pipeline.SetHandler(0, new PipelineLogHandler());
+            Pipeline.SetHandler(2, new PipelineAuthorizeHandler());
+            Pipeline.SetHandler(4, new PipelineLogHandler());
+            Pipeline.SetHandler(6, new PipelineResponseHandler());
 
             Pipeline.SetHandler(3, new PipelineIncHendler());
             Console.WriteLine(Pipeline.Handle(new Request("Noname", "")).Value);
@@ -186,10 +186,10 @@ namespace Test
         public static void TestPaymentStrategy()
         {
             List<Card> Cards = new List<Card> {
-                new Visa("1234 5678 9012 3456", new DateTime(2023,10,1), -1000),
+                new Visa("1234 5678 9012 3456", new DateTime(2032,10,1), -1000),
                 new MasterCard("2234 5678 9012 3477", new DateTime(2021,1,1), 5000),
-                new MasterCard("3234 5678 9012 3000", new DateTime(2024,12,31), 500),
-                new Visa("4234 5678 9012 3456", new DateTime(2023,10,1), 10000),
+                new MasterCard("3234 5678 9012 3000", new DateTime(2034,12,31), 500),
+                new Visa("4234 5678 9012 3456", new DateTime(2033,10,1), 10000),
             };
             PaymentProcessor processor = new PaymentProcessor();
             processor.strategies = new Dictionary<string, IPayment>(){
@@ -203,11 +203,11 @@ namespace Test
             {
                 if (processor.Checkout(bill, card))
                 {
-                    Console.WriteLine($"Payd by {card.Number}");
+                    Console.WriteLine($"Paid by {card.Number}");
                     break;
                 }
                 else
-                    Console.WriteLine($"Not payd by {card.Number}");
+                    Console.WriteLine($"Not paid by {card.Number}");
             }
 
         }
@@ -315,7 +315,7 @@ namespace Test
             invoker.DoSomethingImportant();
         }
 
-        public static void TestInterpreator()
+        public static void TestInterpreter()
         {
             //2 + 3   2 3 +
             //a * b   a b *
