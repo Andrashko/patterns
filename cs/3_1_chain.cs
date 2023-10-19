@@ -3,6 +3,22 @@ using System.Text.Json;
 
 namespace Behavioral.ChainOfResponsibility
 {
+    public class Request
+    {
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public int Count { get; set; } = 0;
+        public DateTime Created { get; set; } = DateTime.Now;
+        public Request(string Login, string Password)
+        {
+            this.Login = Login;
+            this.Password = Password;
+        }
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
+    }
     public class Response
     {
         public Request request;
@@ -42,23 +58,8 @@ namespace Behavioral.ChainOfResponsibility
         }
     }
 
-    public class Request
-    {
-        public String Login { get; set; }
-        public String Password { get; set; }
-        public int Count { get; set; } = 0;
-        public DateTime Created { get; set; } = DateTime.Now;
-        public Request(string Login, string Password)
-        {
-            this.Login = Login;
-            this.Password = Password;
-        }
-        public override string ToString()
-        {
-            return JsonSerializer.Serialize(this);
-        }
-    }
-    class LogHendler : AbstractHandler
+
+    class LogHandler : AbstractHandler
     {
         public override Response Handle(Request request)
         {
@@ -68,7 +69,7 @@ namespace Behavioral.ChainOfResponsibility
         }
     }
 
-    class AuthorizeHendler : AbstractHandler
+    class AuthorizeHandler : AbstractHandler
     {
         private bool Check(string Login, string Password)
         {
@@ -85,7 +86,7 @@ namespace Behavioral.ChainOfResponsibility
             return base.Handle(request);
         }
     }
-    class ResponseHendler : AbstractHandler
+    class ResponseHandler : AbstractHandler
     {
         public override Response Handle(Request request)
         {
@@ -96,15 +97,16 @@ namespace Behavioral.ChainOfResponsibility
                 request = request
             };
         }
+    }
 
-        class IncHendler : AbstractHandler
+    class IncHandler : AbstractHandler
+    {
+        public override Response Handle(Request request)
         {
-            public override Response Handle(Request request)
-            {
-                Console.WriteLine("Inc Count");
-                request.Count++;
-                return base.Handle(request);
-            }
+            Console.WriteLine("Inc Count");
+            request.Count++;
+            return base.Handle(request);
         }
     }
+
 }

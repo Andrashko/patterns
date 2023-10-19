@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Behavioral.Visistor
+namespace Behavioral.Visitor
 {
 
     public interface IComponent

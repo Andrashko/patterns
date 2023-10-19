@@ -5,7 +5,7 @@ using Behavioral.State;
 using Behavioral.PaymentStrategy;
 using Behavioral.ChainOfResponsibility;
 using Behavioral.Memento;
-using Behavioral.Visistor;
+using Behavioral.Visitor;
 using Behavioral.PersonVisitor;
 using Behavioral.CompositeVisitor;
 using Behavioral.Observer;
@@ -13,7 +13,7 @@ using Behavioral.Mediator;
 using Behavioral.Iterator;
 using Behavioral.Template;
 using Behavioral.Command;
-using Behavioral.Interpretator;
+using Behavioral.Interpreter;
 
 namespace Test
 {
@@ -149,14 +149,14 @@ namespace Test
         }
         public static void TestChainOfResponsibility()
         {
-            var сhain = new LogHendler();
-            сhain
-                .SetNext(new AuthorizeHendler())
-                // .SetNext(new IncHendler())
-                .SetNext(new LogHendler())
-                .SetNext(new ResponseHendler());
-            Console.WriteLine(сhain.Handle(new Request("Noname", "")).Value);
-            Console.WriteLine(сhain.Handle(new Request("admin", "admin")).Value);
+            var chain = new LogHandler();
+            chain
+                .SetNext(new AuthorizeHandler())
+                .SetNext(new IncHandler())
+                .SetNext(new LogHandler())
+                .SetNext(new ResponseHandler());
+            Console.WriteLine(chain.Handle(new Request("Noname", "")).Value);
+            Console.WriteLine(chain.Handle(new Request("admin", "admin")).Value);
         }
 
         public static void TestPipeline()

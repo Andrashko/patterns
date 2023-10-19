@@ -203,8 +203,7 @@ namespace Structural.Flyweight
                 // Console.WriteLine("FlyweightFactory: Reusing existing flyweight.");
             }
             // встановлюємо спільний сатн пристосуванця із закешованого списку
-            CarSharedState sharedState;
-            sharedStates.TryGetValue(key, out sharedState);
+            CarSharedState sharedState = sharedStates.GetValueOrDefault(key);
             Flyweight flyweight = new Flyweight(sharedState);
             // встановлюємо унікальний стан пристосуваннця 
             flyweight.SetUniqueState(car);

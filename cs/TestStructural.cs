@@ -80,7 +80,7 @@ namespace Test
 
         public static void TestMemory()
         {
-            int count = 1000000;
+            int count = 1_000_000;
             long memoryUsed;
             List<Car> Cars = new List<Car>();
             FlyweightFactory factory = new FlyweightFactory();
@@ -90,7 +90,7 @@ namespace Test
             {
                 Car car = new Car()
                 {
-                    Number = $"AB{i % 10000}CD",
+                    Number = $"AB{i}CD",
                     Owner = "Jon Doe",
                     Company = "Skoda",
                     Model = "Fabia",
@@ -110,7 +110,7 @@ namespace Test
             {
                 Flyweight car = factory.GetFlyweight(new Car
                 {
-                    Number = $"AB{i % 10000}CD",
+                    Number = $"AB{i}CD",
                     Owner = "Jon Doe",
                     Company = "Skoda",
                     Model = "Fabia",
@@ -129,7 +129,7 @@ namespace Test
             {
                 Car car = new Car()
                 {
-                    Number = $"AB{i % 10000}CD",
+                    Number = $"AB{i}CD",
                     Owner = "Jon Doe",
                     Company = new String('c', 255),
                     Model = new String('m', 255),
@@ -150,7 +150,7 @@ namespace Test
             {
                 Flyweight car = factory.GetFlyweight(new Car
                 {
-                    Number = $"AB{i % 10000}CD",
+                    Number = $"AB{i}CD",
                     Owner = "Jon Doe",
                     Company = new String('c', 255),
                     Model = new String('m', 255),
@@ -273,7 +273,7 @@ namespace Test
         public static void TestMonad()
         {
 
-            
+
             var repo = new TraditionalRepository();
             var monadicRepo = new MonadicRepository();
             Console.WriteLine("Find existing shipper");

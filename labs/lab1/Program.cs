@@ -28,13 +28,14 @@
 
 using System.Text;
 
-string fileName = "events.xml";
+const string FILE_NAME = "events.xml";
 Console.OutputEncoding = Encoding.UTF8;
-Console.WriteLine("♔");
 
-EventReaderSystem reader = EventReaderSystem.Create(fileName);
-var events = reader.ReadFromFile(fileName);
+
+EventReaderSystem reader = EventReaderSystem.Create(FILE_NAME);
+var events = reader.ReadFromFile(FILE_NAME);
 
 foreach (var e in events)
     Console.WriteLine(e);
+
 Console.ReadLine();

@@ -32,9 +32,9 @@ namespace Creational
             // як статичний метод класу для створення.
             // код цього методу може бути покращено використанням шаблону Стратегія замість if 
             public static Dictionary<string, ICreator> creationStrategies = new Dictionary<string, ICreator>{
-                     {"A", new ProductACreator()},
-                     {"B", new ProductBCreator()},
-                     {"C", new ProductCCreator()},
+                    {"A", new ProductACreator()},
+                    {"B", new ProductBCreator()},
+                    {"C", new ProductCCreator()},
                 };
             public static IProduct CreateProductByName(string Name)
             {

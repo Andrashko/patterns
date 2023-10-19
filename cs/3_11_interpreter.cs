@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Behavioral.Interpretator
+namespace Behavioral.Interpreter
 {
     public interface IExpression
     {
