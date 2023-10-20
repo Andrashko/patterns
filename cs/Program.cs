@@ -11,7 +11,7 @@ namespace Patterns
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
-            Interpreter.TestState();
+            Interpreter.TestChainOfResponsibility();
             Console.ReadLine();
         }
     }

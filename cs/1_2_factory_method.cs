@@ -44,6 +44,7 @@ namespace Creational
                 //     return new ProductВ();
                 // if (Name == "C")
                 //     return new ProductC();
+                // return null;
 
                 if (!creationStrategies.ContainsKey(Name))
                     throw new Exception("Wrong type");

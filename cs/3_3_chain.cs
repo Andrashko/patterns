@@ -5,14 +5,16 @@ namespace Behavioral.ChainOfResponsibility
 {
     public class Request
     {
+        public string Role { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
         public int Count { get; set; } = 0;
         public DateTime Created { get; set; } = DateTime.Now;
-        public Request(string Login, string Password)
+        public Request(string Login, string Password, string Role = "user")
         {
             this.Login = Login;
             this.Password = Password;
+            this.Role = Role;
         }
         public override string ToString()
         {
@@ -63,8 +65,7 @@ namespace Behavioral.ChainOfResponsibility
     {
         public override Response Handle(Request request)
         {
-            Console.WriteLine("Log");
-            Console.WriteLine(request);
+            Console.WriteLine($"Log request: {request}");
             return base.Handle(request);
         }
     }
@@ -105,6 +106,17 @@ namespace Behavioral.ChainOfResponsibility
         {
             Console.WriteLine("Inc Count");
             request.Count++;
+            return base.Handle(request);
+        }
+    }
+
+    class RoleHandler : AbstractHandler
+    {
+        public override Response Handle(Request request)
+        {
+            Console.WriteLine("Role check");
+            if (request.Role != "admin")
+                return new FailedResponse("Admin only access");
             return base.Handle(request);
         }
     }

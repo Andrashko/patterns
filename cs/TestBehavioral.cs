@@ -152,11 +152,12 @@ namespace Test
             var chain = new LogHandler();
             chain
                 .SetNext(new AuthorizeHandler())
+                .SetNext(new RoleHandler())
                 .SetNext(new IncHandler())
                 .SetNext(new LogHandler())
                 .SetNext(new ResponseHandler());
             Console.WriteLine(chain.Handle(new Request("Noname", "")).Value);
-            Console.WriteLine(chain.Handle(new Request("admin", "admin")).Value);
+            Console.WriteLine(chain.Handle(new Request("admin", "admin", "admin")).Value);
         }
 
         public static void TestPipeline()
@@ -204,7 +205,6 @@ namespace Test
                 if (processor.Checkout(bill, card))
                 {
                     Console.WriteLine($"Paid by {card.Number}");
-                    break;
                 }
                 else
                     Console.WriteLine($"Not paid by {card.Number}");
@@ -218,13 +218,13 @@ namespace Test
             Console.WriteLine("Client: Strategy is set to normal sorting.");
             context.SetStrategy(new ConcreteStrategyA());
             context.DoSomeBusinessLogic();
-
             Console.WriteLine();
 
             Console.WriteLine("Client: Strategy is set to reverse sorting.");
             context.SetStrategy(new ConcreteStrategyB());
             context.DoSomeBusinessLogic();
 
+            Console.WriteLine();
             Console.WriteLine("Client: Strategy is set to Capitalize");
             context.SetStrategy(new CapitalizeStrategy());
             context.DoSomeBusinessLogic();
