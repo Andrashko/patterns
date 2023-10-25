@@ -14,15 +14,6 @@ namespace Behavioral.CompositeVisitor
         void VisitFile(MyFile file);
         void VisitFolder(Folder folder);
     }
-    // public interface ICompositeComponent
-    // {
-    //     ICompositeComponent Add(ICompositeComponent Component);
-
-    //     ICompositeComponent Remove(ICompositeComponent Component);
-
-    //     bool IsComposite { get; }
-
-    // }
 
     public class CompositeComponent : IVisitable
     {
@@ -48,11 +39,6 @@ namespace Behavioral.CompositeVisitor
         {
             return $"{new String('.', 3 * Level)} {this}\n";
         }
-
-        // public virtual ICompositeComponent Sort()
-        // {
-        //     return this;
-        // }
 
         public virtual void Accept(ICompositeVisitor visitor)
         {
@@ -115,15 +101,6 @@ namespace Behavioral.CompositeVisitor
             return Name;
         }
 
-        // public override ICompositeComponent Sort()
-        // {
-        //     Elements.Where(Element => Element.IsComposite).ToList().ForEach(Element => Element.Sort());
-        //     Elements.Sort(
-        //         (Element1, Element2) => String.Compare(Element1.Name, Element2.Name)
-        //     );
-        //     return this;
-        // }
-
         public override void Accept(ICompositeVisitor visitor)
         {
             visitor.VisitFolder(this);
@@ -134,7 +111,7 @@ namespace Behavioral.CompositeVisitor
     {
         public void VisitFile(MyFile file)
         {
-
+            //Nothing to do
         }
         public void VisitFolder(Folder folder)
         {
@@ -154,7 +131,7 @@ namespace Behavioral.CompositeVisitor
         }
         public void VisitFolder(Folder folder)
         {
-            folder.Elements.ToList().ForEach(Element => Element.Accept(this));
+            folder.Elements.ForEach(Element => Element.Accept(this));
         }
 
         public void Reset()

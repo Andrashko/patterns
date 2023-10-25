@@ -230,7 +230,7 @@ namespace Test
             context.DoSomeBusinessLogic();
         }
 
-        public static void TestCompositVisitor()
+        public static void TestCompositeVisitor()
         {
             Folder folder = new Folder("Project");
 
