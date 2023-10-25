@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Behavioral.Observer
 {
     /// <summary>Інтерфейс спостерігача</summary>
-    interface ICusomObserver
+    interface ICustomObserver
     {
         /// <summary>Реакція спостерігача на зміну стану субєкта </summary>
         /// <param name="subject">Субєкт, за яким ведеться спостереження</param>
@@ -15,9 +15,9 @@ namespace Behavioral.Observer
     interface ISubject
     {
         /// <summary>підписати спостерігача</summary>
-        void Attach(ICusomObserver observer);
+        void Attach(ICustomObserver observer);
         /// <summary>відписати  спостерігача</summary>
-        void Detach(ICusomObserver observer);
+        void Detach(ICustomObserver observer);
         /// <summary>повідомити всіх підписаних спостерігачів</summary>
         void Notify();
         /// <value>Гетерт для того, щоб спостерігач міг отримати стан субєкта</value>
@@ -42,12 +42,12 @@ namespace Behavioral.Observer
                 Notify();
             }
         }
-        private List<ICusomObserver> Observers = new List<ICusomObserver>();
-        public void Attach(ICusomObserver observer)
+        private List<ICustomObserver> Observers = new List<ICustomObserver>();
+        public void Attach(ICustomObserver observer)
         {
             Observers.Add(observer);
         }
-        public void Detach(ICusomObserver observer)
+        public void Detach(ICustomObserver observer)
         {
             Observers.Remove(observer);
         }
@@ -66,7 +66,7 @@ namespace Behavioral.Observer
     }
 
     /// <summary>Спостерігач виводить в консоль кожну зміну стану</summary>
-    class ConsoleLogObserver : ICusomObserver
+    class ConsoleLogObserver : ICustomObserver
     {
         public void Update(ISubject subject)
         {
@@ -77,7 +77,7 @@ namespace Behavioral.Observer
 
 
     /// <summary>Спостерігач, який виводить повідомлення про парний стан</summary>
-    class EvenObserver : ICusomObserver
+    class EvenObserver : ICustomObserver
     {
         public void Update(ISubject subject)
         {
@@ -88,7 +88,7 @@ namespace Behavioral.Observer
         }
     }
     /// <summary>Підраховує кількість станів, що задовільняють певній умові</summary>
-    class CounterObserver : ICusomObserver
+    class CounterObserver : ICustomObserver
     {
 
         private int Count = 0;

@@ -71,9 +71,9 @@ namespace Test
         public static void TestObserver()
         {
             Subject subject = new Subject();
-            ICusomObserver Logger = new ConsoleLogObserver();
-            ICusomObserver Even = new EvenObserver();
-            ICusomObserver Counter = new CounterObserver(state => state < 5);
+            ICustomObserver Logger = new ConsoleLogObserver();
+            ICustomObserver Even = new EvenObserver();
+            ICustomObserver Counter = new CounterObserver(state => state < 5);
             subject.Attach(Logger);
             subject.Attach(Even);
             subject.Attach(Counter);
@@ -270,10 +270,8 @@ namespace Test
 
         public static void TestStandartIterator()
         {
-            var collection = new WordsCollection();
-            collection.AddItem("First")
-                .AddItem("Second")
-                .AddItem("Third");
+            string[] words = new string[] { "First", "Second", "Third" };
+            var collection = new WordsCollection(words);
 
             Console.WriteLine("Straight traversal:");
 
@@ -282,6 +280,25 @@ namespace Test
                 Console.WriteLine(element);
             }
 
+            Console.WriteLine("\nReverse traversal:");
+
+            collection.ReverseDirection();
+
+            foreach (var element in collection)
+            {
+                Console.WriteLine(element);
+            }
+        }
+
+        public static void TestYieldIterator()
+        {
+            string[] words = new string[] { "First", "Second", "Third" };
+            var collection = new IterableCollection<string>(words);
+            Console.WriteLine("Straight traversal:");
+            foreach (var element in collection)
+            {
+                Console.WriteLine(element);
+            }
             Console.WriteLine("\nReverse traversal:");
 
             collection.ReverseDirection();

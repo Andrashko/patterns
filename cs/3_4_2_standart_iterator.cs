@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -21,36 +20,42 @@ namespace Behavioral.Iterator
     class AlphabeticalOrderIterator : Iterator
     {
         private WordsCollection _collection;
-        private int _position = -1;       
+        private int _position = -1;
         private bool _reverse = false;
 
         public AlphabeticalOrderIterator(WordsCollection collection, bool reverse = false)
         {
-            this._collection = collection;
-            this._reverse = reverse;
+            _collection = collection;
+            _reverse = reverse;
             if (reverse)
             {
-                this._position = collection.getItems().Count;
+                _position = collection.Count;
             }
         }
-        
+
         public override object Current()
         {
-            return this._collection.getItems()[_position];
+            return _collection.getItems()[_position];
         }
 
         public override int Key()
         {
-            return this._position;
+            return _position;
         }
-        
+        private int GetChange()
+        {
+            if (_reverse)
+                return -1;
+            return 1;
+        }
+
         public override bool MoveNext()
         {
-            int updatedPosition = this._position + (this._reverse ? -1 : 1);
+            int updatedPosition = _position + GetChange();
 
-            if (updatedPosition >= 0 && updatedPosition < this._collection.getItems().Count)
+            if (updatedPosition >= 0 && updatedPosition < _collection.Count)
             {
-                this._position = updatedPosition;
+                _position = updatedPosition;
                 return true;
             }
             else
@@ -58,36 +63,40 @@ namespace Behavioral.Iterator
                 return false;
             }
         }
-        
+
         public override void Reset()
         {
-            this._position = this._reverse ? this._collection.getItems().Count - 1 : 0;
+            if (_reverse)
+                _position = _collection.Count - 1;
+            else
+                _position = 0;
         }
     }
 
- 
+
     class WordsCollection : IteratorAggregate
     {
-        List<string> _collection = new List<string>();
-        
-        bool _direction = false;
-        
+        private string[] _collection;
+
+        private bool _direction = false;
+
+        public WordsCollection(string[] words)
+        {
+            _collection = words;
+        }
+
         public void ReverseDirection()
         {
             _direction = !_direction;
         }
-        
-        public List<string> getItems()
+
+        public string[] getItems()
         {
             return _collection;
         }
-        
-        public WordsCollection AddItem(string item)
-        {
-            this._collection.Add(item);
-            return this;
-        }
-        
+
+        public int Count { get { return _collection.Length; } }
+
         public override IEnumerator GetEnumerator()
         {
             return new AlphabeticalOrderIterator(this, _direction);
