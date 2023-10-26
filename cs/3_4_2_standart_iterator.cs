@@ -33,6 +33,10 @@ namespace Behavioral.Iterator
         public AlphabeticalOrderIterator(HumanStandartCollection collection, bool reverse = false)
         {
             _collection = collection;
+            Array.Sort(
+                _collection.getItems(),
+                (human1, human2) => String.Compare(human1.Name, human2.Name)
+            );
             _reverse = reverse;
             if (reverse)
             {
@@ -89,7 +93,6 @@ namespace Behavioral.Iterator
 
         public HumanStandartCollection(Human[] humans)
         {
-            Array.Sort(humans, (human1, human2) => String.Compare(human1.Name, human2.Name));
             _collection = humans;
         }
 
