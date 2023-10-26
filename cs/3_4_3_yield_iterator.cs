@@ -48,7 +48,6 @@ namespace Behavioral.Iterator
                 _position += GetChange();
             }
             Reset();
-            yield break;
         }
 
         IEnumerator IEnumerable.GetEnumerator()

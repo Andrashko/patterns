@@ -270,9 +270,13 @@ namespace Test
 
         public static void TestStandartIterator()
         {
-            string[] words = new string[] { "First", "Second", "Third" };
-            var collection = new WordsCollection(words);
-
+            var collection = new HumanStandartCollection(new Human[4] {
+                new Human("Yurii", 32),
+                new Human("Andrii", 42),
+                new Human("Tetiana", 18),
+                new Human("Olekandr", 62)
+            });
+          
             Console.WriteLine("Straight traversal:");
 
             foreach (var element in collection)
@@ -307,6 +311,31 @@ namespace Test
             {
                 Console.WriteLine(element);
             }
+        }
+
+        public static void TestGraphIterator()
+        {
+            int[,] identityMatrix = new int[13, 13] {
+            // https://i.ytimg.com/vi/oDqjPvD54Ss/maxresdefault.jpg
+            //   0   1   2   3   4   5   6   7   8   9   10  11 12    
+                {0,  0,  0,  0,  0,  0,  0,  1,  0,  1,  0,  1,  0}, //0
+                {0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  1,  0,  0}, //1
+                {0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  1}, //2
+                {0,  0,  1,  0,  1,  0,  0,  1,  0,  0,  0,  0,  0}, //3
+                {0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0}, //4
+                {0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0}, //5
+                {0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0}, //6
+                {0,  0,  0,  1,  0,  0,  1,  0,  0,  0,  0,  1,  0}, //7
+                {0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1}, //8
+                {0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  1,  0,  0}, //9
+                {0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0}, //10
+                {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0}, //11
+                {0,  0,  1,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0}, //12
+            };
+            var graph = new Graph(identityMatrix);
+            graph.SearchStrategy = new BreadthFirstSearch();
+            foreach (Node node in graph)
+                Console.WriteLine(node);
         }
 
         public static void TestTemplate()

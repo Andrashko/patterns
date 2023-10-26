@@ -2,7 +2,7 @@ using System;
 
 namespace Behavioral.Iterator
 {
-    public interface IIteraleCollection<T>
+    public interface IIterableCollection<T>
     {
         IIterator<T> Iterator { get; }
     }
@@ -28,7 +28,7 @@ namespace Behavioral.Iterator
         }
     }
 
-    public class HumanCollection : IIteraleCollection<Human>
+    public class HumanCollection : IIterableCollection<Human>
     {
         private IIterator<Human> _Iterator;
         public IIterator<Human> Iterator { get { return _Iterator; } }

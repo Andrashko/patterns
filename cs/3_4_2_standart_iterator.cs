@@ -1,29 +1,36 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace Behavioral.Iterator
 {
-    abstract class Iterator : IEnumerator
+    abstract class Iterator<Type> : IEnumerator<Type>
     {
-        object IEnumerator.Current => Current();
-        public abstract int Key();
-        public abstract object Current();
+
+        public abstract Type Current { get; }
         public abstract bool MoveNext();
         public abstract void Reset();
+        public abstract void Dispose();
+        object IEnumerator.Current
+        => throw new NotImplementedException();
     }
 
-    abstract class IteratorAggregate : IEnumerable
+    abstract class IteratorAggregate<Type> : IEnumerable<Type>
     {
-        public abstract IEnumerator GetEnumerator();
+        public abstract IEnumerator<Type> GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
+        => throw new NotImplementedException();
+
     }
 
-    class AlphabeticalOrderIterator : Iterator
+    class AlphabeticalOrderIterator : Iterator<Human>
     {
-        private WordsCollection _collection;
+        private HumanStandartCollection _collection;
         private int _position = -1;
         private bool _reverse = false;
 
-        public AlphabeticalOrderIterator(WordsCollection collection, bool reverse = false)
+        public AlphabeticalOrderIterator(HumanStandartCollection collection, bool reverse = false)
         {
             _collection = collection;
             _reverse = reverse;
@@ -33,14 +40,12 @@ namespace Behavioral.Iterator
             }
         }
 
-        public override object Current()
+        public override Human Current
         {
-            return _collection.getItems()[_position];
-        }
-
-        public override int Key()
-        {
-            return _position;
+            get
+            {
+                return _collection.getItems()[_position];
+            }
         }
         private int GetChange()
         {
@@ -58,10 +63,8 @@ namespace Behavioral.Iterator
                 _position = updatedPosition;
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         public override void Reset()
@@ -71,18 +74,23 @@ namespace Behavioral.Iterator
             else
                 _position = 0;
         }
+
+        public override void Dispose()
+        {
+        }
     }
 
 
-    class WordsCollection : IteratorAggregate
+    class HumanStandartCollection : IteratorAggregate<Human>
     {
-        private string[] _collection;
+        private Human[] _collection;
 
         private bool _direction = false;
 
-        public WordsCollection(string[] words)
+        public HumanStandartCollection(Human[] humans)
         {
-            _collection = words;
+            Array.Sort(humans, (human1, human2) => String.Compare(human1.Name, human2.Name));
+            _collection = humans;
         }
 
         public void ReverseDirection()
@@ -90,14 +98,14 @@ namespace Behavioral.Iterator
             _direction = !_direction;
         }
 
-        public string[] getItems()
+        public Human[] getItems()
         {
             return _collection;
         }
 
         public int Count { get { return _collection.Length; } }
 
-        public override IEnumerator GetEnumerator()
+        public override IEnumerator<Human> GetEnumerator()
         {
             return new AlphabeticalOrderIterator(this, _direction);
         }
