@@ -30,12 +30,12 @@ namespace Behavioral.Iterator
 
     public class HumanCollection : IIterableCollection<Human>
     {
-        private IIterator<Human> _Iterator;
-        public IIterator<Human> Iterator { get { return _Iterator; } }
+        private IIterator<Human> _iterator;
+        public IIterator<Human> Iterator { get { return _iterator; } }
 
         public HumanCollection(Human[] Collection)
         {
-            this._Iterator = new ReverseIterator(Collection);
+            _iterator = new ReverseIterator(Collection);
         }
     }
 
@@ -48,14 +48,14 @@ namespace Behavioral.Iterator
         {
             if (Pos <= 0)
                 return null;
-            return this.Collection[--this.Pos];
+            return Collection[--Pos];
         }
 
         public ReverseIterator(Human[] Collection)
         {
-            this.Collection = Collection.Clone() as Human[];
-            Array.Sort(this.Collection, (p1, p2) => p1.Age - p2.Age);
-            this.Pos = Collection.Length;
+            Collection = Collection.Clone() as Human[];
+            Array.Sort(Collection, (p1, p2) => p1.Age - p2.Age);
+            Pos = Collection.Length;
         }
     }
 }

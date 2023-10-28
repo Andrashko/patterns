@@ -27,21 +27,18 @@ namespace Behavioral.Iterator
     class AlphabeticalOrderIterator : Iterator<Human>
     {
         private HumanStandartCollection _collection;
-        private int _position = -1;
-        private bool _reverse = false;
+        private int _position;
+        private bool _reverse;
 
         public AlphabeticalOrderIterator(HumanStandartCollection collection, bool reverse = false)
         {
             _collection = collection;
+            _reverse = reverse;
             Array.Sort(
                 _collection.getItems(),
                 (human1, human2) => String.Compare(human1.Name, human2.Name)
             );
-            _reverse = reverse;
-            if (reverse)
-            {
-                _position = collection.Count;
-            }
+            Reset();
         }
 
         public override Human Current
@@ -74,9 +71,9 @@ namespace Behavioral.Iterator
         public override void Reset()
         {
             if (_reverse)
-                _position = _collection.Count - 1;
+                _position = _collection.Count;
             else
-                _position = 0;
+                _position = -1;
         }
 
         public override void Dispose()
@@ -93,7 +90,7 @@ namespace Behavioral.Iterator
 
         public HumanStandartCollection(Human[] humans)
         {
-            _collection = humans;
+            _collection = humans.Clone() as Human[];
         }
 
         public void ReverseDirection()
