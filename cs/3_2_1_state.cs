@@ -6,21 +6,19 @@ namespace Behavioral.State
 
     interface IPass
     {
-        int Rating { get; set; }
-        string Pass();
+        string Pass(int rating = 0);
     }
     class AutomatePass : IPass
     {
-        public int Rating { get; set; }
-        public string Pass()
+        public string Pass(int rating)
         {
-            if (Rating >= 90)
+            if (rating >= 90)
                 return "A";
-            if (Rating >= 82)
+            if (rating >= 82)
                 return "B";
-            if (Rating >= 74)
+            if (rating >= 74)
                 return "C";
-            if (Rating >= 64)
+            if (rating >= 64)
                 return "D";
             return "E";
         }
@@ -28,8 +26,7 @@ namespace Behavioral.State
 
     class NormalPass : IPass
     {
-        public int Rating { get; set; }
-        public string Pass()
+        public string Pass(int rating = 0)
         {
             Console.WriteLine("Take a examination ticket... ");
             //...
@@ -39,8 +36,7 @@ namespace Behavioral.State
 
     class ExclusionPass : IPass
     {
-        public int Rating { get; set; }
-        public string Pass()
+        public string Pass(int rating = 0)
         {
             Console.WriteLine("Non-admission to the exam");
             return "F";
@@ -84,7 +80,6 @@ namespace Behavioral.State
             var state_selector = state_selectors.Find(s => s.Item1(value));
             if (state_selector == null)
                 throw new Exception($"{value} is not valid");
-            state_selector.Item2.Rating = value;
             return state_selector.Item2;
         }
 
@@ -98,7 +93,7 @@ namespace Behavioral.State
         {
             Console.WriteLine("===========================");
             Console.WriteLine($"Passing exam {Name}");
-            string mark = _passState.Pass();
+            string mark = _passState.Pass(Rating);
             Console.WriteLine($"Your mark is {mark}");
         }
 
