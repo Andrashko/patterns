@@ -31,7 +31,8 @@ namespace Creational
             // але в сучасному програмуванні часто фабричний метод використовується 
             // як статичний метод класу для створення.
             // код цього методу може бути покращено використанням шаблону Стратегія замість if 
-            public static Dictionary<string, ICreator> creationStrategies = new Dictionary<string, ICreator>{
+            public static Dictionary<string, ICreator> creationStrategies = new Dictionary<string, ICreator>
+                {
                     {"A", new ProductACreator()},
                     {"B", new ProductBCreator()},
                     {"C", new ProductCCreator()},

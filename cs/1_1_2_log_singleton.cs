@@ -37,13 +37,13 @@ namespace Creational
 
             ~LogSystem()
             {
-                this.stream.Close();
+                stream.Close();
             }
 
             public void Log(string message)
             {
-                this.stream.WriteLine($"{DateTime.Now} : {message}");
-                this.stream.Flush();
+                stream.WriteLine($"{DateTime.Now} : {message}");
+                stream.Flush();
             }
 
             public void ShowLog()

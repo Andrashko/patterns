@@ -34,7 +34,7 @@ namespace Creational
 
             public void IncCounter()
             {
-                this.counter++;
+                counter++;
             }
         }
     }

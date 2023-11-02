@@ -15,13 +15,13 @@ namespace Behavioral.Template
         }
         public List<double> Solve(double epsilon = 0.001)
         {
-            this.iterativeMethod.Function = this.Function;
-            this.bracketingMethod.Function = this.Function;
+            iterativeMethod.Function = Function;
+            bracketingMethod.Function = Function;
             var Roots = new List<double>();
-            int Count = this.bracketingMethod.Separate();
+            int Count = bracketingMethod.Separate();
             for (int i = 0; i < Count; i++)
             {
-                double Root = this.iterativeMethod.Refine(bracketingMethod.BrakePoints[2 * i], bracketingMethod.BrakePoints[2 * i + 1], epsilon);
+                double Root = iterativeMethod.Refine(bracketingMethod.BrakePoints[2 * i], bracketingMethod.BrakePoints[2 * i + 1], epsilon);
                 Roots.Add(Root);
             }
             return Roots;
