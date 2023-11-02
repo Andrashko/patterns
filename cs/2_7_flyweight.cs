@@ -4,7 +4,6 @@
 */
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
 
 namespace Structural.Flyweight
@@ -76,18 +75,18 @@ namespace Structural.Flyweight
 
         public Flyweight(Car car)
         {
-            this._sharedState = new CarSharedState(car);
-            this._uniqueState = new CarUniqueState(car);
+            _sharedState = new CarSharedState(car);
+            _uniqueState = new CarUniqueState(car);
         }
 
         public Flyweight(CarSharedState sharedState)
         {
-            this._sharedState = sharedState;
+            _sharedState = sharedState;
         }
 
         public void SetUniqueState(Car uniqueState)
         {
-            this._uniqueState = new CarUniqueState(uniqueState);
+            _uniqueState = new CarUniqueState(uniqueState);
         }
 
         public override string ToString()
@@ -101,11 +100,11 @@ namespace Structural.Flyweight
         {
             return new Car()
             {
-                Company = this._sharedState.Company,
-                Model = this._sharedState.Model,
-                Owner = this._uniqueState.Owner,
-                Number = this._uniqueState.Number,
-                Color = this._uniqueState.Color
+                Company = _sharedState.Company,
+                Model = _sharedState.Model,
+                Owner = _uniqueState.Owner,
+                Number = _uniqueState.Number,
+                Color = _uniqueState.Color
             };
         }
 
@@ -117,33 +116,33 @@ namespace Structural.Flyweight
         {
             get
             {
-                return this._uniqueState.Owner;
+                return _uniqueState.Owner;
             }
             set
             {
-                this._uniqueState.Owner = value;
+                _uniqueState.Owner = value;
             }
         }
         public string Number
         {
             get
             {
-                return this._uniqueState.Number;
+                return _uniqueState.Number;
             }
             set
             {
-                this._uniqueState.Number = value;
+                _uniqueState.Number = value;
             }
         }
         public string Color
         {
             get
             {
-                return this._uniqueState.Color;
+                return _uniqueState.Color;
             }
             set
             {
-                this._uniqueState.Color = value;
+                _uniqueState.Color = value;
             }
         }
 
@@ -151,7 +150,7 @@ namespace Structural.Flyweight
         {
             get
             {
-                return this._sharedState.Model;
+                return _sharedState.Model;
             }
         }
 
@@ -159,7 +158,7 @@ namespace Structural.Flyweight
         {
             get
             {
-                return this._sharedState.Company;
+                return _sharedState.Company;
             }
         }
     }
@@ -191,7 +190,7 @@ namespace Structural.Flyweight
         // Повертає існуючий чи створює новий внутрішній стан пристосуванця
         public Flyweight GetFlyweight(Car car)
         {
-            string key = this.getKey(car);
+            string key = getKey(car);
             // якщо нема жодного спільного стану з вказаним ключем, то його потрібно створити 
             if (!sharedStates.ContainsKey(key))
             {

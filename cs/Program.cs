@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 using Test;
-using System.Collections.Generic;
+
 
 namespace Patterns
 {
@@ -11,7 +11,7 @@ namespace Patterns
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
-            Interpreter.TestStandartIterator();
+            BehavioralPatterns.TestPhone();
             Console.ReadLine();
         }
     }

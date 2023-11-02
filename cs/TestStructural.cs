@@ -16,8 +16,6 @@ namespace Test
 {
     class StructuralPatterns
     {
-
-
         public static void TestFlyweight()
         {
             /* При ініціалізації додатку можливе заповннення деяких спільних станів.

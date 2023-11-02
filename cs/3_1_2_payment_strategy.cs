@@ -47,8 +47,7 @@ namespace Behavioral.PaymentStrategy
     class PaymentProcessor
     {
         public Dictionary<string, IPayment> strategies;
-        public PaymentProcessor()
-        { }
+        public PaymentProcessor() { }
 
         public bool Checkout(Bill bill, Card card)
         {

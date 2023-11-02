@@ -17,8 +17,15 @@ using Behavioral.Interpreter;
 
 namespace Test
 {
-    class Interpreter
+    class BehavioralPatterns
     {
+        public static void TestPhone(){
+            var phone = new Phone();
+            phone.DialNumber("911");
+            phone.PressButton();
+            phone.DialNumber("911");
+            phone.PressButton();
+        }
         public static void TestMediator()
         {
             Component1 component1 = new Component1();
