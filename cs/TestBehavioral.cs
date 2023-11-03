@@ -14,6 +14,7 @@ using Behavioral.Iterator;
 using Behavioral.Template;
 using Behavioral.Command;
 using Behavioral.Interpreter;
+using System.Net.Http.Headers;
 
 namespace Test
 {
@@ -175,7 +176,7 @@ namespace Test
             Pipeline.SetHandler(4, new PipelineLogHandler());
             Pipeline.SetHandler(6, new PipelineResponseHandler());
 
-            Pipeline.SetHandler(3, new PipelineIncHendler());
+            Pipeline.SetHandler(3, new PipelineIncHandler());
             Console.WriteLine(Pipeline.Handle(new Request("Noname", "")).Value);
             Console.WriteLine(Pipeline.Handle(new Request("admin", "admin")).Value);
         }
@@ -340,7 +341,16 @@ namespace Test
                 {0,  0,  1,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0}, //12
             };
             var graph = new Graph(identityMatrix);
+            Console.WriteLine("Default");
+            graph.SearchStrategy = new GraphIteratorStrategy();
+            foreach (Node node in graph)
+                Console.WriteLine(node);
+            Console.WriteLine("Breadth-First Search");
             graph.SearchStrategy = new BreadthFirstSearch();
+            foreach (Node node in graph)
+                Console.WriteLine(node);
+            Console.WriteLine("Depth-First Search");
+            graph.SearchStrategy = new DepthFirstSearch();
             foreach (Node node in graph)
                 Console.WriteLine(node);
         }

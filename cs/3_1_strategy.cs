@@ -6,24 +6,21 @@ namespace Behavioral.Strategy
     class Context
     {
         private IStrategy<string> _strategy;
-
-        public Context()
-        { }
-
+        public Context() { }
         public Context(IStrategy<string> strategy)
         {
             this._strategy = strategy;
         }
         public void SetStrategy(IStrategy<string> strategy)
         {
-            this._strategy = strategy;
+            _strategy = strategy;
         }
 
         public void DoSomeBusinessLogic()
         {
             Console.WriteLine("Context: Change data using the strategy");
             List<string> data = new List<string> { "a", "b", "e", "c", "d", };
-            List<string> result = this._strategy.DoAlgorithm(data);
+            List<string> result = _strategy.DoAlgorithm(data);
 
             string resultStr = String.Join(",", result);
 

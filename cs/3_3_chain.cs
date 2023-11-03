@@ -48,15 +48,15 @@ namespace Behavioral.ChainOfResponsibility
 
         public IHandler SetNext(IHandler handler)
         {
-            this._nextHandler = handler;
+            _nextHandler = handler;
             return handler;
         }
 
         public virtual Response Handle(Request request)
         {
-            if (this._nextHandler == null)
+            if (_nextHandler == null)
                 return new FailedResponse("no next handler");
-            return this._nextHandler.Handle(request);
+            return _nextHandler.Handle(request);
         }
     }
 

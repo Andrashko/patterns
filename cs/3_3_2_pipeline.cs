@@ -15,33 +15,33 @@ namespace Behavioral.ChainOfResponsibility
             this._handlers = new List<AbstractHandler>(maxHandlersCount);
             for (int i = 0; i < maxHandlersCount; i++)
             {
-                this._handlers.Add(null);
+                _handlers.Add(null);
             }
         }
 
         public bool SetHandler(int index, AbstractHandler handler)
         {
-            if (index >= this.maxHandlersCount || index < 0)
+            if (index >= maxHandlersCount || index < 0)
                 return false;
-            this._handlers[index] = handler;
+            _handlers[index] = handler;
             return true;
         }
 
         public bool RemoveHandler(int index)
         {
-            if (index >= this.maxHandlersCount || index < 0 || this._handlers[index] == null)
+            if (index >= maxHandlersCount || index < 0 || _handlers[index] == null)
                 return false;
-            this._handlers[index] = null;
+            _handlers[index] = null;
             return true;
         }
         public Response Handle(Request request)
         {
             Response response = null;
-            for (int i = 0; i < this.maxHandlersCount; i++)
+            for (int i = 0; i < maxHandlersCount; i++)
             {
-                if (this._handlers[i] != null)
+                if (_handlers[i] != null)
                 {
-                    response = this._handlers[i].Handle(request);
+                    response = _handlers[i].Handle(request);
                     if (response.request == null)
                         break;
                 }
@@ -71,12 +71,10 @@ namespace Behavioral.ChainOfResponsibility
             Console.WriteLine("Authorize");
             if (!Check(request.Login, request.Password))
             {
-
                 Console.WriteLine("Wrong login or password");
                 return new FailedResponse("Wrong login or password");
             }
             return new Response() { request = request };
-
         }
     }
     class PipelineResponseHandler : AbstractHandler
@@ -91,7 +89,7 @@ namespace Behavioral.ChainOfResponsibility
             };
         }
     }
-    class PipelineIncHendler : AbstractHandler
+    class PipelineIncHandler : AbstractHandler
     {
         public override Response Handle(Request request)
         {

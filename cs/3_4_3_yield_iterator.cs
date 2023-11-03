@@ -11,8 +11,6 @@ namespace Behavioral.Iterator
 
         private bool _reverse = false;
 
-
-
         public IterableCollection(Type[] array, bool reverse = false)
         {
             _array = array;

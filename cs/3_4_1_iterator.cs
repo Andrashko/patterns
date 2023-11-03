@@ -53,8 +53,8 @@ namespace Behavioral.Iterator
 
         public ReverseIterator(Human[] Collection)
         {
-            Collection = Collection.Clone() as Human[];
-            Array.Sort(Collection, (p1, p2) => p1.Age - p2.Age);
+            this.Collection = Collection.Clone() as Human[];
+            Array.Sort(this.Collection, (p1, p2) => p1.Age - p2.Age);
             Pos = Collection.Length;
         }
     }

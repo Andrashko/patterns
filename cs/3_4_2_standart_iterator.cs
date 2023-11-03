@@ -78,6 +78,7 @@ namespace Behavioral.Iterator
 
         public override void Dispose()
         {
+            // _collection = null;
         }
     }
 

@@ -14,7 +14,7 @@ namespace Behavioral.State
     {
         public void PressButton(Phone phone)
         {
-            phone.State = new UnlockedPhoneState();
+            phone.SetState(new UnlockedPhoneState());
             Console.WriteLine("Phone is unlocked");
         }
 
@@ -28,7 +28,7 @@ namespace Behavioral.State
     {
         public void PressButton(Phone phone)
         {
-            phone.State = new LockedPhoneState();
+            phone.SetState(new LockedPhoneState());
             Console.WriteLine("Phone is locked");
         }
 
@@ -43,8 +43,12 @@ namespace Behavioral.State
     {
 
         // стан конкретного телефону 
-        public IPhoneState State = new LockedPhoneState();
+        private IPhoneState _state = new LockedPhoneState();
 
+        public void SetState(IPhoneState phoneState)
+        {
+            _state = phoneState;
+        }
 
         public void ShowMessage(string message)
         {
@@ -53,12 +57,12 @@ namespace Behavioral.State
         //описуємо методи, які доступні користувачу
         public void PressButton()
         {
-            State.PressButton(this);
+            _state.PressButton(this);
         }
 
         public void DialNumber(string number)
         {
-            State.DialNumber(this, number);
+            _state.DialNumber(this, number);
         }
     }
 }
