@@ -3,7 +3,7 @@ using System;
 
 namespace Behavioral.Observer
 {
-    interface IChangeStateEventable
+    interface IChangeStateEventObservable
     {
         event EventHandler<IntEventArgs> ChangeStateEvent;
     }
@@ -15,7 +15,7 @@ namespace Behavioral.Observer
             Value = value;
         }
     }
-    class EventSubject : IChangeStateEventable
+    class EventSubject : IChangeStateEventObservable
     {
         private int _state = 0;
         public int State
@@ -38,7 +38,7 @@ namespace Behavioral.Observer
 
         public event EventHandler<IntEventArgs> ChangeStateEvent = delegate { };
 
-        public EventHandler<IntEventArgs> OnCahngeState
+        public EventHandler<IntEventArgs> OnChangeState
         {
             set
             {
@@ -70,9 +70,9 @@ namespace Behavioral.Observer
         private Predicate<int> Condition;
 
         /// <summary>Передаємо умову як предикат</summary>
-        public CounterEventObserver(Predicate<int> Condidtion)
+        public CounterEventObserver(Predicate<int> Condition)
         {
-            this.Condition = Condidtion;
+            this.Condition = Condition;
         }
 
         private void Handler(object Sender, IntEventArgs e)
@@ -83,7 +83,7 @@ namespace Behavioral.Observer
                 Console.WriteLine($"Стан задовільнив умову {Count} разів");
             }
         }
-        public void Subscribe(IChangeStateEventable subject)
+        public void Subscribe(IChangeStateEventObservable subject)
         {
             subject.ChangeStateEvent += Handler;
         }
