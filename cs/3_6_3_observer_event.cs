@@ -12,7 +12,7 @@ namespace Behavioral.Observer
         public int Value;
         public IntEventArgs(int value)
         {
-            this.Value = value;
+            Value = value;
         }
     }
     class EventSubject : IChangeStateEventable

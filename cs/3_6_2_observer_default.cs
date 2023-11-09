@@ -35,8 +35,8 @@ namespace Behavioral.Observer
 
             public Unsubscriber(List<IObserver<int>> observers, IObserver<int> observer)
             {
-                this._observers = observers;
-                this._observer = observer;
+                _observers = observers;
+                _observer = observer;
             }
 
             public void Dispose()

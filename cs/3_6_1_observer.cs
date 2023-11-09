@@ -95,9 +95,9 @@ namespace Behavioral.Observer
         private Predicate<int> Condition;
 
         /// <summary>Передаємо умову як предикат</summary>
-        public CounterObserver(Predicate<int> Condidtion)
+        public CounterObserver(Predicate<int> Condition)
         {
-            this.Condition = Condidtion;
+            this.Condition = Condition;
         }
         public void Update(ISubject subject)
         {
