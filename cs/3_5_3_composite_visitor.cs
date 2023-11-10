@@ -11,8 +11,8 @@ namespace Behavioral.CompositeVisitor
 
     public interface ICompositeVisitor
     {
-        void VisitFile(MyFile file);
-        void VisitFolder(Folder folder);
+        void Visit(MyFile file);
+        void Visit(Folder folder);
     }
 
     public class CompositeComponent : IVisitable
@@ -61,7 +61,7 @@ namespace Behavioral.CompositeVisitor
 
         public override void Accept(ICompositeVisitor visitor)
         {
-            visitor.VisitFile(this);
+            visitor.Visit(this);
         }
 
     }
@@ -103,17 +103,17 @@ namespace Behavioral.CompositeVisitor
 
         public override void Accept(ICompositeVisitor visitor)
         {
-            visitor.VisitFolder(this);
+            visitor.Visit(this);
         }
     }
 
     public class SortVisitor : ICompositeVisitor
     {
-        public void VisitFile(MyFile file)
+        public void Visit(MyFile file)
         {
             //Nothing to do
         }
-        public void VisitFolder(Folder folder)
+        public void Visit(Folder folder)
         {
             folder.Elements.ToList().ForEach(Element => Element.Accept(this));
             folder.Elements.Sort(
@@ -125,11 +125,11 @@ namespace Behavioral.CompositeVisitor
     public class FileCountVisitor : ICompositeVisitor
     {
         public int Count = 0;
-        public void VisitFile(MyFile file)
+        public void Visit(MyFile file)
         {
             Count++;
         }
-        public void VisitFolder(Folder folder)
+        public void Visit(Folder folder)
         {
             folder.Elements.ForEach(Element => Element.Accept(this));
         }

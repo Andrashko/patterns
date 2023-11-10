@@ -320,7 +320,8 @@ namespace Test
                 Console.WriteLine(element);
             }
         }
-
+// 1, 10, 8, 12, 2, 3, 7, 4, 6, 11, 5, 
+//1, 8, 12, 2, 3, 4, 7, 6, 5, 11,10
         public static void TestGraphIterator()
         {
             int[,] identityMatrix = new int[13, 13] {
@@ -346,11 +347,15 @@ namespace Test
             foreach (Node node in graph)
                 Console.WriteLine(node);
             Console.WriteLine("Breadth-First Search");
-            graph.SearchStrategy = new BreadthFirstSearch();
+            var searchStrategy = new BreadthFirstSearch();
+            searchStrategy.StartNode = graph.Nodes[1]; 
+            graph.SearchStrategy = searchStrategy;
             foreach (Node node in graph)
                 Console.WriteLine(node);
             Console.WriteLine("Depth-First Search");
-            graph.SearchStrategy = new DepthFirstSearch();
+            var searchStrategy2 = new DepthFirstSearch();
+            searchStrategy2.StartNode = graph.Nodes[1];
+            graph.SearchStrategy = searchStrategy2;
             foreach (Node node in graph)
                 Console.WriteLine(node);
         }

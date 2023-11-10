@@ -14,7 +14,7 @@ namespace Behavioral.Visitor
     {
         public void Accept(IVisitor visitor)
         {
-            visitor.VisitConcreteComponentA(this);
+            visitor.VisitConcreteComponent(this);
         }
 
         public string ExclusiveMethodOfConcreteComponentA()
@@ -27,7 +27,7 @@ namespace Behavioral.Visitor
     {
         public void Accept(IVisitor visitor)
         {
-            visitor.VisitConcreteComponentB(this);
+            visitor.VisitConcreteComponent(this);
         }
 
         public string SpecialMethodOfConcreteComponentB()
@@ -38,19 +38,19 @@ namespace Behavioral.Visitor
 
     public interface IVisitor
     {
-        void VisitConcreteComponentA(ConcreteComponentA element);
+        void VisitConcreteComponent(ConcreteComponentA element);
 
-        void VisitConcreteComponentB(ConcreteComponentB element);
+        void VisitConcreteComponent(ConcreteComponentB element);
     }
 
     class ConcreteVisitor1 : IVisitor
     {
-        public void VisitConcreteComponentA(ConcreteComponentA element)
+        public void VisitConcreteComponent(ConcreteComponentA element)
         {
             Console.WriteLine(element.ExclusiveMethodOfConcreteComponentA() + " + ConcreteVisitor1");
         }
 
-        public void VisitConcreteComponentB(ConcreteComponentB element)
+        public void VisitConcreteComponent(ConcreteComponentB element)
         {
             Console.WriteLine(element.SpecialMethodOfConcreteComponentB() + " + ConcreteVisitor1");
         }
@@ -58,12 +58,12 @@ namespace Behavioral.Visitor
 
     class ConcreteVisitor2 : IVisitor
     {
-        public void VisitConcreteComponentA(ConcreteComponentA element)
+        public void VisitConcreteComponent(ConcreteComponentA element)
         {
             Console.WriteLine(element.ExclusiveMethodOfConcreteComponentA() + " + ConcreteVisitor2");
         }
 
-        public void VisitConcreteComponentB(ConcreteComponentB element)
+        public void VisitConcreteComponent(ConcreteComponentB element)
         {
             Console.WriteLine(element.SpecialMethodOfConcreteComponentB() + " + ConcreteVisitor2");
         }

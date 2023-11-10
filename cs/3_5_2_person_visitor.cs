@@ -31,7 +31,7 @@ namespace Behavioral.PersonVisitor
 
         public override void Accept(IVisitor visitor)
         {
-            visitor.VisitStudent(this);
+            visitor.Visit(this);
         }
 
         public string ToPrintString()
@@ -60,7 +60,7 @@ namespace Behavioral.PersonVisitor
         }
         public override void Accept(IVisitor visitor)
         {
-            visitor.VisitProfessor(this);
+            visitor.Visit(this);
         }
 
         public string ToPrintString()
@@ -80,18 +80,18 @@ namespace Behavioral.PersonVisitor
 
     public interface IVisitor
     {
-        void VisitStudent(Student student);
-        void VisitProfessor(Professor professor);
+        void Visit(Student student);
+        void Visit(Professor professor);
     }
 
     public class Printer : IVisitor
     {
-        public void VisitStudent(Student student)
+        public void Visit(Student student)
         {
             Console.WriteLine("Друкую студента");
             Console.WriteLine(student.ToPrintString());
         }
-        public void VisitProfessor(Professor professor)
+        public void Visit(Professor professor)
         {
             Console.WriteLine("Друкую професора");
             Console.WriteLine(professor.ToPrintString());
@@ -100,11 +100,11 @@ namespace Behavioral.PersonVisitor
 
     public class Hi : IVisitor
     {
-        public void VisitStudent(Student student)
+        public void Visit(Student student)
         {
             Console.WriteLine($"Привiт {student.Name}");
         }
-        public void VisitProfessor(Professor professor)
+        public void Visit(Professor professor)
         {
             Console.WriteLine($"Доброго дня, {professor.Name} {professor.SecondName}");
         }
