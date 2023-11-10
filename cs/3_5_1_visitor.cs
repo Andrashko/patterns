@@ -14,7 +14,7 @@ namespace Behavioral.Visitor
     {
         public void Accept(IVisitor visitor)
         {
-            visitor.VisitConcreteComponent(this);
+            visitor.Visit(this);
         }
 
         public string ExclusiveMethodOfConcreteComponentA()
@@ -27,7 +27,7 @@ namespace Behavioral.Visitor
     {
         public void Accept(IVisitor visitor)
         {
-            visitor.VisitConcreteComponent(this);
+            visitor.Visit(this);
         }
 
         public string SpecialMethodOfConcreteComponentB()
@@ -38,19 +38,19 @@ namespace Behavioral.Visitor
 
     public interface IVisitor
     {
-        void VisitConcreteComponent(ConcreteComponentA element);
+        void Visit(ConcreteComponentA element);
 
-        void VisitConcreteComponent(ConcreteComponentB element);
+        void Visit(ConcreteComponentB element);
     }
 
     class ConcreteVisitor1 : IVisitor
     {
-        public void VisitConcreteComponent(ConcreteComponentA element)
+        public void Visit(ConcreteComponentA element)
         {
             Console.WriteLine(element.ExclusiveMethodOfConcreteComponentA() + " + ConcreteVisitor1");
         }
 
-        public void VisitConcreteComponent(ConcreteComponentB element)
+        public void Visit(ConcreteComponentB element)
         {
             Console.WriteLine(element.SpecialMethodOfConcreteComponentB() + " + ConcreteVisitor1");
         }
@@ -58,12 +58,12 @@ namespace Behavioral.Visitor
 
     class ConcreteVisitor2 : IVisitor
     {
-        public void VisitConcreteComponent(ConcreteComponentA element)
+        public void Visit(ConcreteComponentA element)
         {
             Console.WriteLine(element.ExclusiveMethodOfConcreteComponentA() + " + ConcreteVisitor2");
         }
 
-        public void VisitConcreteComponent(ConcreteComponentB element)
+        public void Visit(ConcreteComponentB element)
         {
             Console.WriteLine(element.SpecialMethodOfConcreteComponentB() + " + ConcreteVisitor2");
         }
