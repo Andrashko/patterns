@@ -115,7 +115,7 @@ namespace Behavioral.CompositeVisitor
         }
         public void Visit(Folder folder)
         {
-            folder.Elements.ToList().ForEach(Element => Element.Accept(this));
+            folder.Elements.ForEach(Element => Element.Accept(this));
             folder.Elements.Sort(
                 (Element1, Element2) => String.Compare(Element1.Name, Element2.Name)
             );

@@ -9,14 +9,14 @@ namespace Behavioral.Memento
 
         public Originator(string state)
         {
-            this._state = state;
+            _state = state;
             Console.WriteLine($"Originator: My initial state is: {state}");
         }
 
         public void DoSomething()
         {
             Console.WriteLine("Originator: I'm doing something important.");
-            this._state = this.GenerateRandomString(30);
+            _state = GenerateRandomString(30);
             Console.WriteLine($"Originator: and my state has changed to: {_state}");
         }
 
@@ -33,7 +33,7 @@ namespace Behavioral.Memento
 
         public IMemento Save()
         {
-            return new ConcreteMemento(this._state);
+            return new ConcreteMemento(_state);
         }
 
         public void Restore(IMemento memento)
@@ -43,7 +43,7 @@ namespace Behavioral.Memento
                 throw new Exception("Unknown memento class " + memento.ToString());
             }
 
-            this._state = memento.GetState();
+            _state = memento.GetState();
             Console.Write($"Originator: My state has changed to: {_state}");
         }
     }
@@ -66,32 +66,32 @@ namespace Behavioral.Memento
 
         public ConcreteMemento(string state)
         {
-            this._state = state;
-            this._date = DateTime.Now;
+            _state = state;
+            _date = DateTime.Now;
         }
 
         public string GetState()
         {
-            return this._state;
+            return _state;
         }
 
         public string GetName()
         {
-            if (this._state.Length <= 10)
-                return $"{this._date} / ({this._state})";
+            if (_state.Length <= 10)
+                return $"{_date} / ({_state})";
             else
-                return $"{this._date} / ({this._state.Substring(0, 9)})...";
+                return $"{_date} / ({_state.Substring(0, 9)})...";
         }
 
         public DateTime GetDate()
         {
-            return this._date;
+            return _date;
         }
     }
 
     class Caretaker
     {
-        private List<IMemento> _mementos = new List<IMemento>();
+        private Stack<IMemento> _mementos = new Stack<IMemento>();
 
         private Originator _originator = null;
 
@@ -103,23 +103,22 @@ namespace Behavioral.Memento
         public void Backup()
         {
             Console.WriteLine("\nCaretaker: Saving Originator's state...");
-            this._mementos.Add(this._originator.Save());
+            _mementos.Push(_originator.Save());
         }
 
         public void Undo()
         {
-            if (this._mementos.Count == 0)
+            if (_mementos.Count == 0)
             {
-                Console.WriteLine("Caretaker: Tere is no history to undo");
+                Console.WriteLine("Caretaker: There is no history to undo");
                 return;
             }
 
-            var memento = this._mementos[this._mementos.Count - 1];
-            this._mementos.Remove(memento);
+            var memento = _mementos.Pop();
 
             Console.WriteLine("Caretaker: Restoring state to: " + memento.GetName());
 
-            this._originator.Restore(memento);
+            _originator.Restore(memento);
         }
 
         public void ShowHistory()

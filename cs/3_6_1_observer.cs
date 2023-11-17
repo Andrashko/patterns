@@ -74,8 +74,6 @@ namespace Behavioral.Observer
         }
     }
 
-
-
     /// <summary>Спостерігач, який виводить повідомлення про парний стан</summary>
     class EvenObserver : ICustomObserver
     {
