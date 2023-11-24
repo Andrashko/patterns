@@ -20,7 +20,8 @@ namespace Test
 {
     class BehavioralPatterns
     {
-        public static void TestPhone(){
+        public static void TestPhone()
+        {
             var phone = new Phone();
             phone.DialNumber("911");
             phone.PressButton();
@@ -284,7 +285,7 @@ namespace Test
                 new Human("Tetiana", 18),
                 new Human("Olekandr", 62)
             });
-          
+
             Console.WriteLine("Straight traversal:");
 
             foreach (var element in collection)
@@ -320,8 +321,8 @@ namespace Test
                 Console.WriteLine(element);
             }
         }
-// 1, 10, 8, 12, 2, 3, 7, 4, 6, 11, 5, 
-//1, 8, 12, 2, 3, 4, 7, 6, 5, 11,10
+        // 1, 10, 8, 12, 2, 3, 7, 4, 6, 11, 5, 
+        //1, 8, 12, 2, 3, 4, 7, 6, 5, 11,10
         public static void TestGraphIterator()
         {
             int[,] identityMatrix = new int[13, 13] {
@@ -348,7 +349,7 @@ namespace Test
                 Console.WriteLine(node);
             Console.WriteLine("Breadth-First Search");
             var searchStrategy = new BreadthFirstSearch();
-            searchStrategy.StartNode = graph.Nodes[1]; 
+            searchStrategy.StartNode = graph.Nodes[1];
             graph.SearchStrategy = searchStrategy;
             foreach (Node node in graph)
                 Console.WriteLine(node);
@@ -362,10 +363,18 @@ namespace Test
 
         public static void TestTemplate()
         {
-            var f = new Equation(x => (x * x - 2) * (x + 3));
+            var f = new IterativeEquationStrategy(x => (x * x - 2) * (x + 3));
             f.bracketingMethod = new Tabulate();
             f.iterativeMethod = new BinaryDiv();
             var solves = f.Solve();
+            Console.WriteLine($"Found {solves.Count} solutions");
+            foreach (double root in solves)
+            {
+                Console.WriteLine(root);
+            }
+
+            var f2 = new IterativeEquationTemplateBinaryDiv(x => (x * x - 2) * (x + 3));
+            solves = f2.Solve();
             Console.WriteLine($"Found {solves.Count} solutions");
             foreach (double root in solves)
             {
@@ -379,7 +388,7 @@ namespace Test
             Invoker invoker = new Invoker();
             invoker.SetOnStart(new SimpleCommand("Say Hi!"));
             Receiver receiver = new Receiver();
-            invoker.SetOnFinish(new ComplexCommand(receiver, "Send email", "Save report"));
+            // invoker.SetOnFinish(new ComplexCommand(receiver, "Send email", "Save report"));
             invoker.DoSomethingImportant();
         }
 
@@ -388,13 +397,13 @@ namespace Test
             //2 + 3   2 3 +
             //a * b   a b *
             // Evaluator ex = new Evaluator ("x y z 666 + - +");
-            Evaluator ex = new Evaluator("x = 20 ; x + y + 3");
-            List<IExpression> v = new List<IExpression>(){
-                new Variable("x", new Number(5)),
-                new Variable("z", new Number(10)),
-                new Variable ("y", new Number(15))
-            };
-            Console.WriteLine(ex.Interpret(v));
+            var interpreter = new Interpreter();
+            interpreter.Interpret(@"
+            x = 2 + 3; 
+            y = x + 2;
+            z = x + y - 1;
+            z + 5"
+            );
         }
     }
 }

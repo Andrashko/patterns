@@ -26,30 +26,34 @@ namespace Behavioral.Interpreter
 
     public class Operation : IExpression
     {
-        protected IExpression Left;
-        protected IExpression Right;
+        public int Priority { get; set; } = 0;
+        public IExpression Left;
+        public IExpression Right;
 
         public virtual string Name { get; }
         public Operation() { }
-        public Operation(IExpression Left, IExpression Righ)
+        public Operation(IExpression Left, IExpression Right)
         {
             this.Left = Left;
-            this.Right = Righ;
+            this.Right = Right;
         }
         public virtual int Interpret(List<IExpression> Context)
         {
             throw new Exception();
         }
-        public virtual Operation Construct(IExpression Left, IExpression Righ)
+        public virtual Operation Construct(IExpression Left, IExpression Right)
         {
-            return new Operation(Left, Righ);
+            return new Operation(Left, Right);
         }
     }
 
     public class Plus : Operation
     {
         public override string Name { get { return "+"; } }
-        public Plus() : base() { }
+        public Plus() : base()
+        {
+            Priority = 1;
+        }
         public Plus(IExpression Left, IExpression Right) : base(Left, Right) { }
         public override int Interpret(List<IExpression> Context)
         {
@@ -65,33 +69,19 @@ namespace Behavioral.Interpreter
     public class Minus : Operation
     {
         public override string Name { get { return "-"; } }
-        public Minus() : base() { }
+        public Minus() : base()
+        {
+            Priority = 1;
+        }
         public Minus(IExpression Left, IExpression Right) : base(Left, Right) { }
         public override int Interpret(List<IExpression> Context)
         {
             return Left.Interpret(Context) - Right.Interpret(Context);
         }
 
-        public override Operation Construct(IExpression Left, IExpression Righ)
+        public override Operation Construct(IExpression Left, IExpression Right)
         {
-            return new Minus(Left, Righ);
-        }
-    }
-
-    public class Split : Operation
-    {
-        public override string Name { get { return ";"; } }
-        public Split() : base() { }
-        public Split(IExpression Left, IExpression Right) : base(Left, Right) { }
-        public override int Interpret(List<IExpression> Context)
-        {
-            Left.Interpret(Context);
-            return Right.Interpret(Context);
-        }
-
-        public override Operation Construct(IExpression Left, IExpression Righ)
-        {
-            return new Split(Left, Righ);
+            return new Minus(Left, Right);
         }
     }
 
@@ -105,17 +95,17 @@ namespace Behavioral.Interpreter
         {
             if (!(Left is Variable))
                 throw new Exception("assign only to variable!");
-            if (!(Right is Number))
-                throw new Exception("Only numbers!");
-            (Left as Variable).Value = (Right as Number);
+            int val = Right.Interpret(Context);
+            var Value = new Number(val);
+            (Left as Variable).Value = Value;
             Variable variable = Context.Find(
                 v => v.Name == (Left as Variable).Name
             ) as Variable;
             if (variable == null)
                 Context.Add(Left);
             else
-                (variable as Variable).Value = Right as Number;
-            return Right.Interpret(Context);
+                variable.Value = (Left as Variable).Value;
+            return val;
         }
 
         public override Operation Construct(IExpression Left, IExpression Righ)
@@ -140,29 +130,23 @@ namespace Behavioral.Interpreter
             Variable variable = Context.Find(
                 v => v.Name == this.Name
             ) as Variable;
-            if (variable == null)
-                return 0;
-            if (variable.Value == null)
+            if (variable == null || variable.Value == null)
                 throw new Exception("Value is not assigned");
-            return (variable).Value.Interpret(Context);
+            return variable.Value.Interpret(Context);
         }
     }
 
-    public class Evaluator : IExpression
+    public class Interpreter
     {
-        private IExpression Tree;
+        private List<IExpression> context = new List<IExpression>();
         private List<Operation> Operations = new List<Operation>(){
             new Plus(),
             new Minus(),
             new Assign(),
-            new Split()
         };
 
-        public string Name { get; set; }
-        public Evaluator(string Expression)
+        public IExpression ParseOperation(string Expression)
         {
-
-            Name = Expression;
             Stack<IExpression> expressionStack = new Stack<IExpression>();
             int next = 0;
             int last = 0;
@@ -172,39 +156,52 @@ namespace Behavioral.Interpreter
                 if (next == -1)
                     next = Expression.Length;
                 string token = Expression.Substring(last, next - last);
-                bool executeOp = expressionStack.Count > 0 && expressionStack.Peek() is Operation ;
-
+                bool executeOperation = expressionStack.Count > 0 && expressionStack.Peek() is Operation;
+                int val;
                 Operation op = Operations.Find(op => op.Name == token);
                 if (op != null)
                 {
-                    executeOp =  false;
+                    executeOperation = false;
                     expressionStack.Push(op);
                 }
-                else if (int.TryParse(token, out _))
+                else if (int.TryParse(token, out val))
                 {
-                    expressionStack.Push(new Number(int.Parse(token)));
+                    expressionStack.Push(new Number(val));
                 }
                 else
                 {
                     expressionStack.Push(new Variable(token));
                 }
-                if (executeOp)
+
+                if (executeOperation)
                 {
                     IExpression right = expressionStack.Pop();
                     Operation operation = expressionStack.Pop() as Operation;
                     IExpression left = expressionStack.Pop();
-                    expressionStack.Push(operation.Construct(left, right));
+                    if (left is Operation && (left as Operation).Priority < operation.Priority)
+                    {
+                        var highPriorityOperation = operation.Construct((left as Operation).Right, right);
+                        (left as Operation).Right = highPriorityOperation;
+                        expressionStack.Push(left);
+                    }
+                    else
+                        expressionStack.Push(operation.Construct(left, right));
                 }
 
 
                 last = next + 1;
             }
-            Tree = expressionStack.Pop();
+            return expressionStack.Pop();
         }
 
-        public int Interpret(List<IExpression> context)
+        public void Interpret(string program)
         {
-            return Tree.Interpret(context);
+            foreach (string operation in program.Split(";"))
+            {
+                var commandsTree = ParseOperation(operation.Trim());
+                int result = commandsTree.Interpret(context);
+                Console.WriteLine($"{operation.Trim()} has been interpreted. The result is {result}");
+            }
         }
     }
 
