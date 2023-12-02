@@ -60,9 +60,9 @@ namespace Behavioral.Interpreter
             return Left.Interpret(Context) + Right.Interpret(Context);
         }
 
-        public override Operation Construct(IExpression Left, IExpression Righ)
+        public override Operation Construct(IExpression Left, IExpression Right)
         {
-            return new Plus(Left, Righ);
+            return new Plus(Left, Right);
         }
     }
 
@@ -108,9 +108,9 @@ namespace Behavioral.Interpreter
             return val;
         }
 
-        public override Operation Construct(IExpression Left, IExpression Righ)
+        public override Operation Construct(IExpression Left, IExpression Right)
         {
-            return new Assign(Left, Righ);
+            return new Assign(Left, Right);
         }
 
     }
@@ -128,7 +128,7 @@ namespace Behavioral.Interpreter
         public int Interpret(List<IExpression> Context)
         {
             Variable variable = Context.Find(
-                v => v.Name == this.Name
+                v => v.Name == Name
             ) as Variable;
             if (variable == null || variable.Value == null)
                 throw new Exception("Value is not assigned");
