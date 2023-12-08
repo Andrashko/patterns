@@ -1,10 +1,11 @@
 namespace mvvm
 {
-    public class ProgramView : Framework
+    public class View : Framework
     {
-        private readonly PersonViewModel viewModel = new PersonViewModel();
-        public ProgramView()
+        private readonly ViewModel viewModel;
+        public View(ViewModel viewModel)
         {
+            this.viewModel = viewModel;
             DataContext = viewModel;
             SetBinding("Count");
         }

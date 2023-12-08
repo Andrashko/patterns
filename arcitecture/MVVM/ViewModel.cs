@@ -5,13 +5,13 @@ using System.Reflection;
 
 namespace mvvm
 {
-    public class PersonViewModel : INotifyPropertyChanged
+    public class ViewModel : INotifyPropertyChanged
     {
         private readonly Model model;
 
-        public PersonViewModel()
+        public ViewModel(Model model)
         {
-            model = new Model();
+            this.model = model;
         }
 
         public  int Count

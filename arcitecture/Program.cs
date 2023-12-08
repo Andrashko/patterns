@@ -13,9 +13,9 @@ static void TestMvp()
 
 
 static void TestMvvm(){
-    var v = new mvvm.ProgramView ();
+    var v = new mvvm.View (new mvvm.ViewModel( new mvvm.Model()));
     v.Input();
 }
 // TestMvc();
 // TestMvp();
-TestMvvm();
+ TestMvvm();
