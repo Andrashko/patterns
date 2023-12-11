@@ -9,6 +9,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Reflection;
+using System.Management;
 
 namespace mvvm
 {
@@ -22,10 +23,16 @@ namespace mvvm
         {
             Binding binding = new Binding(property)
             {
-                Source = DataContext
+                Source = DataContext,
+                Value = DataContext.GetType().GetProperty(property)?.GetValue(DataContext, null)
             };
             binding.Parse();
             bindings.Add(property, binding);
+        }
+
+        protected object ValueOf(string property)
+        {
+            return bindings[property].Value;
         }
     }
     public class Binding
@@ -38,6 +45,8 @@ namespace mvvm
         public object Source { get; set; }
 
         public string Name { get; set; }
+
+        public object Value { get; set; }
 
         public void Parse()
         {
@@ -53,6 +62,7 @@ namespace mvvm
         {
             PropertyInfo propertyInfo = Source.GetType().GetProperty(e.PropertyName);
             object value = propertyInfo?.GetValue(Source);
+            Value = value;
             Console.WriteLine($"{e.PropertyName} changed to {value}");
         }
     }

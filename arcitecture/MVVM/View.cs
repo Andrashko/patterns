@@ -12,7 +12,7 @@ namespace mvvm
 
         public void Input()
         {
-            Console.WriteLine($"-------Likes:{viewModel.Count}----------");
+            Console.WriteLine($"-------Likes:{ValueOf("Count")}----------");
             Console.WriteLine("1-inc, 2-dec, 0 -exit");
             while (true)
             {
@@ -29,7 +29,7 @@ namespace mvvm
                 {
                     break;
                 }
-                Console.WriteLine($"-------Likes:{viewModel.Count}----------");
+                Console.WriteLine($"-------Likes:{ValueOf("Count")}----------");
                 Console.WriteLine("1-inc, 2-dec, 0 -exit");
             };
         }
