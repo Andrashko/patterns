@@ -24,6 +24,7 @@ namespace Creational
                 {
                     _instance = new LogSystem(fileName);
                 }
+                //TODO if _instance != null && fileName WARNING
                 return _instance;
             }
             private string fileName;

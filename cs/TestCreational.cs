@@ -100,7 +100,8 @@ namespace Test
 
             const string ASM_PROGRAM =
             @"mov ah, 2
-            mov bh, 3";
+            mov bh, 3
+            add ah, 5";
             Console.WriteLine($"ASM machine execute program \n{ASM_PROGRAM}");
             factory = new AsmMachineFactory();
             machine = factory.GetMachine();

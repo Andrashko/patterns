@@ -116,7 +116,7 @@ namespace Creational
             {
                 Console.WriteLine("Stop operator. Press Enter ");
                 Console.ReadLine();
-                //Environment.Exit(0);
+                // Environment.Exit(0);
             }
         }
 
@@ -124,7 +124,7 @@ namespace Creational
         // часткова реалізація асемблера, тільки 2 регістри та операція mov
         class AsmMachine : Machine
         {
-            public  byte ah = 0;
+            public byte ah = 0;
             public byte bh = 0;
 
             protected static AsmMachine _instance = null;
@@ -174,6 +174,21 @@ namespace Creational
             }
         }
 
+        //опертор add додає другий операнд до першого, наприклад "add ah, 5" додасть до регістра ah число 5.
+        class ADD : AsmOperator
+        {
+            public ADD(string firstOperand, string secondOperand) : base(firstOperand, secondOperand) { }
+            public override void Execute()
+            {
+                if (firstOperand == "ah")
+                    asmMachine.ah += byte.Parse(secondOperand);
+                if (firstOperand == "bh")
+                    asmMachine.bh += byte.Parse(secondOperand);
+                ///... тут має бути складна логіка реалізації
+            }
+        }
+
+
         /*================= фабричний метод ===============*/
         //створє опертаор із рядка
         interface IOperatorFactoryMethod
@@ -212,7 +227,7 @@ namespace Creational
             {
                 var parts = Line.Trim().Split(); // 
                 string operation = parts[0].ToUpper();
-                string[] operands = new string[2] { "", "" };
+                string[] operands = ["", ""];
 
                 if (parts.Length == 3)
                 {
@@ -223,7 +238,8 @@ namespace Creational
                 //тут порушується принцип  open-close. Для виправленння коду потрібно використати шаблон "стратегія"
                 if (operation == "MOV")
                     return new MOV(operands[0], operands[1]);
-
+                if (operation == "ADD")
+                    return new ADD(operands[0], operands[1]);
                 throw new Exception($"unknown operation {operation}");
             }
         }
