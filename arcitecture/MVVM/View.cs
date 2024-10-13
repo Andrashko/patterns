@@ -13,7 +13,7 @@ namespace mvvm
         public void Input()
         {
             Console.WriteLine($"-------Likes:{ValueOf("Count")}----------");
-            Console.WriteLine("1-inc, 2-dec, 0 -exit");
+            Console.WriteLine("1-inc, 2-dec, 0-exit");
             while (true)
             {
                 string input = Console.ReadLine();
@@ -30,7 +30,7 @@ namespace mvvm
                     break;
                 }
                 Console.WriteLine($"-------Likes:{ValueOf("Count")}----------");
-                Console.WriteLine("1-inc, 2-dec, 0 -exit");
+                Console.WriteLine("1-inc, 2-dec, 0-exit");
             };
         }
     }

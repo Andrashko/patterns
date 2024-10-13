@@ -7,9 +7,8 @@
 */
 
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Reflection;
-using System.Management;
+
 
 namespace mvvm
 {

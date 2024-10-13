@@ -11,7 +11,7 @@ namespace mvp
             view.presenter = this;
         }
 
-         public void Inc()
+        public void Inc()
         {
             model.Count++;
             view.Show(model.Count);

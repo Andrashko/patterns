@@ -25,7 +25,7 @@ namespace mvc
             view.Show(model);
             while (true)
             {
-                
+
                 var choice = Console.ReadLine();
                 if (choice == "1")
                 {
