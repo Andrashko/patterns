@@ -12,6 +12,7 @@ namespace mvvm
 
         public void Input()
         {
+            Console.WriteLine("MVVM");
             Console.WriteLine($"-------Likes:{ValueOf("Count")}----------");
             Console.WriteLine("1-inc, 2-dec, 0-exit");
             while (true)

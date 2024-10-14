@@ -3,9 +3,10 @@ namespace mvc
 {
     public class View
     {
-        public void Show(Model model)
+        public void Show(int Count)
         {
-            Console.WriteLine($"-------Likes:{model.Count}----------");
+            Console.WriteLine("MVC");
+            Console.WriteLine($"-------Likes:{Count}----------");
             Console.WriteLine("1-inc, 2-dec, 0-exit");
         }
     }

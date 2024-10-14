@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Reflection;
 
 
 namespace mvvm
@@ -14,7 +13,7 @@ namespace mvvm
             this.model = model;
         }
 
-        public  int Count
+        public int Count
         {
             get { return model.Count; }
             set

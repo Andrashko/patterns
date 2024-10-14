@@ -12,20 +12,17 @@ namespace mvc
         public void Inc()
         {
             model.Count++;
-
         }
         public void Dec()
         {
             model.Count--;
-
         }
 
         public void Start()
         {
-            view.Show(model);
+            view.Show(model.Count);
             while (true)
             {
-
                 var choice = Console.ReadLine();
                 if (choice == "1")
                 {
@@ -37,9 +34,10 @@ namespace mvc
                 }
                 if (choice == "0")
                 {
+                    Exit();
                     break;
                 }
-                view.Show(model);
+                view.Show(model.Count);
             }
         }
 

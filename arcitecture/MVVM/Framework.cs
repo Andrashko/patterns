@@ -1,9 +1,6 @@
 /*
 *https://www.codeproject.com/Articles/1163180/Bare-Metal-MVVM-Where-The-Code-Meets-The-Road-Part
 *
-*
-*
-*
 */
 
 using System.ComponentModel;

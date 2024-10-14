@@ -6,6 +6,7 @@ namespace mvp
         public Presenter presenter;
         public void Show(int Likes)
         {
+             Console.WriteLine("MVP");
             Console.WriteLine($"-------Likes:{Likes}----------");
             Console.WriteLine("1-inc, 2-dec, 0 -exit");
             var choice = Console.ReadLine();
