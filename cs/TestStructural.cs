@@ -78,7 +78,7 @@ namespace Test
 
         public static void TestMemory()
         {
-            int count = 1_000_000;
+            int count = 2_000_000;
             long memoryUsed;
             List<Car> Cars = new List<Car>();
             FlyweightFactory factory = new FlyweightFactory();
@@ -241,7 +241,7 @@ namespace Test
             Console.WriteLine(ArtFacade.Get("Music", 1));
             Console.WriteLine(ArtFacade.Get("Movie", 1));
             Console.WriteLine(ArtFacade.Get("TVShow", 1));
-            Console.WriteLine(ArtFacade.Get("Book", 2));
+            Console.WriteLine(ArtFacade.Get("Book", 1));
         }
 
         public static void TestComposite()

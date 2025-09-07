@@ -10,5 +10,4 @@ console.log(`Use proxy ${REPEAT_COUNT} times`);
 for (let i = 1; i < REPEAT_COUNT; i++) {
     const response = realSubject.Request();
     console.log(response);
-
 }

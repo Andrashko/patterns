@@ -3,7 +3,12 @@ using System.Collections.Generic;
 
 namespace Behavioral.Memento
 {
-    class Originator
+    public interface IMementable
+    {
+        IMemento Save();
+        void Restore (IMemento memento);
+    } 
+    class Originator: IMementable
     {
         private string _state;
 
@@ -43,7 +48,8 @@ namespace Behavioral.Memento
                 throw new Exception("Unknown memento class " + memento.ToString());
             }
 
-            _state = memento.GetState();
+            // _state = memento.GetState();
+            _state = memento.State;
             Console.Write($"Originator: My state has changed to: {_state}");
         }
     }
@@ -52,7 +58,8 @@ namespace Behavioral.Memento
     {
         string GetName();
 
-        string GetState();
+        // string GetState();
+        string State { get; }
 
         DateTime GetDate();
     }
@@ -70,9 +77,13 @@ namespace Behavioral.Memento
             _date = DateTime.Now;
         }
 
-        public string GetState()
-        {
-            return _state;
+        // public string GetState()
+        // {
+        //     return _state;
+        // }
+
+        public string State {
+            get { return _state; }
         }
 
         public string GetName()
@@ -97,7 +108,7 @@ namespace Behavioral.Memento
 
         public Caretaker(Originator originator)
         {
-            this._originator = originator;
+            _originator = originator;
         }
 
         public void Backup()
@@ -125,7 +136,7 @@ namespace Behavioral.Memento
         {
             Console.WriteLine("Caretaker: Here's the list of mementos:");
 
-            foreach (var memento in this._mementos)
+            foreach (var memento in _mementos)
             {
                 Console.WriteLine(memento.GetName());
             }

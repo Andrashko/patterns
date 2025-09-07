@@ -203,7 +203,7 @@ namespace Test
             };
             PaymentProcessor processor = new PaymentProcessor();
             processor.strategies = new Dictionary<string, IPayment>(){
-                {"MASTER", new MasterCardPayment()},
+                {"MASTERCARD", new MasterCardPayment()},
                 {"VISA", new VisaPayment()}
             };
 
@@ -349,13 +349,13 @@ namespace Test
                 Console.WriteLine(node);
             Console.WriteLine("Breadth-First Search");
             var searchStrategy = new BreadthFirstSearch();
-            searchStrategy.StartNode = graph.Nodes[1];
+            searchStrategy.StartNode = graph.Nodes[0];
             graph.SearchStrategy = searchStrategy;
             foreach (Node node in graph)
                 Console.WriteLine(node);
             Console.WriteLine("Depth-First Search");
             var searchStrategy2 = new DepthFirstSearch();
-            searchStrategy2.StartNode = graph.Nodes[1];
+            searchStrategy2.StartNode = graph.Nodes[0];
             graph.SearchStrategy = searchStrategy2;
             foreach (Node node in graph)
                 Console.WriteLine(node);
@@ -388,7 +388,8 @@ namespace Test
             Invoker invoker = new Invoker();
             invoker.SetOnStart(new SimpleCommand("Say Hi!"));
             Receiver receiver = new Receiver();
-            // invoker.SetOnFinish(new ComplexCommand(receiver, "Send email", "Save report"));
+            // invoker.SetOnStart(new ComplexCommand(receiver, "Connecting", "Load cache"));
+            invoker.SetOnFinish(new ComplexCommand(receiver, "Send email", "Save report"));
             invoker.DoSomethingImportant();
         }
 
