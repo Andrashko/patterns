@@ -1,7 +1,10 @@
-from patterns._1_1_classic_singleton import ClassicSingleton
-from patterns._1_2_pythonic_singleton import pythonic_singleton, PythonicSingleton
-from patterns._1_3_metaclass_singleton import MetaclassSingleton
-from patterns._1_4_logger_singleton import LoggerSingleton
+from os import write
+from patterns._1_1_1_classic_singleton import ClassicSingleton
+from patterns._1_1_2_pythonic_singleton import pythonic_singleton, PythonicSingleton
+from patterns._1_1_3_metaclass_singleton import MetaclassSingleton
+from patterns._1_1_4_logger_singleton import LoggerSingleton
+from patterns._1_2_1_classic_fabric_method import Application, PDFApp, WordApp
+from patterns._1_2_2_new_fabric_method import application_fabric_method
 
 
 def test_classic_singleton() -> None:
@@ -48,3 +51,28 @@ def test_logger_singleton() -> None:
     logger1.log("other message to logger 1")
     logger1.show_log()
     logger2.show_log()
+
+
+def test_classic_fabric_method() -> None:
+    def test_document(app: Application) -> None:
+        app.open_document()
+
+    app: Application
+    choice: str = input("Choose word or pdf:")
+    if choice == "word":
+        app = WordApp()
+    elif choice == "pdf":
+        app = PDFApp()
+    else:
+        print("Error")
+        return
+    test_document(app)
+
+
+def test_new_fabric_method() -> None:
+    def test_document(app: Application) -> None:
+        app.open_document()
+
+    choice: str = input("Choose word or pdf:")
+    app: Application = application_fabric_method(choice)
+    test_document(app)
