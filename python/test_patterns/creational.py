@@ -6,6 +6,7 @@ from patterns._1_1_4_logger_singleton import LoggerSingleton
 from patterns._1_2_1_classic_fabric_method import Application, PDFApp, WordApp
 from patterns._1_2_2_new_fabric_method import application_fabric_method
 from patterns._1_2_3_auto_register_fabric_method import AutoRegisterApplicationFabricMethod
+from patterns._1_4_builder import Director, SomeBuilder, OtherBuilder
 
 
 def test_classic_singleton() -> None:
@@ -84,3 +85,13 @@ def test_auto_register_fabric_method() -> None:
     choice: str = input("Choose word or pdf:")
     app: Application = AutoRegisterApplicationFabricMethod.create(choice)
     test_document(app)
+
+
+def test_builder() -> None:
+    director: Director = Director(SomeBuilder())
+    print(director.build_empty_product())
+    print(director.build_example())
+    parts: list[str] = ["one", "two"]
+    print(director.build_from_parts(parts))
+    director._builder = OtherBuilder()
+    print(director.build_example())
