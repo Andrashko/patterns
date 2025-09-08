@@ -5,6 +5,7 @@ from patterns._1_1_3_metaclass_singleton import MetaclassSingleton
 from patterns._1_1_4_logger_singleton import LoggerSingleton
 from patterns._1_2_1_classic_fabric_method import Application, PDFApp, WordApp
 from patterns._1_2_2_new_fabric_method import application_fabric_method
+from patterns._1_2_3_auto_register_fabric_method import AutoRegisterApplicationFabricMethod
 
 
 def test_classic_singleton() -> None:
@@ -52,11 +53,14 @@ def test_logger_singleton() -> None:
     logger1.show_log()
     logger2.show_log()
 
+# спільна для декількох  тестів
+
+
+def test_document(app: Application) -> None:
+    app.open_document()
+
 
 def test_classic_fabric_method() -> None:
-    def test_document(app: Application) -> None:
-        app.open_document()
-
     app: Application
     choice: str = input("Choose word or pdf:")
     if choice == "word":
@@ -70,9 +74,13 @@ def test_classic_fabric_method() -> None:
 
 
 def test_new_fabric_method() -> None:
-    def test_document(app: Application) -> None:
-        app.open_document()
 
     choice: str = input("Choose word or pdf:")
     app: Application = application_fabric_method(choice)
+    test_document(app)
+
+
+def test_auto_register_fabric_method() -> None:
+    choice: str = input("Choose word or pdf:")
+    app: Application = AutoRegisterApplicationFabricMethod.create(choice)
     test_document(app)
