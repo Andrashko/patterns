@@ -1,4 +1,5 @@
 from os import write
+from tkinter import NO
 from patterns._1_1_1_classic_singleton import ClassicSingleton
 from patterns._1_1_2_pythonic_singleton import pythonic_singleton, PythonicSingleton
 from patterns._1_1_3_metaclass_singleton import MetaclassSingleton
@@ -7,6 +8,9 @@ from patterns._1_2_1_classic_fabric_method import Application, PDFApp, WordApp
 from patterns._1_2_2_new_fabric_method import application_fabric_method
 from patterns._1_2_3_auto_register_fabric_method import AutoRegisterApplicationFabricMethod
 from patterns._1_4_builder import Director, SomeBuilder, OtherBuilder
+from patterns._1_5_prototype import ObjectToCopy, InnerObjectToCopy
+from copy import copy, deepcopy
+from time import sleep
 
 
 def test_classic_singleton() -> None:
@@ -95,3 +99,27 @@ def test_builder() -> None:
     print(director.build_from_parts(parts))
     director._builder = OtherBuilder()
     print(director.build_example())
+
+
+def test_prototype() -> None:
+    print("====Assign===")
+    original_object: ObjectToCopy = ObjectToCopy()
+
+    bad_copy: ObjectToCopy = original_object
+    bad_copy.id = -1
+    print(original_object, bad_copy)
+
+    print("====shallow copy===")
+    original_object = ObjectToCopy()
+    shallow_copy: ObjectToCopy = copy(original_object)
+    shallow_copy.id = -1
+    shallow_copy.inner_object.name = "new name"
+    print(original_object, shallow_copy)
+
+    print("====Deep copy===")
+    original_object = ObjectToCopy()
+    sleep(1)
+    shallow_copy: ObjectToCopy = deepcopy(original_object)
+    shallow_copy.id = -1
+    shallow_copy.inner_object.name = "new name"
+    print(original_object, shallow_copy)
