@@ -12,11 +12,12 @@ class ClassicSingleton:
         return cls._instance
 
     def __init__(self) -> None:
-        if not hasattr(self, "_initialized"):
-            self._initialized = True
+        if hasattr(self, "_initialized"):
+            return
+        self._initialized: bool = True
             # ініціалізація бізнес логіки
-            self._random_number: int = randint(0, 100)
-            self._counter: int = 0
+        self._random_number: int = randint(0, 100)
+        self._counter: int = 0
     # бізнес логіка
 
     def print_self(self) -> None:
