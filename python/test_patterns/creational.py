@@ -1,5 +1,3 @@
-from os import write
-from tkinter import NO
 from patterns._1_1_1_classic_singleton import ClassicSingleton
 from patterns._1_1_2_pythonic_singleton import pythonic_singleton, PythonicSingleton
 from patterns._1_1_3_metaclass_singleton import MetaclassSingleton
@@ -7,8 +5,10 @@ from patterns._1_1_4_logger_singleton import LoggerSingleton
 from patterns._1_2_1_classic_fabric_method import Application, PDFApp, WordApp
 from patterns._1_2_2_new_fabric_method import application_fabric_method
 from patterns._1_2_3_auto_register_fabric_method import AutoRegisterApplicationFabricMethod
+from patterns._1_3_1_fabric import DatabaseFabric, SQLDatabaseFabric, AWSDatabaseFabric, Connector, Cursor
+from patterns._1_3_2_autoregister_fabric import AutoRegisterDatabaseFabric
 from patterns._1_4_builder import Director, SomeBuilder, OtherBuilder
-from patterns._1_5_prototype import ObjectToCopy, InnerObjectToCopy
+from patterns._1_5_prototype import ObjectToCopy
 from copy import copy, deepcopy
 from time import sleep
 
@@ -58,7 +58,7 @@ def test_logger_singleton() -> None:
     logger1.show_log()
     logger2.show_log()
 
-# спільна для декількох  тестів
+# спільна для декількох  тестів фабричних методів
 
 
 def test_document(app: Application) -> None:
@@ -89,6 +89,38 @@ def test_auto_register_fabric_method() -> None:
     choice: str = input("Choose word or pdf:")
     app: Application = AutoRegisterApplicationFabricMethod.create(choice)
     test_document(app)
+
+# спільна для декількох  тестів фабрик
+
+
+def test_database(fabric: DatabaseFabric) -> None:
+    OPTIONS = {
+        "option": 42
+    }
+    connector: Connector = fabric.create_connector(OPTIONS)
+    connector.connect()
+    cursor: Cursor = fabric.create_cursor(connector)
+    cursor.read()
+    cursor.write("test")
+    connector.disconnect()
+
+
+def test_fabric() -> None:
+    choice: str = input("select sql or aws:")
+    fabric: DatabaseFabric
+    if choice == "sql":
+        fabric = SQLDatabaseFabric()
+    elif choice == "aws":
+        fabric = AWSDatabaseFabric()
+    else:
+        raise ValueError(f"bad choice {choice}")
+    test_database(fabric)
+
+
+def test_auto_register_fabric() -> None:
+    choice: str = input("select sql or aws:")
+    fabric: DatabaseFabric = AutoRegisterDatabaseFabric.create(choice)
+    test_database(fabric)
 
 
 def test_builder() -> None:

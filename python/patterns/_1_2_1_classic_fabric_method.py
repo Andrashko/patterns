@@ -6,12 +6,12 @@ class Document(Protocol):
         ...
 
 
-class PDFDocument:
+class PDFDocument (Document):
     def print_info(self) -> None:
         print("This is a PDF document.")
 
 
-class WordDocument:
+class WordDocument (Document):
     def print_info(self) -> None:
         print("This is a Word document.")
 
