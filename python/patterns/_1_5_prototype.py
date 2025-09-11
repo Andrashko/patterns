@@ -1,7 +1,7 @@
 from copy import deepcopy
 from datetime import datetime
 from random import randint
-from typing import Self
+from typing import Self, Any
 from dataclasses import dataclass, field
 
 
@@ -17,7 +17,7 @@ class ObjectToCopy:
     created_at: datetime = field(default_factory=datetime.now)
     inner_object: InnerObjectToCopy = field(default_factory=InnerObjectToCopy)
 
-    def __deepcopy__(self, memo: dict) -> Self:
+    def __deepcopy__(self, memo: dict[int, Any]) -> Self:
         return type(self)(
             id=self.id,
             created_at=datetime.now(),

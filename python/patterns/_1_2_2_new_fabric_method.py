@@ -2,7 +2,7 @@ from typing import Any
 from patterns._1_2_1_classic_fabric_method import Application, WordApp, PDFApp
 
 
-APPLICATION_REGISTER: dict[str, Application] = {
+APPLICATION_REGISTER: dict[str, type[Application]] = {
     "word": WordApp,
     "pdf": PDFApp
 }

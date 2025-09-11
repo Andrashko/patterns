@@ -1,15 +1,17 @@
 from __future__ import annotations
-from typing import Any
+from typing import Any, TypeVar
 from random import randint
+
+T = TypeVar("T")
 
 
 class SingletonMeta(type):
-    _instances: dict[type, Any] = {}
+    _instances: dict[type[Any], Any] = {}
 
-    def __call__(cls, *args: Any, **kwargs: Any) -> Any:
-        if cls not in cls._instances:
-            cls._instances[cls] = super().__call__(*args, **kwargs)
-        return cls._instances[cls]
+    def __call__(cls: type[T], *args: Any, **kwargs: Any) -> T:
+        if cls not in SingletonMeta._instances:
+            SingletonMeta._instances[cls] = super().__call__(*args, **kwargs)
+        return SingletonMeta._instances[cls]
 
 
 class MetaclassSingleton (metaclass=SingletonMeta):

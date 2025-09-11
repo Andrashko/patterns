@@ -21,6 +21,9 @@ class Application(Protocol):
     def create_document(self) -> Document:
         ...
 
+    def open_document(self) -> None:
+        ...
+
 
 class PDFApp (Application):
     def create_document(self) -> Document:

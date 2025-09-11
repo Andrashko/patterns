@@ -99,7 +99,7 @@ def test_database(fabric: DatabaseFabric) -> None:
     }
     connector: Connector = fabric.create_connector(OPTIONS)
     connector.connect()
-    cursor: Cursor = fabric.create_cursor(connector)
+    cursor: Cursor[str] = fabric.create_cursor(connector)
     cursor.read()
     cursor.write("test")
     connector.disconnect()
@@ -129,7 +129,7 @@ def test_builder() -> None:
     print(director.build_example())
     parts: list[str] = ["one", "two"]
     print(director.build_from_parts(parts))
-    director._builder = OtherBuilder()
+    director.builder = OtherBuilder()
     print(director.build_example())
 
 

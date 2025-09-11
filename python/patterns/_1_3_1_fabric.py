@@ -1,13 +1,9 @@
-from os import write
-from typing import Protocol, TypeVar, Generic
+from typing import Protocol, TypeVar, Any
 
 T = TypeVar("T")
 
 
 class Connector (Protocol):
-    def __init__(self, options: dict):
-        self._options = options
-
     def connect(self) -> bool:
         ...
 
@@ -15,7 +11,12 @@ class Connector (Protocol):
         ...
 
 
-class SQLConnector (Connector):
+class BaseConnector(Connector):
+    def __init__(self, options: dict[str, Any]):
+        self._options: dict[str, Any] = options
+
+
+class SQLConnector (BaseConnector):
     def connect(self) -> bool:
         print("Connection to SQL database...")
         return True
@@ -25,7 +26,7 @@ class SQLConnector (Connector):
         return True
 
 
-class AWSConnector (Connector):
+class AWSConnector (BaseConnector):
     def connect(self) -> bool:
         print("Connection to AWS...")
         return True
@@ -36,9 +37,6 @@ class AWSConnector (Connector):
 
 
 class Cursor (Protocol[T]):
-    def __init__(self, connector: Connector):
-        super().__init__()
-        self._connector = connector
 
     def read(self) -> T:
         ...
@@ -47,7 +45,13 @@ class Cursor (Protocol[T]):
         ...
 
 
-class SQLCursor (Cursor):
+class BaseCursor(Cursor[str]):
+    def __init__(self, connector: Connector):
+        super().__init__()
+        self._connector = connector
+
+
+class SQLCursor (BaseCursor):
     def read(self) -> str:
         print("SELECT * FROM table")
         return "some data"
@@ -56,7 +60,7 @@ class SQLCursor (Cursor):
         print(f"INSERT {data} INTO table")
 
 
-class AWSCursor (Cursor):
+class AWSCursor (BaseCursor):
     def read(self) -> str:
         print("Loading data")
         return "some data"
@@ -66,15 +70,15 @@ class AWSCursor (Cursor):
 
 
 class DatabaseFabric (Protocol):
-    def create_connector(self, options: dict) -> Connector:
+    def create_connector(self, options: dict[str, Any]) -> Connector:
         ...
 
-    def create_cursor(self, connector: Connector) -> Cursor:
+    def create_cursor(self, connector: Connector) -> Cursor[Any]:
         ...
 
 
 class SQLDatabaseFabric (DatabaseFabric):
-    def create_connector(self, options: dict) -> SQLConnector:
+    def create_connector(self, options: dict[str, Any]) -> SQLConnector:
         return SQLConnector(options)
 
     def create_cursor(self, connector: Connector) -> SQLCursor:
@@ -82,7 +86,7 @@ class SQLDatabaseFabric (DatabaseFabric):
 
 
 class AWSDatabaseFabric (DatabaseFabric):
-    def create_connector(self, options: dict) -> AWSConnector:
+    def create_connector(self, options: dict[str, Any]) -> AWSConnector:
         return AWSConnector(options)
 
     def create_cursor(self, connector: Connector) -> AWSCursor:

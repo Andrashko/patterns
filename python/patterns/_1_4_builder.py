@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Protocol
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class BuildProduct:
@@ -60,25 +60,25 @@ class SomeBuilder(Builder):
 
 class OtherBuilder(SomeBuilder):
     def set_stamp(self) -> Builder:
-        self._product.add_part(f"<{datetime.utcnow()}>")
+        self._product.add_part(f"<{datetime.now(timezone.utc)}>")
         return self
 
 
 class Director:
     def __init__(self, builder: Builder) -> None:
-        self._builder: Builder = builder
-        self._builder.reset()
+        self.builder: Builder = builder
+        self.builder.reset()
 
     def build_empty_product(self) -> BuildProduct:
-        return self._builder.get_product()
+        return self.builder.get_product()
 
     def build_from_parts(self, parts: list[str]) -> BuildProduct:
         for part in parts:
-            self._builder.add_part(part)
-        return self._builder.get_product()
+            self.builder.add_part(part)
+        return self.builder.get_product()
 
     def build_example(self) -> BuildProduct:
-        return self._builder\
+        return self.builder\
             .set_name("example")\
             .add_part("part one")\
             .add_part("part two")\

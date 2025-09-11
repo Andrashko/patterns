@@ -1,7 +1,6 @@
 from __future__ import annotations
 from io import TextIOWrapper
 from datetime import datetime
-from typing import Any
 from patterns._1_1_3_metaclass_singleton import SingletonMeta
 
 
