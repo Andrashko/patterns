@@ -1,11 +1,13 @@
 from typing import Any
-from patterns._1_2_1_classic_fabric_method import Application, WordApp, PDFApp
+from patterns._1_2_1_classic_fabric_method import Application, WordApp, PDFApp, TxtApp
 
 
 APPLICATION_REGISTER: dict[str, type[Application]] = {
     "word": WordApp,
-    "pdf": PDFApp
+    "pdf": PDFApp,
+    "txt": TxtApp
 }
+
 
 
 def application_fabric_method(kind: str, **kwargs: Any) -> Application:

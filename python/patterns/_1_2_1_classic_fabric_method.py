@@ -15,6 +15,10 @@ class WordDocument (Document):
     def print_info(self) -> None:
         print("This is a Word document.")
 
+class TxtDocument (Document):
+    def print_info(self) -> None:
+        print("This is a TXT document.")
+
 
 # Фабричні методи
 class Application(Protocol):
@@ -37,6 +41,16 @@ class PDFApp (Application):
 class WordApp (Application):
     def create_document(self) -> Document:
         return WordDocument()
+
+    def open_document(self) -> None:
+        doc = self.create_document()
+        doc.print_info()
+
+
+
+class TxtApp (Application):
+    def create_document(self) -> Document:
+        return TxtDocument()
 
     def open_document(self) -> None:
         doc = self.create_document()
