@@ -4,11 +4,8 @@ T = TypeVar("T")
 
 
 class Connector (Protocol):
-    def connect(self) -> bool:
-        ...
-
-    def disconnect(self) -> bool:
-        ...
+    def connect(self) -> bool: ...
+    def disconnect(self) -> bool: ...
 
 
 class BaseConnector(Connector):
@@ -37,12 +34,8 @@ class AWSConnector (BaseConnector):
 
 
 class Cursor (Protocol[T]):
-
-    def read(self) -> T:
-        ...
-
-    def write(self, data: T):
-        ...
+    def read(self) -> T: ...
+    def write(self, data: T): ...
 
 
 class BaseCursor(Cursor[str]):
@@ -70,11 +63,8 @@ class AWSCursor (BaseCursor):
 
 
 class DatabaseFabric (Protocol):
-    def create_connector(self, options: dict[str, Any]) -> Connector:
-        ...
-
-    def create_cursor(self, connector: Connector) -> Cursor[Any]:
-        ...
+    def create_connector(self, options: dict[str, Any]) -> Connector: ...
+    def create_cursor(self, connector: Connector) -> Cursor[Any]: ...
 
 
 class SQLDatabaseFabric (DatabaseFabric):

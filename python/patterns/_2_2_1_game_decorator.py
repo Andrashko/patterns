@@ -4,14 +4,10 @@ from math import floor
 
 
 class IDamageActor(Protocol):
-    def take_damage(self, damage: int) -> None:
-        ...
-
-    def hit(self, other: IDamageActor) -> None:
-        ...
-
-    def is_dead(self) -> bool:
-        ...
+    def take_damage(self, damage: int) -> None: ...
+    def hit(self, other: IDamageActor) -> None: ...
+    def is_dead(self) -> bool: ...
+    def get_attack_damage(self) -> int: ...
 
 
 class Character  (IDamageActor):
@@ -23,15 +19,18 @@ class Character  (IDamageActor):
     def take_damage(self, damage: int) -> None:
         self.health_points -= damage
         print(
-            f"{self.name} take a hit {damage}. {self.health_points} healthpoits left")
+            f"{self.name} take a hit {damage}. {self.health_points} health points left")
         if self.is_dead():
             self.die()
 
     def hit(self, other: IDamageActor) -> None:
-        other.take_damage(self.attack_damage)
+        other.take_damage(self.get_attack_damage())
 
     def is_dead(self) -> bool:
         return self.health_points <= 0
+
+    def get_attack_damage(self) -> int:
+        return self.attack_damage
 
     def die(self) -> None:
         print(f"{self.name}  is dead!")
@@ -50,15 +49,31 @@ class CharacterBuff (IDamageActor):
     def is_dead(self) -> bool:
         return self._damage_actor.is_dead()
 
+    def get_attack_damage(self) -> int:
+        return self._damage_actor.get_attack_damage()
+
     def undecorate(self) -> IDamageActor:
         return self._damage_actor
 
 
-class DefenceBuff(CharacterBuff):
-    def __init__(self, damage_actor: IDamageActor, defence_percent: int) -> None:
+class DefensiveBuff(CharacterBuff):
+    def __init__(self, damage_actor: IDamageActor, defensive_percent: int) -> None:
         super().__init__(damage_actor)
-        self._reduce_damage_coefficient: float = 1 - defence_percent / 100.0
+        self._reduce_damage_coefficient: float = 1 - defensive_percent / 100.0
 
     def take_damage(self, damage: int) -> None:
         reduced_damage: int = floor(damage * self._reduce_damage_coefficient)
         super().take_damage(reduced_damage)
+
+
+class AttackBuff(CharacterBuff):
+    def __init__(self, damage_actor: IDamageActor, attack_percent: int) -> None:
+        super().__init__(damage_actor)
+        self._increase_damage_coefficient: float = 1 + attack_percent / 100.0
+
+    def hit(self, other: IDamageActor) -> None:
+        other.take_damage(self.get_attack_damage())
+
+    def get_attack_damage(self) -> int:
+        return floor(super().get_attack_damage() *
+                     self._increase_damage_coefficient)

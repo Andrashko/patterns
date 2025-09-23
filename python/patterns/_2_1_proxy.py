@@ -3,8 +3,7 @@ from typing import Protocol
 
 
 class IRequest (Protocol):
-    def request(self) -> str:
-        ...
+    def request(self) -> str: ...
 
 
 class RequestManager(IRequest):

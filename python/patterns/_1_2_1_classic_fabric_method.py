@@ -2,8 +2,7 @@ from typing import Protocol
 
 
 class Document(Protocol):
-    def print_info(self) -> None:
-        ...
+    def print_info(self) -> None: ...
 
 
 class PDFDocument (Document):
@@ -15,6 +14,7 @@ class WordDocument (Document):
     def print_info(self) -> None:
         print("This is a Word document.")
 
+
 class TxtDocument (Document):
     def print_info(self) -> None:
         print("This is a TXT document.")
@@ -22,11 +22,8 @@ class TxtDocument (Document):
 
 # Фабричні методи
 class Application(Protocol):
-    def create_document(self) -> Document:
-        ...
-
-    def open_document(self) -> None:
-        ...
+    def create_document(self) -> Document: ...
+    def open_document(self) -> None: ...
 
 
 class PDFApp (Application):
@@ -45,7 +42,6 @@ class WordApp (Application):
     def open_document(self) -> None:
         doc = self.create_document()
         doc.print_info()
-
 
 
 class TxtApp (Application):
