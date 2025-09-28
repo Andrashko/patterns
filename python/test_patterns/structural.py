@@ -3,6 +3,7 @@ from patterns._2_2_1_game_decorator import AttackBuff, IDamageActor, Character, 
 from patterns._2_2_2_pythonic_proxy_decorator import RequestManagerPythonicProxy
 from patterns._2_2_3_singleton_decorator import LoggerSingletonDecorator
 from patterns._2_3_2_winapi_adapter import WinApiAdapter
+from patterns._2_3_1_adapter import Adaptee, Adapter
 
 
 def test_proxy() -> None:
@@ -52,3 +53,10 @@ def test_winapi_adapter() -> None:
     process: str = "notepad.exe"
     adapter = WinApiAdapter()
     adapter.create_process(process)
+
+
+def test_adapter() -> None:
+    old_lib: Adaptee = Adaptee()
+    print(old_lib.get_response("Test", 4, True))
+    new_lib: Adapter = Adapter(old_lib)
+    print(new_lib.get_response("Test"))
