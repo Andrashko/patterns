@@ -17,7 +17,7 @@ def main():
 
     # test_proxy()
     # test_game_decorator()
-    test_proxy_decorator()
+    # test_proxy_decorator()
     ...
 
 

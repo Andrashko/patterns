@@ -6,7 +6,7 @@ class IRequest (Protocol):
     def request(self) -> str: ...
 
 
-class RequestManager(IRequest):
+class RequestManager:  # (IRequest):
     def __init__(self, ip: str) -> None:
         self._ip: str = ip
 
@@ -14,7 +14,7 @@ class RequestManager(IRequest):
         return f"Response from {self._ip}"
 
 
-class RequestManagerProxy(IRequest):
+class RequestManagerProxy:  # (IRequest):
     def __init__(self, real_request_manager: IRequest) -> None:
         self._request_manager: IRequest = real_request_manager
 

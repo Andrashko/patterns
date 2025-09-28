@@ -5,17 +5,17 @@ class Document(Protocol):
     def print_info(self) -> None: ...
 
 
-class PDFDocument (Document):
+class PDFDocument:  # (Document):
     def print_info(self) -> None:
         print("This is a PDF document.")
 
 
-class WordDocument (Document):
+class WordDocument:  # (Document):
     def print_info(self) -> None:
         print("This is a Word document.")
 
 
-class TxtDocument (Document):
+class TxtDocument:  # (Document):
     def print_info(self) -> None:
         print("This is a TXT document.")
 
@@ -26,7 +26,7 @@ class Application(Protocol):
     def open_document(self) -> None: ...
 
 
-class PDFApp (Application):
+class PDFApp:  # (Application):
     def create_document(self) -> Document:
         return PDFDocument()
 
@@ -35,7 +35,7 @@ class PDFApp (Application):
         doc.print_info()
 
 
-class WordApp (Application):
+class WordApp:  # (Application):
     def create_document(self) -> Document:
         return WordDocument()
 
@@ -44,7 +44,7 @@ class WordApp (Application):
         doc.print_info()
 
 
-class TxtApp (Application):
+class TxtApp:  # (Application):
     def create_document(self) -> Document:
         return TxtDocument()
 

@@ -87,7 +87,7 @@ def test_new_fabric_method() -> None:
 
 def test_auto_register_fabric_method() -> None:
     choice: str = input("Choose word or pdf:")
-    app: Application = AutoRegisterApplicationFabricMethod.create(choice)
+    app: AutoRegisterApplicationFabricMethod = AutoRegisterApplicationFabricMethod.create(choice)
     test_document(app)
 
 # спільна для декількох  тестів фабрик

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Protocol
+from typing import Protocol, Self
 from datetime import datetime, timezone
 
 
@@ -16,27 +16,27 @@ class BuildProduct:
 
 
 class Builder(Protocol):
-    def add_part(self, part: str) -> Builder: ...
-    def set_stamp(self) -> Builder: ...
-    def set_name(self, name: str) -> Builder: ...
+    def add_part(self, part: str) -> Self: ...
+    def set_stamp(self) -> Self: ...
+    def set_name(self, name: str) -> Self: ...
     def get_product(self) -> BuildProduct: ...
     def reset(self) -> None: ...
 
 
-class SomeBuilder(Builder):
+class SomeBuilder:#(Builder):
     def __init__(self) -> None:
         super().__init__()
         self._product: BuildProduct = BuildProduct()
 
-    def add_part(self, part: str) -> Builder:
+    def add_part(self, part: str) -> Self:
         self._product.add_part(part)
         return self
 
-    def set_stamp(self) -> Builder:
+    def set_stamp(self) -> Self:
         self._product.add_part(f"Date stamp: {datetime.now()}")
         return self
 
-    def set_name(self, name: str) -> Builder:
+    def set_name(self, name: str) -> Self:
         self._product.name = name
         return self
 
@@ -50,7 +50,7 @@ class SomeBuilder(Builder):
 
 
 class OtherBuilder(SomeBuilder):
-    def set_stamp(self) -> Builder:
+    def set_stamp(self) -> Self:
         self._product.add_part(f"<{datetime.now(timezone.utc)}>")
         return self
 
@@ -61,6 +61,7 @@ class Director:
         self.builder.reset()
 
     def build_empty_product(self) -> BuildProduct:
+        self.builder.reset()
         return self.builder.get_product()
 
     def build_from_parts(self, parts: list[str]) -> BuildProduct:

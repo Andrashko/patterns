@@ -8,7 +8,7 @@ class Connector (Protocol):
     def disconnect(self) -> bool: ...
 
 
-class BaseConnector(Connector):
+class BaseConnector:  # (Connector):
     def __init__(self, options: dict[str, Any]):
         self._options: dict[str, Any] = options
 
@@ -38,7 +38,7 @@ class Cursor (Protocol[T]):
     def write(self, data: T): ...
 
 
-class BaseCursor(Cursor[str]):
+class BaseCursor:  # (Cursor[str]):
     def __init__(self, connector: Connector):
         super().__init__()
         self._connector = connector
@@ -67,7 +67,7 @@ class DatabaseFabric (Protocol):
     def create_cursor(self, connector: Connector) -> Cursor[Any]: ...
 
 
-class SQLDatabaseFabric (DatabaseFabric):
+class SQLDatabaseFabric:  # (DatabaseFabric):
     def create_connector(self, options: dict[str, Any]) -> SQLConnector:
         return SQLConnector(options)
 
@@ -75,7 +75,7 @@ class SQLDatabaseFabric (DatabaseFabric):
         return SQLCursor(connector)
 
 
-class AWSDatabaseFabric (DatabaseFabric):
+class AWSDatabaseFabric:  # (DatabaseFabric):
     def create_connector(self, options: dict[str, Any]) -> AWSConnector:
         return AWSConnector(options)
 

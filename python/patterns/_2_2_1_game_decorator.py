@@ -10,7 +10,7 @@ class IDamageActor(Protocol):
     def get_attack_damage(self) -> int: ...
 
 
-class Character  (IDamageActor):
+class Character:  # (IDamageActor):
     def __init__(self, name: str, health_points: int, attack_damage: int) -> None:
         self.name: str = name
         self.health_points: int = health_points
@@ -36,7 +36,7 @@ class Character  (IDamageActor):
         print(f"{self.name}  is dead!")
 
 
-class CharacterBuff (IDamageActor):
+class CharacterBuff:  # (IDamageActor):
     def __init__(self, damage_actor: IDamageActor) -> None:
         self._damage_actor: IDamageActor = damage_actor
 
