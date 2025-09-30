@@ -8,4 +8,8 @@
         <Id>2</Id>
         <Title>It</Title>
     </Book>
+    <Book>
+        <Id>3</Id>
+        <Title>Design Patterns: Elements of Reusable Object-Oriented Software</Title>
+    </Book>
 </BookList>

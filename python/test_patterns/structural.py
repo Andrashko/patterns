@@ -1,9 +1,11 @@
+from typing import Optional
 from patterns._2_1_proxy import IRequest, RequestManager, RequestManagerProxy
 from patterns._2_2_1_game_decorator import AttackBuff, IDamageActor, Character,  DefensiveBuff
 from patterns._2_2_2_pythonic_proxy_decorator import RequestManagerPythonicProxy
 from patterns._2_2_3_singleton_decorator import LoggerSingletonDecorator
 from patterns._2_3_2_winapi_adapter import WinApiAdapter
 from patterns._2_3_1_adapter import Adaptee, Adapter
+from patterns._2_4_facade import ArtItem, ArtFacade
 
 
 def test_proxy() -> None:
@@ -60,3 +62,13 @@ def test_adapter() -> None:
     print(old_lib.get_response("Test", 4, True))
     new_lib: Adapter = Adapter(old_lib)
     print(new_lib.get_response("Test"))
+
+
+def test_facade() -> None:
+    TYPES: list[str] = ["music", "movie", "tvshow", "book"]
+    facade: ArtFacade = ArtFacade()
+    for item_type in TYPES:
+        item: Optional[ArtItem] = facade.get_item(item_type, 1)
+        if item is None:
+            raise ValueError(f"{item_type} with id {id} not found")
+        print(f"{item_type} : {item.title}")
