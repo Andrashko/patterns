@@ -18,10 +18,10 @@ def main():
     # test_proxy()
     # test_game_decorator()
     # test_proxy_decorator()
-    # test_logger_singleton_decorator()
+    test_logger_singleton_decorator()
     # test_winapi_adapter()
     # test_adapter()
-    test_facade()
+    # test_facade()
     ...
 
 

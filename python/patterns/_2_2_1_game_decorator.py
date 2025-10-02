@@ -59,6 +59,8 @@ class CharacterBuff:  # (IDamageActor):
 class DefensiveBuff(CharacterBuff):
     def __init__(self, damage_actor: IDamageActor, defensive_percent: int) -> None:
         super().__init__(damage_actor)
+        if defensive_percent < 0 or defensive_percent > 100:
+            raise ValueError("Percent must be 0..100%")
         self._reduce_damage_coefficient: float = 1 - defensive_percent / 100.0
 
     def take_damage(self, damage: int) -> None:
@@ -69,6 +71,8 @@ class DefensiveBuff(CharacterBuff):
 class AttackBuff(CharacterBuff):
     def __init__(self, damage_actor: IDamageActor, attack_percent: int) -> None:
         super().__init__(damage_actor)
+        if attack_percent < 0 or attack_percent > 100:
+            raise ValueError("Percent must be 0..100%")
         self._increase_damage_coefficient: float = 1 + attack_percent / 100.0
 
     def hit(self, other: IDamageActor) -> None:
