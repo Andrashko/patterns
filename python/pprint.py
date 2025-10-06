@@ -5,23 +5,38 @@ class Symbol:
 
 class One(Symbol):
     def __init__(self) -> None:
-        self.template: list[str] = [
-            "***  ", "  *  ",  "  *  ", "  *  ", "*****"]
+        self.template = [
+            "***  ",
+            "  *  ",
+            "  *  ",
+            "  *  ",
+            "*****"]
 
+class Two(Symbol):
+    def __init__(self) -> None:
+        self.template = [
+            "*****",
+            "    *",
+            "*****",
+            "*    ",
+            "*****"]
 
-class Number:
+class ConsoleSymbolNumber:
     def __init__(self, value: str) -> None:
         self.symbols: list[Symbol] = []
         for digit in value:
             if digit == "1":
                 self.symbols.append(One())
+            elif digit == "2":
+                self.symbols.append(Two())
+
 
     def print(self) -> None:
         for row in range(5):
             string: str = ""
             for symbol in self.symbols:
-                string += symbol.template[row]
+                string += symbol.template[row] + " "
             print(string)
 
 
-Number("1111").print()
+ConsoleSymbolNumber("12112").print()

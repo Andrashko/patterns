@@ -6,6 +6,7 @@ from patterns._2_2_3_singleton_decorator import LoggerSingletonDecorator
 from patterns._2_3_2_winapi_adapter import WinApiAdapter
 from patterns._2_3_1_adapter import Adaptee, Adapter
 from patterns._2_4_facade import ArtItem, ArtFacade
+from patterns._2_6_composite import CompositeComponent, MyFile, Folder
 
 
 def test_proxy() -> None:
@@ -72,3 +73,28 @@ def test_facade() -> None:
         if item is None:
             raise ValueError(f"{item_type} with id {id} not found")
         print(f"{item_type} : {item.title}")
+
+
+def test_composite() -> None:
+    file: CompositeComponent = MyFile("new", "cs")
+    folder: CompositeComponent = Folder("Project")
+    folder\
+        .add(MyFile("Project", "csproj"))\
+        .add(MyFile("Program", "cs"))\
+        .add(Folder("bin")
+             .add(MyFile("Program", "exe"))
+             .add(MyFile("config", "json"))
+             .add(file)
+             )\
+        .add(MyFile("", "gitignore"))\
+        .add(MyFile("README", "md"))\
+        .add(Folder("git"))\
+        .add(file)
+
+    print(folder.to_string(0))
+    folder.remove(file)
+    print(f"File {file} was removed")
+    print(folder.to_string(0))
+    folder.sort()
+    print("order by name")
+    print(folder.to_string(0))
