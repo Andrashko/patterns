@@ -7,6 +7,10 @@ from patterns._2_3_2_winapi_adapter import WinApiAdapter
 from patterns._2_3_1_adapter import Adaptee, Adapter
 from patterns._2_4_facade import ArtItem, ArtFacade
 from patterns._2_6_composite import CompositeComponent, MyFile, Folder
+from patterns._2_7_flyweight import Car, Flyweight, FlyweightFactoryMethod
+import gc
+import psutil
+import os
 
 
 def test_proxy() -> None:
@@ -98,3 +102,127 @@ def test_composite() -> None:
     folder.sort()
     print("order by name")
     print(folder.to_string(0))
+
+
+def test_flyweight() -> None:
+    factory: FlyweightFactoryMethod = FlyweightFactoryMethod(
+        Car(company="Chevrolet", model="Camaro"),
+        Car(company="Mercedes Benz", model="C300"),
+        Car(company="BMW", model="M5"),
+        Car(company="BMW", model="X6")
+    )
+    factory.print_shared_states()
+    cars: list[Flyweight] = []
+
+    def add_car_to_list(factory: FlyweightFactoryMethod, car: Car) -> None:
+        cars.append(factory.to_flyweight(car))
+
+    add_car_to_list(factory,  Car
+                    (
+                        number="CL234IR",
+                        owner="Jon Snow",
+                        company="BMW"*250,
+                        model="M5"*250,
+                        color="Red"
+                    ))
+
+    add_car_to_list(factory,  Car
+                    (
+                        number="CL234IR",
+                        owner="James Doe",
+                        company="Skoda",
+                        model="Octavia",
+                        color="Red"
+                    ))
+
+    add_car_to_list(factory,  Car
+                    (
+                        number="CR123IR",
+                        owner="Jon Doe",
+                        company="Skoda",
+                        model="Octavia",
+                        color="Black"
+                    ))
+    factory.print_shared_states()
+    print("List of cars:")
+    for car in cars:
+        print(car.to_object())
+
+
+def test_flyweight_memory_usage() -> None:
+    def memory_usage_mb() -> float:
+        process = psutil.Process(os.getpid())
+        return process.memory_info().rss / 1024**2
+
+    def fresh_str(string: str) -> str:
+        return string.encode().decode()
+
+    print(f"No data sructure use {memory_usage_mb()} Mb ")
+    COUNT: int = 1_000_000
+    cars: list[Car] = []
+    factory = FlyweightFactoryMethod()
+    car_flyweights: list[Flyweight] = []
+    for i in range(COUNT):
+        cars.append(
+            Car(
+                number=f"AB{i}CD",
+                owner="Jon Doe",
+                company=fresh_str("Skoda"),
+                model=fresh_str("Fabia"),
+                color="Black"
+            )
+        )
+    print(f"list of {COUNT} cars use {memory_usage_mb()} Mb ")
+    cars = []
+    gc.collect()
+    print(f"after clear use {memory_usage_mb()} Mb ")
+    for i in range(COUNT):
+        car_flyweights.append(
+            factory.to_flyweight(
+                Car(
+                    number=f"AB{i}CD",
+                    owner="Jon Doe",
+                    company=fresh_str("Skoda"),
+                    model=fresh_str("Fabia"),
+                    color="Black"
+                )
+            )
+        )
+    print(
+        f"list of {COUNT} cars flyweights use {memory_usage_mb()} Mb ")
+    car_flyweights = []
+    gc.collect()
+    print(f"after clear use {memory_usage_mb()} Mb ")
+
+    TIMES: int = 50
+    company: str = "Skoda"*TIMES
+    model: str = "Fabia"*TIMES
+    for i in range(COUNT):
+        cars.append(
+            Car(
+                number=f"AB{i}CD",
+                owner="Jon Doe",
+                company=fresh_str(company),
+                model=fresh_str(model),
+                color="Black"
+            )
+        )
+    print(f"list of {COUNT} cars use {memory_usage_mb()} Mb ")
+    cars = []
+    gc.collect()
+    print(f"after clear use {memory_usage_mb()} Mb ")
+    for i in range(COUNT):
+        car_flyweights.append(
+            factory.to_flyweight(
+                Car(
+                    number=f"AB{i}CD",
+                    owner="Jon Doe",
+                    company=fresh_str(company),
+                    model=fresh_str(model),
+                    color="Black"
+                )
+            )
+        )
+    print(
+        f"list of {COUNT} cars flyweights use {memory_usage_mb()} Mb ")
+    car_flyweights = []
