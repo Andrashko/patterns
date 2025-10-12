@@ -1,0 +1,17 @@
+.small-widget {
+    background-color: aqua;
+    border: 1px solid black;
+    width: 30%;
+}
+
+.middle-widget {
+    background-color: bisque;
+    border: 1px solid black;
+    width: 50%;
+}
+
+.big-widget {
+    background-color: darkorange;
+    border: 1px solid black;
+    width: 100%;
+}

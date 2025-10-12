@@ -1,16 +1,74 @@
 from typing import Optional
+import gc
+import psutil
+import os
+from flask import Flask
 from patterns._2_1_proxy import IRequest, RequestManager, RequestManagerProxy
 from patterns._2_2_1_game_decorator import AttackBuff, IDamageActor, Character,  DefensiveBuff
 from patterns._2_2_2_pythonic_proxy_decorator import RequestManagerPythonicProxy
 from patterns._2_2_3_singleton_decorator import LoggerSingletonDecorator
-from patterns._2_3_2_winapi_adapter import WinApiAdapter
+from patterns._2_3_2_winapi_adapter import WinApiAdapter, PROCESS_INFORMATION
 from patterns._2_3_1_adapter import Adaptee, Adapter
 from patterns._2_4_facade import ArtItem, ArtFacade
+from patterns._2_5_1_no_bridge import Widget, Book, BookSmallWidget, BookMiddleWidget, BookBigWidget, Song, SongBigWidget, SongMiddleWidget, SongSmallWidget
+from patterns._2_5_2_bridge import BigWidgetAbstraction, MiddleWidgetAbstraction, SmallWidgetAbstraction, SongWidgetData, BookWidgetData, WidgetAbstraction, WidgetDataRealisation
 from patterns._2_6_composite import CompositeComponent, MyFile, Folder
 from patterns._2_7_flyweight import Car, Flyweight, FlyweightFactoryMethod
-import gc
-import psutil
-import os
+
+
+def test_bridge() -> None:
+    book: Book = Book(
+        title="Шаблони проєктування: Елементи повторно використовуваного об'єктно-орієнтованого програмного забезпечення",
+        abstracts="Книга 1994 року з програмної інженерії, в якій запропоновані і описані архітектурні рішення деяких частих проблем у проєктуванні ПЗ",
+    )
+    song: Song = Song(
+        name="Вставай!",
+        text="Вставай! Пий чай з молоком, Молися на теплий душ!"
+    )
+    widgets: list[Widget] = [
+        BookSmallWidget(book),
+        BookMiddleWidget(book),
+        BookBigWidget(book),
+        SongSmallWidget(song),
+        SongMiddleWidget(song),
+        SongBigWidget(song)
+    ]
+
+    bridge_widgets: list[WidgetAbstraction] = [
+        SmallWidgetAbstraction(),
+        MiddleWidgetAbstraction(),
+        BigWidgetAbstraction(),
+    ]
+    widget_data: list[WidgetDataRealisation] = [
+        BookWidgetData(book),
+        SongWidgetData(song)
+    ]
+
+    app: Flask = Flask("test", static_folder="./python/static")
+
+    @app.get("/")
+    def home() -> str:
+        return f"""
+        <html>
+            <head>
+                 <link rel="stylesheet" href="static/style.css">
+            </head>
+            <body>
+                <h2>No Bridge</h2>
+                {
+            "\n".join([
+                widget.render() for widget in widgets
+            ])
+        }
+                <h2>No Bridge</h2>
+                {
+            "\n".join([widget.render(data)
+                      for widget in bridge_widgets for data in widget_data])
+        }
+            <body>
+        </html>    
+        """
+    app.run()
 
 
 def test_proxy() -> None:
@@ -59,7 +117,10 @@ def test_logger_singleton_decorator() -> None:
 def test_winapi_adapter() -> None:
     process: str = "notepad.exe"
     adapter = WinApiAdapter()
-    adapter.create_process(process)
+    pi: Optional[PROCESS_INFORMATION] = adapter.create_process(process)
+    if pi:
+        print(f"{process} was lunched with id  {pi.dwProcessId}")
+    adapter.create_process("calc.exe")
 
 
 def test_adapter() -> None:
@@ -121,8 +182,8 @@ def test_flyweight() -> None:
                     (
                         number="CL234IR",
                         owner="Jon Snow",
-                        company="BMW"*250,
-                        model="M5"*250,
+                        company="BMW",
+                        model="M5",
                         color="Red"
                     ))
 
@@ -157,7 +218,7 @@ def test_flyweight_memory_usage() -> None:
     def fresh_str(string: str) -> str:
         return string.encode().decode()
 
-    print(f"No data sructure use {memory_usage_mb()} Mb ")
+    print(f"No data structure use {memory_usage_mb()} Mb ")
     COUNT: int = 1_000_000
     cars: list[Car] = []
     factory = FlyweightFactoryMethod()

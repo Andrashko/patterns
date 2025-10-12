@@ -22,4 +22,4 @@ class Adapter:  # (ITarget):
     def get_response(self, request_text: str) -> str:
         response: str = self._adaptee.get_response(
             request_text, len(request_text), True)
-        return f"This is adapted respose{ response}"
+        return f"This is adapted response { response}"
