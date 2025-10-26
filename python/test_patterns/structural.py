@@ -60,10 +60,10 @@ def test_bridge() -> None:
                 widget.render() for widget in widgets
             ])
         }
-                <h2>No Bridge</h2>
+                <h2>with Bridge</h2>
                 {
             "\n".join([widget.render(data)
-                      for widget in bridge_widgets for data in widget_data])
+                      for data in widget_data for widget in bridge_widgets ])
         }
             <body>
         </html>    
@@ -228,8 +228,8 @@ def test_flyweight_memory_usage() -> None:
             Car(
                 number=f"AB{i}CD",
                 owner="Jon Doe",
-                company=fresh_str("Skoda"),
-                model=fresh_str("Fabia"),
+                company="Skoda",
+                model="Fabia",
                 color="Black"
             )
         )
@@ -243,8 +243,8 @@ def test_flyweight_memory_usage() -> None:
                 Car(
                     number=f"AB{i}CD",
                     owner="Jon Doe",
-                    company=fresh_str("Skoda"),
-                    model=fresh_str("Fabia"),
+                    company="Skoda",
+                    model="Fabia",
                     color="Black"
                 )
             )
@@ -263,8 +263,8 @@ def test_flyweight_memory_usage() -> None:
             Car(
                 number=f"AB{i}CD",
                 owner="Jon Doe",
-                company=fresh_str(company),
-                model=fresh_str(model),
+                company=company,
+                model=model,
                 color="Black"
             )
         )
@@ -278,8 +278,8 @@ def test_flyweight_memory_usage() -> None:
                 Car(
                     number=f"AB{i}CD",
                     owner="Jon Doe",
-                    company=fresh_str(company),
-                    model=fresh_str(model),
+                    company=company,
+                    model=model,
                     color="Black"
                 )
             )

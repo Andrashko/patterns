@@ -18,7 +18,7 @@ namespace Behavioral.Strategy
 
         public void DoSomeBusinessLogic()
         {
-            Console.WriteLine("Context: Change data using the strategy");
+            Console.WriteLine();
             List<string> data = new List<string> { "a", "b", "e", "c", "d", };
             List<string> result = _strategy.DoAlgorithm(data);
 
