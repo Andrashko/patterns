@@ -4,6 +4,8 @@ from patterns._3_1_strategy import SortStrategy, ReverseSortStrategy, Capitalize
 from patterns._3_1_2_payment_strategy import Card, PaymentProcessor, Visa, MasterCard,  Bill, MasterCardPayment, VisaPayment
 from patterns._3_2_1_state import SubjectMark
 from patterns._3_2_2_phone_state import Phone
+from patterns._3_3_1_chain import IHandler, Request, IncHandler, LogHandler, ResponseHandler, RoleHandler, AuthorizeHandler
+from patterns._3_3_2_pipline import PipelineAuthorizeHandler, PipelineIncHandler, PipelineLogHandler, PipelineManager, PipelineResponseHandler, PipelineRoleHandler
 
 
 def test_strategy() -> None:
@@ -59,3 +61,26 @@ def test_phone_state() -> None:
     phone.press_button()
     phone.dial_number("911")
     phone.press_button()
+
+
+def test_chain_of_responsibility() -> None:
+    chain: IHandler = LogHandler()\
+        .set_next(AuthorizeHandler()) \
+        .set_next(RoleHandler()) \
+        .set_next(IncHandler())\
+        .set_next(LogHandler())\
+        .set_next(ResponseHandler())
+    print(chain.handle(Request("Noname", "")).value)
+    print(chain.handle(Request("admin", "admin", "admin")).value)
+
+
+def test_pipeline() -> None:
+    pipeline = PipelineManager(8)
+    pipeline.set_handler(0,  PipelineLogHandler())
+    pipeline.set_handler(2, PipelineAuthorizeHandler())
+    pipeline.set_handler(4, PipelineLogHandler())
+    pipeline.set_handler(6, PipelineResponseHandler())
+
+    pipeline.set_handler(3,  PipelineIncHandler())
+    print(pipeline.handle(Request("Noname", "")).value)
+    print(pipeline.handle(Request("admin", "admin")).value)
