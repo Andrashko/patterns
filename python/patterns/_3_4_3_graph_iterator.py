@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Generator, Iterator, Optional, Self
+from typing import Generator, Iterator, Optional
 
 
 class Node:
@@ -58,10 +58,7 @@ class GraphIteratorStrategy:
     def __init__(self, graph: Optional[Graph] = None) -> None:
         self.graph: Optional[Graph] = graph
 
-    def __iter__(self) -> Iterator[Node]:
-        return self.order()
-
-    def order(self) -> Generator[Node]:
+    def __iter__(self) -> Generator[Node]:
         if self.graph is None:
             return
         for node in self.graph.nodes:
@@ -79,7 +76,7 @@ class BreadthFirstSearchStrategy (GraphIteratorStrategy):
         self._nodes_to_visit_queque.clear()
         self._visited_nodes.clear()
 
-    def order(self) -> Generator[Node]:
+    def __iter__(self) -> Generator[Node]:
         if self.graph is None:
             return
         if self._start_node is None:
@@ -107,7 +104,7 @@ class DepthFirstSearchStrategy (GraphIteratorStrategy):
         self._nodes_to_visit_stack.clear()
         self._visited_nodes.clear()
 
-    def order(self) -> Generator[Node]:
+    def __iter__(self) -> Generator[Node]:
         if self.graph is None:
             return
         if self._start_node is None:

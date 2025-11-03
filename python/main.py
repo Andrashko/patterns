@@ -35,8 +35,8 @@ def main():
     # test_chain_of_responsibility()
     # test_pipeline()
     # test_iterator()
-    # test_yield_iterator()
-    test_graph_iterator()
+    test_yield_iterator()
+    # test_graph_iterator()
     ...
 
 
