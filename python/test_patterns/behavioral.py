@@ -10,6 +10,7 @@ from patterns._3_3_2_pipline import PipelineAuthorizeHandler, PipelineIncHandler
 from patterns._3_4_1_iterator import IterableFolder, IterableMyFile, IterableCompositeComponent
 from patterns._3_4_2_yield_iterator import YieldIterableFolder, YieldIterableMyFile, YieldIterableCompositeComponent
 from patterns._3_4_3_graph_iterator import Graph, BreadthFirstSearchStrategy, DepthFirstSearchStrategy
+from patterns._3_5_1_visitor import Person, PrintVisitor, Student, Professor, SayHiVisitor
 
 
 def test_strategy() -> None:
@@ -130,8 +131,8 @@ def test_yield_iterator() -> None:
 
 def test_graph_iterator() -> None:
     identity_matrix: list[list[int]] = [
-    # https://i.ytimg.com/vi/oDqjPvD54Ss/maxresdefault.jpg
-    #    0   1   2   3   4   5   6   7   8   9   10  11 12
+        # https://i.ytimg.com/vi/oDqjPvD54Ss/maxresdefault.jpg
+        #    0   1   2   3   4   5   6   7   8   9   10  11 12
         [0,  0,  0,  0,  0,  0,  0,  1,  0,  1,  0,  1,  0],  # 0
         [0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  1,  0,  0],  # 1
         [0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  1],  # 2
@@ -158,3 +159,16 @@ def test_graph_iterator() -> None:
     graph.iteration_strategy = DepthFirstSearchStrategy()
     for node in graph:
         print(node)
+
+
+def test_visitor() -> None:
+    persons: list[Person] = [
+        Student(name="Iван", surname="Iваненко", course=2),
+        Professor(surname="Маляр", name="Микола",
+                  secondname="Миколайович", cathedra="Кiбернетики i прикладної математики")
+    ]
+    printer: PrintVisitor = PrintVisitor()
+    say_hi: SayHiVisitor = SayHiVisitor()
+    for person in persons:
+        person.accept(printer)
+        person.accept(say_hi)
