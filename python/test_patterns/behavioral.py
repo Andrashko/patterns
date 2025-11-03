@@ -1,5 +1,6 @@
 from datetime import date
 from decimal import Decimal
+from xml.dom import Node
 from patterns._3_1_strategy import SortStrategy, ReverseSortStrategy, CapitalizeStrategy, Context
 from patterns._3_1_2_payment_strategy import Card, PaymentProcessor, Visa, MasterCard,  Bill, MasterCardPayment, VisaPayment
 from patterns._3_2_1_state import SubjectMark
@@ -8,6 +9,8 @@ from patterns._3_3_1_chain import IHandler, Request, IncHandler, LogHandler, Res
 from patterns._3_3_2_pipline import PipelineAuthorizeHandler, PipelineIncHandler, PipelineLogHandler, PipelineManager, PipelineResponseHandler, PipelineRoleHandler
 from patterns._3_4_1_iterator import IterableFolder, IterableMyFile, IterableCompositeComponent
 from patterns._3_4_2_yield_iterator import YieldIterableFolder, YieldIterableMyFile, YieldIterableCompositeComponent
+from patterns._3_4_3_graph_iterator import Graph, BreadthFirstSearchStrategy, DepthFirstSearchStrategy
+
 
 def test_strategy() -> None:
     context: Context = Context(SortStrategy())
@@ -39,9 +42,9 @@ def test_payment_strategy() -> None:
 
     for card in cards:
         if processor.checkout(bill, card):
-            print(f"Paid by {card.number}")
+            print(f"Paid by [card.number]")
         else:
-            print(f"Not paid by {card.number}")
+            print(f"Not paid by [card.number]")
 
 
 def test_state() -> None:
@@ -87,7 +90,7 @@ def test_pipeline() -> None:
     print(pipeline.handle(Request("admin", "admin")).value)
 
 
-def test_iterator()->None:
+def test_iterator() -> None:
     file: IterableCompositeComponent = IterableMyFile("new", "cs")
     folder: IterableCompositeComponent = IterableFolder("Project")\
         .add(IterableMyFile("Project", "csproj"))\
@@ -105,7 +108,8 @@ def test_iterator()->None:
     for element in folder:
         print(element.to_string(0))
 
-def test_yield_iterator()->None:
+
+def test_yield_iterator() -> None:
     file: YieldIterableCompositeComponent = YieldIterableMyFile("new", "cs")
     folder: YieldIterableCompositeComponent = YieldIterableFolder("Project")\
         .add(YieldIterableMyFile("Project", "csproj"))\
@@ -123,3 +127,34 @@ def test_yield_iterator()->None:
     for element in folder:
         print(element.to_string(0))
 
+
+def test_graph_iterator() -> None:
+    identity_matrix: list[list[int]] = [
+    # https://i.ytimg.com/vi/oDqjPvD54Ss/maxresdefault.jpg
+    #    0   1   2   3   4   5   6   7   8   9   10  11 12
+        [0,  0,  0,  0,  0,  0,  0,  1,  0,  1,  0,  1,  0],  # 0
+        [0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  1,  0,  0],  # 1
+        [0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  1],  # 2
+        [0,  0,  1,  0,  1,  0,  0,  1,  0,  0,  0,  0,  0],  # 3
+        [0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0],  # 4
+        [0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0],  # 5
+        [0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0],  # 6
+        [0,  0,  0,  1,  0,  0,  1,  0,  0,  0,  0,  1,  0],  # 7
+        [0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1],  # 8
+        [0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  1,  0,  0],  # 9
+        [0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],  # 10
+        [0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],  # 11
+        [0,  0,  1,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0],  # 12
+    ]
+    graph: Graph = Graph(identity_matrix)
+    print("Звичайний обхід")
+    for node in graph:
+        print(node)
+    print("обхід в ширину")
+    graph.iteration_strategy = BreadthFirstSearchStrategy()
+    for node in graph:
+        print(node)
+    print("обхід в глибину")
+    graph.iteration_strategy = DepthFirstSearchStrategy()
+    for node in graph:
+        print(node)
