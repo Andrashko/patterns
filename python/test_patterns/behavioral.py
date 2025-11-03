@@ -10,7 +10,8 @@ from patterns._3_3_2_pipline import PipelineAuthorizeHandler, PipelineIncHandler
 from patterns._3_4_1_iterator import IterableFolder, IterableMyFile, IterableCompositeComponent
 from patterns._3_4_2_yield_iterator import YieldIterableFolder, YieldIterableMyFile, YieldIterableCompositeComponent
 from patterns._3_4_3_graph_iterator import Graph, BreadthFirstSearchStrategy, DepthFirstSearchStrategy
-from patterns._3_5_1_visitor import Person, PrintVisitor, Student, Professor, SayHiVisitor
+from patterns._3_5_1_visitor import IVisitor, Person, PrintVisitor, Student, Professor, SayHiVisitor
+from patterns._3_5_2_pythonic_visiter import PrintPythonicVisitor, SayHiPythonicVisitor
 
 
 def test_strategy() -> None:
@@ -167,8 +168,14 @@ def test_visitor() -> None:
         Professor(surname="Маляр", name="Микола",
                   secondname="Миколайович", cathedra="Кiбернетики i прикладної математики")
     ]
-    printer: PrintVisitor = PrintVisitor()
-    say_hi: SayHiVisitor = SayHiVisitor()
+
+    visitors: list[IVisitor] = [
+        PrintVisitor(),
+        SayHiVisitor(),
+
+        PrintPythonicVisitor(),
+        SayHiPythonicVisitor()
+    ]
     for person in persons:
-        person.accept(printer)
-        person.accept(say_hi)
+        for visitor in visitors:
+            person.accept(visitor)
