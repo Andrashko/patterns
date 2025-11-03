@@ -6,7 +6,8 @@ from patterns._3_2_1_state import SubjectMark
 from patterns._3_2_2_phone_state import Phone
 from patterns._3_3_1_chain import IHandler, Request, IncHandler, LogHandler, ResponseHandler, RoleHandler, AuthorizeHandler
 from patterns._3_3_2_pipline import PipelineAuthorizeHandler, PipelineIncHandler, PipelineLogHandler, PipelineManager, PipelineResponseHandler, PipelineRoleHandler
-
+from patterns._3_4_1_iterator import IterableFolder, IterableMyFile, IterableCompositeComponent
+from patterns._3_4_2_yield_iterator import YieldIterableFolder, YieldIterableMyFile, YieldIterableCompositeComponent
 
 def test_strategy() -> None:
     context: Context = Context(SortStrategy())
@@ -31,7 +32,7 @@ def test_payment_strategy() -> None:
     processor: PaymentProcessor = PaymentProcessor()
     processor.strategies = {
         "MASTER": MasterCardPayment(),
-        "VISA": VisaPayment()
+        "VISA": VisaPayment(),
     }
 
     bill: Bill = Bill(Decimal("600"))
@@ -76,7 +77,7 @@ def test_chain_of_responsibility() -> None:
 
 def test_pipeline() -> None:
     pipeline = PipelineManager(8)
-    pipeline.set_handler(0,  PipelineLogHandler())
+    pipeline.set_handler(0, PipelineLogHandler())
     pipeline.set_handler(2, PipelineAuthorizeHandler())
     pipeline.set_handler(4, PipelineLogHandler())
     pipeline.set_handler(6, PipelineResponseHandler())
@@ -84,3 +85,41 @@ def test_pipeline() -> None:
     pipeline.set_handler(3,  PipelineIncHandler())
     print(pipeline.handle(Request("Noname", "")).value)
     print(pipeline.handle(Request("admin", "admin")).value)
+
+
+def test_iterator()->None:
+    file: IterableCompositeComponent = IterableMyFile("new", "cs")
+    folder: IterableCompositeComponent = IterableFolder("Project")\
+        .add(IterableMyFile("Project", "csproj"))\
+        .add(IterableMyFile("Program", "cs"))\
+        .add(IterableFolder("bin")
+             .add(IterableMyFile("Program", "exe"))
+             .add(IterableMyFile("config", "json"))
+             .add(file)
+             )\
+        .add(IterableMyFile("", "gitignore"))\
+        .add(IterableMyFile("README", "md"))\
+        .add(IterableFolder("git"))\
+        .add(file)
+
+    for element in folder:
+        print(element.to_string(0))
+
+def test_yield_iterator()->None:
+    file: YieldIterableCompositeComponent = YieldIterableMyFile("new", "cs")
+    folder: YieldIterableCompositeComponent = YieldIterableFolder("Project")\
+        .add(YieldIterableMyFile("Project", "csproj"))\
+        .add(YieldIterableMyFile("Program", "cs"))\
+        .add(YieldIterableFolder("bin")
+             .add(YieldIterableMyFile("Program", "exe"))
+             .add(YieldIterableMyFile("config", "json"))
+             .add(file)
+             )\
+        .add(YieldIterableMyFile("", "gitignore"))\
+        .add(YieldIterableMyFile("README", "md"))\
+        .add(YieldIterableFolder("git"))\
+        .add(file)
+
+    for element in folder:
+        print(element.to_string(0))
+

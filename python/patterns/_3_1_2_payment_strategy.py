@@ -32,7 +32,9 @@ class IPayment(Protocol):
 
 
 class PaymentProcessor:
-    strategies: dict[str, IPayment] = {}
+    def __init__(self) -> None:
+        self.strategies: dict[str, IPayment] = {}
+    
 
     def checkout(self, bill: Bill, card: Card) -> bool:
         if not card.system in self.strategies:

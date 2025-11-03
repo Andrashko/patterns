@@ -21,7 +21,7 @@ class AutomatePass:  # (IPass)
 class NormalPass:  # (IPass)
     def try_pass(self, rating: int) -> str:
         print("Take a examination ticket... ")
-
+        ...
         return "E"
 
 
@@ -54,7 +54,7 @@ class SubjectMark:
         ]
     ] = [
         (
-            lambda rating: 60 <= rating <= 100,
+            lambda rating: 60 <= rating <= 100,     
             AutomatePass()
         ),
         (
