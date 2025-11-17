@@ -14,6 +14,7 @@ from patterns._3_5_1_visitor import IVisitor, Person, PrintVisitor, Student, Pro
 from patterns._3_5_2_pythonic_visiter import PrintPythonicVisitor, SayHiPythonicVisitor
 from patterns._3_6_1_observer import IObserver, ConsoleLogObserver, EvenObserver, CounterObserver, Subject
 from patterns._3_6_2_event import IEventHandler, event_system, ConsoleLogEventHandler, CounterEventHandler, EvenEventHandler, EventSubject
+from patterns._3_7_mediator import ChatMediator, RegularUser, AdminUser, ChatUser
 
 
 def test_strategy() -> None:
@@ -215,3 +216,19 @@ def test_event():
     event_system.unsubscribe(EVENT_NAME, even)
     for _ in range(5):
         subject.set_random_state()
+
+
+def test_mediator():
+    mediator = ChatMediator()
+
+    alice = RegularUser("Alice", mediator)
+    bob = RegularUser("Bob", mediator)
+    admin = AdminUser("Admin", mediator)
+
+    mediator.add_user(alice)
+    mediator.add_user(bob)
+    mediator.add_user(admin)
+
+    alice.send("Hello world!")
+    bob.send("Hello, Alice!")
+    admin.ban_user("Bob", "Spam")
