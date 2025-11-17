@@ -1,6 +1,6 @@
 from datetime import date
 from decimal import Decimal
-from xml.dom import Node
+from re import sub
 from patterns._3_1_strategy import SortStrategy, ReverseSortStrategy, CapitalizeStrategy, Context
 from patterns._3_1_2_payment_strategy import Card, PaymentProcessor, Visa, MasterCard,  Bill, MasterCardPayment, VisaPayment
 from patterns._3_2_1_state import SubjectMark
@@ -12,6 +12,8 @@ from patterns._3_4_2_yield_iterator import YieldIterableFolder, YieldIterableMyF
 from patterns._3_4_3_graph_iterator import Graph, BreadthFirstSearchStrategy, DepthFirstSearchStrategy
 from patterns._3_5_1_visitor import IVisitor, Person, PrintVisitor, Student, Professor, SayHiVisitor
 from patterns._3_5_2_pythonic_visiter import PrintPythonicVisitor, SayHiPythonicVisitor
+from patterns._3_6_1_observer import IObserver, ConsoleLogObserver, EvenObserver, CounterObserver, Subject
+from patterns._3_6_2_event import IEventHandler, event_system, ConsoleLogEventHandler, CounterEventHandler, EvenEventHandler, EventSubject
 
 
 def test_strategy() -> None:
@@ -85,7 +87,8 @@ def test_pipeline() -> None:
     pipeline.set_handler(0, PipelineLogHandler())
     pipeline.set_handler(2, PipelineAuthorizeHandler())
     pipeline.set_handler(4, PipelineLogHandler())
-    pipeline.set_handler(6, PipelineResponseHandler())
+    pipeline.set_handler(6, PipelineRoleHandler())
+    pipeline.set_handler(8, PipelineResponseHandler())
 
     pipeline.set_handler(3,  PipelineIncHandler())
     print(pipeline.handle(Request("Noname", "")).value)
@@ -133,7 +136,7 @@ def test_yield_iterator() -> None:
 def test_graph_iterator() -> None:
     identity_matrix: list[list[int]] = [
         # https://i.ytimg.com/vi/oDqjPvD54Ss/maxresdefault.jpg
-        #    0   1   2   3   4   5   6   7   8   9   10  11 12
+        # 0   1   2   3   4   5   6   7   8   9   10  11 12
         [0,  0,  0,  0,  0,  0,  0,  1,  0,  1,  0,  1,  0],  # 0
         [0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  1,  0,  0],  # 1
         [0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  1],  # 2
@@ -179,3 +182,36 @@ def test_visitor() -> None:
     for person in persons:
         for visitor in visitors:
             person.accept(visitor)
+
+
+def test_observer() -> None:
+    subject: Subject = Subject()
+    logger: IObserver[int] = ConsoleLogObserver()
+    even: IObserver[int] = EvenObserver()
+    counter: IObserver[int] = CounterObserver(lambda number: number < 5)
+    subject.attach(logger)
+    subject.attach(even)
+    subject.attach(counter)
+    for _ in range(5):
+        subject.set_random_state()
+    print("Detach even observer")
+    subject.detach(even)
+    for _ in range(5):
+        subject.set_random_state()
+
+
+def test_event():
+    subject: EventSubject = EventSubject()
+    EVENT_NAME: str = "update_value"
+    logger: IEventHandler = ConsoleLogEventHandler()
+    even: IEventHandler = EvenEventHandler()
+    counter: IEventHandler = CounterEventHandler(lambda value: value < 5)
+    event_system.subscribe(EVENT_NAME, logger)
+    event_system.subscribe(EVENT_NAME, even)
+    event_system.subscribe(EVENT_NAME, counter)
+    for _ in range(5):
+        subject.set_random_state()
+    print("Detach even observer")
+    event_system.unsubscribe(EVENT_NAME, even)
+    for _ in range(5):
+        subject.set_random_state()
