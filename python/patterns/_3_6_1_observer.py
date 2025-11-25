@@ -13,7 +13,7 @@ class IObservable [T](Protocol):
     def notify(self) -> None: ...
 
 
-class Subject:  # (IObservable)
+class Subject:  # (IObservable[int])
     def __init__(self) -> None:
         self._state: int = 0
         self._observers: list[IObserver[int]] = []

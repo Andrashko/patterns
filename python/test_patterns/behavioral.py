@@ -15,6 +15,7 @@ from patterns._3_5_2_pythonic_visiter import PrintPythonicVisitor, SayHiPythonic
 from patterns._3_6_1_observer import IObserver, ConsoleLogObserver, EvenObserver, CounterObserver, Subject
 from patterns._3_6_2_event import IEventHandler, event_system, ConsoleLogEventHandler, CounterEventHandler, EvenEventHandler, EventSubject
 from patterns._3_7_mediator import ChatMediator, RegularUser, AdminUser, ChatUser
+from patterns._3_8_memento import Originator, Caretaker
 
 
 def test_strategy() -> None:
@@ -201,7 +202,7 @@ def test_observer() -> None:
         subject.set_random_state()
 
 
-def test_event():
+def test_event() -> None:
     subject: EventSubject = EventSubject()
     EVENT_NAME: str = "update_value"
     logger: IEventHandler = ConsoleLogEventHandler()
@@ -218,7 +219,7 @@ def test_event():
         subject.set_random_state()
 
 
-def test_mediator():
+def test_mediator() -> None:
     mediator = ChatMediator()
 
     alice = RegularUser("Alice", mediator)
@@ -232,3 +233,23 @@ def test_mediator():
     alice.send("Hello world!")
     bob.send("Hello, Alice!")
     admin.ban_user("Bob", "Spam")
+
+
+def test_memento() -> None:
+    originator = Originator("Init state")
+    caretaker = Caretaker(originator)
+
+    caretaker.backup()
+    originator.change_state()
+
+    caretaker.backup()
+    originator.change_state()
+
+    print("\nClient: Now, let's rollback!\n")
+    caretaker.undo()
+
+    print("\n\nClient: Once more!\n")
+    caretaker.undo()
+
+    print("\n\nClient: Once more!\n")
+    caretaker.undo()
