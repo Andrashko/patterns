@@ -13,10 +13,11 @@ from patterns._3_5_1_visitor import IVisitor, Person, PrintVisitor, Student, Pro
 from patterns._3_5_2_pythonic_visiter import PrintPythonicVisitor, SayHiPythonicVisitor
 from patterns._3_6_1_observer import IObserver, ConsoleLogObserver, EvenObserver, CounterObserver, Subject
 from patterns._3_6_2_event import IEventHandler, event_system, ConsoleLogEventHandler, CounterEventHandler, EvenEventHandler, EventSubject
-from patterns._3_7_mediator import ChatMediator, RegularUser, AdminUser, ChatUser
+from patterns._3_7_mediator import ChatMediator, RegularUser, AdminUser
 from patterns._3_8_memento import Originator, Caretaker
-from patterns._3_10_command import SimpleCommand, ComplexCommand, Receiver, Invoker, ICommand
+from patterns._3_10_command import SimpleCommand, ComplexCommand, Receiver, Invoker
 from patterns._3_10_1_command_memento import CartHistory, ShoppingCart
+from patterns._3_9_template import User, FakePostgresConnection, InMemoryDB, InMemoryTransaction, PostgresTransaction
 
 
 def test_strategy() -> None:
@@ -280,3 +281,26 @@ def test_memento_command() -> None:
     print(cart)
     history.undo()
     print(cart)
+
+
+def test_template() -> None:
+    def create_user_operation_pg(conn: FakePostgresConnection) -> User:
+        user: User = {"id": 1, "name": "Yurii"}
+        conn.execute("INSERT INTO users(id, name) VALUES (%s, %s)",
+                     (user["id"], user["name"]))
+        return user
+
+    def create_user_operation_mem(conn: InMemoryDB) -> User:
+        user: User = {"id": 1, "name": "Yurii"}
+        conn.set("user:1", user)
+        return user
+
+    pg_tx: PostgresTransaction[User] = PostgresTransaction()
+    user_pg = pg_tx.run_in_transaction(create_user_operation_pg)
+    print("PG user:", user_pg)
+
+    mem_db = InMemoryDB()
+    mem_tx: InMemoryTransaction[User] = InMemoryTransaction(mem_db)
+    user_mem = mem_tx.run_in_transaction(create_user_operation_mem)
+    print("InMemory user:", user_mem)
+    print("InMemory data:", mem_db.get_all())
