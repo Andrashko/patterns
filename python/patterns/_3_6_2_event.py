@@ -64,6 +64,8 @@ class EventSubject:  # (IObservable)
     def state(self, value: int) -> None:
         self._state = value
         event_system.publish("update_value", value)
+        if value == 0:
+            event_system.publish("zero_value", self)
 
     def set_random_state(self) -> None:
         self.state = randint(0, 10)

@@ -1,6 +1,5 @@
 from datetime import date
 from decimal import Decimal
-from re import sub
 from patterns._3_1_strategy import SortStrategy, ReverseSortStrategy, CapitalizeStrategy, Context
 from patterns._3_1_2_payment_strategy import Card, PaymentProcessor, Visa, MasterCard,  Bill, MasterCardPayment, VisaPayment
 from patterns._3_2_1_state import SubjectMark
@@ -16,6 +15,8 @@ from patterns._3_6_1_observer import IObserver, ConsoleLogObserver, EvenObserver
 from patterns._3_6_2_event import IEventHandler, event_system, ConsoleLogEventHandler, CounterEventHandler, EvenEventHandler, EventSubject
 from patterns._3_7_mediator import ChatMediator, RegularUser, AdminUser, ChatUser
 from patterns._3_8_memento import Originator, Caretaker
+from patterns._3_10_command import SimpleCommand, ComplexCommand, Receiver, Invoker, ICommand
+from patterns._3_10_1_command_memento import CartHistory, ShoppingCart
 
 
 def test_strategy() -> None:
@@ -253,3 +254,29 @@ def test_memento() -> None:
 
     print("\n\nClient: Once more!\n")
     caretaker.undo()
+
+
+def test_command() -> None:
+    invoker = Invoker()
+    invoker.on_start = SimpleCommand("start logging")
+    invoker.on_finish = ComplexCommand(
+        Receiver(), email="test@mail.com", text="test message")
+    invoker.business_logic()
+
+
+def test_memento_command() -> None:
+    cart = ShoppingCart()
+    history = CartHistory(cart)
+    history.add_item(2, "Asus TUF Gaming F15 FX506HM Laptop", 1)
+    history.add_item(1, "IPhone 16 pro max 1Gb", 2)
+    print(cart)
+    history.add_item(1, "IPhone 16 pro max 1Gb", 1)
+    print(cart)
+    history.undo()
+    print(cart)
+    history.undo()
+    print(cart)
+    history.undo()
+    print(cart)
+    history.undo()
+    print(cart)
