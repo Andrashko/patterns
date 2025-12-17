@@ -20,7 +20,8 @@ class ComplexCommand:  # ICommand
         self._kwargs = kwargs
 
     def execute(self) -> None:
-        print(f"Complex command. mplex stuff should be done by a receiver object.")
+        print(f"Complex command. Complex stuff should be done by a receiver object.")
+        print(f"Data validation {self._kwargs}")
         self._receiver.execute(*self._args, **self._kwargs)
 
 
@@ -57,6 +58,6 @@ class Invoker:
             self._on_finish.execute()
 
 
-class Receiver:
+class Receiver: #ICommand
     def execute(self, email: str, text: str) -> None:
         print(f"send {text} to {email}")

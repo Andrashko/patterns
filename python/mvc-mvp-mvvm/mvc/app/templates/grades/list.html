@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Оцінки</h1>
+<p><a href="{{ url_for('grades.new_grade_form') }}">+ Додати</a></p>
+
+<table>
+  <tr><th>Дата</th><th>Студент</th><th>Предмет</th><th>Тип</th><th>100</th><th>ECTS</th><th>5</th></tr>
+  {% for g in grades %}
+  <tr>
+    <td>{{ g.grade_date }}</td>
+    <td>{{ g.student.full_name }}</td>
+    <td>{{ g.subject.name }}</td>
+    <td>{{ g.grade_type }}</td>
+    <td>{{ g.value }}</td>
+    <td>{{ g.ects_letter() }}</td>
+    <td>{{ g.five_point() }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

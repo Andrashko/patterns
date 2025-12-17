@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ student.full_name }}</h1>
+<p>Група: {{ student.group }} | Рік вступу: {{ student.enrollment_year }}</p>
+
+<h2>Оцінки</h2>
+<table>
+  <tr><th>Дата</th><th>Предмет</th><th>Тип</th><th>100</th><th>ECTS</th><th>5-бальна</th></tr>
+  {% for g in student.grades %}
+  <tr>
+    <td>{{ g.grade_date }}</td>
+    <td>{{ g.subject.name }}</td>
+    <td>{{ g.grade_type }}</td>
+    <td>{{ g.value }}</td>
+    <td>{{ g.ects_letter() }}</td>
+    <td>{{ g.five_point() }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

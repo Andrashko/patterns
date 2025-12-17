@@ -259,7 +259,7 @@ def test_memento() -> None:
 
 def test_command() -> None:
     invoker = Invoker()
-    invoker.on_start = SimpleCommand("start logging")
+    # invoker.on_start = SimpleCommand("start logging")
     invoker.on_finish = ComplexCommand(
         Receiver(), email="test@mail.com", text="test message")
     invoker.business_logic()
@@ -271,7 +271,10 @@ def test_memento_command() -> None:
     history.add_item(2, "Asus TUF Gaming F15 FX506HM Laptop", 1)
     history.add_item(1, "IPhone 16 pro max 1Gb", 2)
     print(cart)
-    history.add_item(1, "IPhone 16 pro max 1Gb", 1)
+    history.remove_item(1, 2)
+    history.add_item(1, "IPhone 17 pro max 1Gb", 1)
+    print(cart)
+    history.undo()
     print(cart)
     history.undo()
     print(cart)

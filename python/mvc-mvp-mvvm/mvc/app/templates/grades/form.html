@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Додати оцінку</h1>
+
+<form method="post">
+  <label>Студент</label><br>
+  <select name="student_id">
+    {% for s in students %}
+      <option value="{{ s.id }}">{{ s.full_name }} ({{ s.group }})</option>
+    {% endfor %}
+  </select><br><br>
+
+  <label>Предмет</label><br>
+  <select name="subject_id">
+    {% for sub in subjects %}
+      <option value="{{ sub.id }}">{{ sub.name }}</option>
+    {% endfor %}
+  </select><br><br>
+
+  <label>Тип</label><br>
+  <select name="grade_type">
+    <option value="current">current</option>
+    <option value="module">module</option>
+    <option value="exam">exam</option>
+    <option value="final">final</option>
+  </select><br><br>
+
+  <label>Оцінка (0..100)</label><br>
+  <input name="value"><br><br>
+
+  <label>Дата (YYYY-MM-DD, опційно)</label><br>
+  <input name="grade_date"><br><br>
+
+  <button type="submit">Зберегти</button>
+</form>
+{% endblock %}

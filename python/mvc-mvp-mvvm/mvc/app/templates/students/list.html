@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Студенти</h1>
+<p><a href="{{ url_for('students.new_student_form') }}">+ Додати</a></p>
+
+<table>
+  <tr><th>ID</th><th>ПІБ</th><th>Група</th><th>Рік</th><th></th></tr>
+  {% for s in students %}
+  <tr>
+    <td>{{ s.id }}</td>
+    <td><a href="{{ url_for('students.student_detail', student_id=s.id) }}">{{ s.full_name }}</a></td>
+    <td>{{ s.group }}</td>
+    <td>{{ s.enrollment_year }}</td>
+    <td>
+      <a href="{{ url_for('students.edit_student_form', student_id=s.id) }}">edit</a>
+      <form method="post" action="{{ url_for('students.delete_student', student_id=s.id) }}" style="display:inline">
+        <button type="submit">delete</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

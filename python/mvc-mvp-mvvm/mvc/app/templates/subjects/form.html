@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Додати предмет</h1>
+<form method="post">
+  <label>Назва</label><br>
+  <input name="name"><br><br>
+
+  <label>Кредити</label><br>
+  <input name="credits" value="3"><br><br>
+
+  <label>Семестр</label><br>
+  <input name="semester" value="1"><br><br>
+
+  <button type="submit">Зберегти</button>
+</form>
+{% endblock %}

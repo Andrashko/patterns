@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Предмети</h1>
+<p><a href="{{ url_for('subjects.new_subject_form') }}">+ Додати</a></p>
+
+<table>
+  <tr><th>ID</th><th>Назва</th><th>Кредити</th><th>Семестр</th></tr>
+  {% for s in subjects %}
+  <tr>
+    <td>{{ s.id }}</td>
+    <td>{{ s.name }}</td>
+    <td>{{ s.credits }}</td>
+    <td>{{ s.semester }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

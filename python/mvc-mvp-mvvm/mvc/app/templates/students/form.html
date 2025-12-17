@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ "Редагувати" if student else "Додати" }} студента</h1>
+
+<form method="post">
+  <label>ПІБ</label><br>
+  <input name="full_name" value="{{ student.full_name if student else '' }}"><br><br>
+
+  <label>Група</label><br>
+  <input name="group" value="{{ student.group if student else '' }}"><br><br>
+
+  <label>Рік вступу</label><br>
+  <input name="enrollment_year" value="{{ student.enrollment_year if student else '' }}"><br><br>
+
+  <button type="submit">Зберегти</button>
+</form>
+{% endblock %}
